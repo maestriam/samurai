@@ -1,0 +1,15 @@
+{
+    "name": "giuliano/samurai",
+    "description": "Blade-based theme manager for Laravel apps",
+    "type": "library",
+    "require-dev": {
+        "phpunit/phpunit": "^8.5"
+    },
+    "authors": [
+        {
+            "name": "Giuliano Sampaio",
+            "email": "giuguitar@gmail.com"
+        }
+    ],
+    "require": {}
+}
