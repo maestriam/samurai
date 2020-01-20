@@ -1,11 +1,11 @@
 <?php
 
-namespace Maestriam\Katana\Console;
+namespace Maestriam\Samurai\Console;
 
 use Exception;
 use Illuminate\Console\Command;
-use Maestriam\Katana\Traits\BasicConfig;
-use Maestriam\Katana\Traits\ThemeHandling;
+use Maestriam\Samurai\Traits\BasicConfig;
+use Maestriam\Samurai\Traits\ThemeHandling;
 
 class CreateThemeCommand extends Command
 {

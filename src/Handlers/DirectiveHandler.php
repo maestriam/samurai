@@ -1,103 +1,99 @@
 <?php
 
-namespace Maestriam\Katana\Handlers;
+namespace Maestriam\Samurai\Handlers;
 
 use Exception;
-use Illuminate\Support\Facades\Blade;;
-use Maestriam\Katana\Traits\BasicConfig;
-use Maestriam\Katana\Traits\ThemeHandling;
+use Illuminate\Support\Facades\Config;
+use Maestriam\Samurai\Models\Directive;
+use Maestriam\Samurai\Traits\HandlerFunctions;
 
 class DirectiveHandler
 {
-    use BasicConfig, ThemeHandling;
+    use HandlerFunctions;
 
     /**
-     * Verifica todas as premissas para se criar uma nova diretiva
-     * dentro de um tema específico
+     * Tipo do componente que será criado/manipulado
+     *
+     * @var string
+     */
+    private $type = '';
+
+    /**
+     * Define o tipo de componente que será manipulado para criação
      *
      * @param string $type
-     * @param string $theme
-     * @param string $name
-     * @return void
+     * @return DirectiveHanlder
      */
-    public function create($type, $theme, $name)
+    public function define($type) : DirectiveHandler
     {
-        $path = $this->path($theme, $type, $name);
-        $perm = $this->getPermissionLevel();
+        if ($type == null) {
+            throw new Exception('Não é possível encontrar o tipo', 1);
+        }
 
-        mkdir($path, $perm, true);
+        if (! $this->isValid($type)) {
+            throw new Exception('Tipo de diretiva inválida');
+        }
 
-        $this->materialize($type, $path, $name);
+        $this->type = strtolower($type);
+        return $this;
     }
 
     /**
-     * Verifica se a já existe uma diretiva com determinado nome
-     * em um tema específico
+     * Cria uma diretiva de component dentro de um tema
      *
+     * @param string $theme
+     * @param string $name
+     * @return Directive
+     */
+    public function component($theme, $name) : Directive
+    {
+        $this->define('component');
+
+        return $this->create($theme, $name);
+    }
+
+    /**
+     * Cria uma diretiva de include dentro de um tema
+     *
+     * @param string $theme
+     * @param string $name
+     * @return Directive
+     */
+    public function include($theme, $name) : Directive
+    {
+        $this->define('include');
+
+        return $this->create($theme, $name);
+    }
+
+    /**
+     *  Cria uma nova diretiva dentro de um tema específico
+     *
+     * @param string $theme
+     * @param string $name
      * @param string $type
-     * @param string $theme
-     * @param string $name
-     * @return boolean
+     * @return Directive
      */
-    public function exists(string $type, string $theme, string $name) : bool
+    public function create($theme, $name) : Directive
     {
-        $dir = $this->path($theme, $type, $name);
+        $mod  = $this->permission();
+        $path = $this->path($theme, $name);
 
-        return (is_dir($dir)) ? true : false;
+        mkdir($path, $mod, true);
+
+        return $this->materialize($path, $name, $theme);
     }
 
     /**
-     * Cria um arquivo de view do Blade para ser criado um novo
-     * componente ou include
+     * Retorna o nível de permissão para criação da diretiva
      *
-     * @param string $path
-     * @param string $name
-     * @return void
+     * @return int
      */
-    public function materialize($type, $path, $name)
+    private function permission() : int
     {
-        if (! $this->isValid($type)) {
-            throw new Exception('Tipo de diretiva inválido');
-        }
+        $permission = (int) Config::get('Samurai.permission');
 
-        $content = $this->stub($type, $name);
-
-        $file = $path .  DS  . $name . '-' .$type . '.php';
-
-        $handle  = fopen($file, 'w');
-
-        fwrite($handle, $content);
-        fclose($handle);
-    }
-
-    /**
-     * Retorna a estrutura de pastas dentro do tema de acordo
-     * com o tipo de diretiva selecionada (include/component)
-     *
-     * @param string $theme
-     * @return string
-     */
-    public function folders(string $theme, string $type) : array
-    {
-        if (! $this->isValid($type)) {
-            return [];
-        }
-
-        $path = $this->path($theme, $type);
-
-        if (! is_dir($path)) {
-            return [];
-        }
-
-        $folders = [];
-        $scan    = scandir($path);
-        $dirs    = array_splice($scan, 2);
-
-        foreach ($dirs as $dir) {
-            $folders[] = $path . $dir;
-        }
-
-        return $folders;
+        return (! $permission) ? 0755 : $permission;
     }
 
     /**
@@ -115,35 +111,42 @@ class DirectiveHandler
     }
 
     /**
-     * Retorna o tipos de diretivas que podem ser criadas
+     * Verifica se a já existe uma diretiva com determinado nome
+     * em um tema específico
      *
-     * @return array
+     * @param string $type
+     * @param string $theme
+     * @param string $name
+     * @return boolean
      */
-    public function types() : array
+    public function exists(string $theme, string $name) : bool
     {
-        $species = ['component', 'include'];
+        $dir = $this->path($theme, $this->type, $name);
 
-        return $species;
+        return (is_dir($dir)) ? true : false;
     }
 
     /**
-     * Retorna o caminho completo da diretiva
+     * Retorna a estrutura de pastas dentro do tema de acordo
+     * com o tipo de diretiva selecionada (include/component)
      *
      * @param string $theme
-     * @param string $name
-     * @return string
+     * @return array
      */
-    public function path(string $theme, string $type, string $name = null) : string
+    public function folders(string $theme) : array
     {
-        $name   = strtolower($name);
-        $type   = strtolower($type);
-        $theme  = strtolower($theme);
+        $path = $this->path($theme, $this->type);
 
-        $key    = 'themes.structure.' . $type;
-        $folder = $this->getThemeConfig('themes.folder');
-        $dir    = $this->getThemeConfig($key);
+        if (! is_dir($path)) return [];
 
-        return $folder . DS . $theme . DS . $dir . $name;
+        $scan = scandir($path);
+        $dirs = array_splice($scan, 2);
+
+        foreach ($dirs as $dir) {
+            $folders[] = $path . $dir;
+        }
+
+        return $folders;
     }
 
     /**
@@ -154,7 +157,7 @@ class DirectiveHandler
      * @param string $placeholder
      * @return string
      */
-    public function stub($type, $placeholder) : string
+    private function stub($type, $placeholder) : string
     {
         $path = __DIR__ . DS .  "../Stubs/{$type}.stub";
         $stub = file_get_contents($path);
@@ -163,70 +166,37 @@ class DirectiveHandler
     }
 
     /**
-     * Identifica que tipo de diretiva que se trata o arquivo
-     * e retorna seu tipo
+     * Retorna o caminho completo da diretiva
      *
-     * @param $file
-     * @return void
-     */
-    public function identify($file)
-    {
-        $name = explode('-', $file);
-
-        if (empty($name)) return null;
-
-        $type = explode('.', $name[1]);
-
-        if (empty($type) || ! $this->isValid($type[0])) return null;
-
-        $obj = ['type' => $type[0], 'name' => $name[0]];
-
-        return (object) $obj;
-    }
-
-
-    /**
-     * Verifica o tipo de diretiva se
-     *
-     * @param [type] $alias
-     * @param [type] $file
-     * @return void
-     */
-    public function import($alias, $file)
-    {
-        $directive = $this->identify($file);
-
-        if (! $directive) {
-            return null;
-        }
-
-        $path = $this->bladePath($alias, $directive->type, $directive->name);
-
-        if ($directive->type == 'component') {
-            return Blade::component($path, $directive->name);
-        }
-
-        Blade::include($path, $directive->name);
-    }
-
-    /**
-     * Retorna o caminho de uma diretiva de acordo com os padrões
-     * do Laravel Blade
-     *
-     * @param string $aliasTheme
-     * @param string $type
-     * @param string $file
+     * @param string $theme
+     * @param string $name
      * @return string
      */
-    protected function bladePath($aliasTheme, $type, $file) : string
+    private function path($theme, $name) : string
     {
-        $base = $this->getThemeConfig('themes.structure.'. $type);
-        $base = str_replace('/', '.', $base);
+        return $this->directivePath($theme, $name, $this->type);
+    }
 
-        $filename = sprintf("%s.%s-%s", $file, $file, $type);
+    /**
+     * Cria um arquivo de view do Blade para ser criado um novo
+     * componente ou include
+     *
+     * @param string $path
+     * @param string $name
+     * @param string $theme
+     * @return Directive
+     */
+    private function materialize($path, $name, $theme) : Directive
+    {
+        $content = $this->stub($this->type, $name);
 
-        $format = "%s::%s%s";
+        $file = $path .  DS  . $name . '-' .$this->type . '.php';
 
-        return sprintf($format, $aliasTheme, $base, $filename);
+        $handle  = fopen($file, 'w');
+
+        fwrite($handle, $content);
+        fclose($handle);
+
+        return $this->objectDirective($name, $theme, $file, $this->type);
     }
 }

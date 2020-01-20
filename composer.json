@@ -11,5 +11,10 @@
             "email": "giuguitar@gmail.com"
         }
     ],
+    "autoload-dev": {
+        "psr-4": {
+            "Maestriam\\Samurai\\Tests\\": "tests/"
+        }
+    },
     "require": {}
 }

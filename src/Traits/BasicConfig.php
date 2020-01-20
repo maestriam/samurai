@@ -1,6 +1,6 @@
 <?php
 
-namespace Maestriam\Katana\Traits;
+namespace Maestriam\Samurai\Traits;
 
 use Config;
 
@@ -11,14 +11,14 @@ trait BasicConfig
      *
      * @var string
      */
-    protected $configAlias = 'Katana';
+    protected $configAlias = 'Samurai';
 
     /**
      * Nome-base do comando que será utilizado para comandos Artisan
      *
      * @var string
      */
-    protected $commandAlias = 'katana';
+    protected $commandAlias = 'samurai';
 
     /**
      * Nível de permissão para criação das pastas dos temas

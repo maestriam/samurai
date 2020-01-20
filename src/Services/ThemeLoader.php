@@ -1,11 +1,11 @@
 <?php
 
-namespace Maestriam\Katana\Services;
+namespace Maestriam\Samurai\Services;
 
 use Exception;
-use Maestriam\Katana\Traits\BasicConfig;
-use Maestriam\Katana\Traits\ThemeHandling;
-use Maestriam\Katana\Traits\DirectiveHandling;
+use Maestriam\Samurai\Traits\BasicConfig;
+use Maestriam\Samurai\Traits\ThemeHandling;
+use Maestriam\Samurai\Traits\DirectiveHandling;
 
 class ThemeLoader
 {
@@ -22,11 +22,11 @@ class ThemeLoader
     public function load()
     {
         if (! strlen($this->theme)) {
-            throw new Exception('O tema não definido para ser carregado');
+            return false;
         }
 
-        if (! $this->isBaseThemeFolder()) {
-            throw new Exception('O tema definido não foi encontrado');
+        if (! $this->theme()->baseExists()) {
+            //throw new Exception('O tema definido não foi encontrado');
         }
 
         $this->scanTheme();
@@ -90,6 +90,7 @@ class ThemeLoader
     protected function scanDirectiveFolder($folder)
     {
         $theme = $this->getTheme();
+
         $scan  = scandir($folder);
         $files = array_splice($scan, 2);
 

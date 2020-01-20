@@ -1,20 +1,25 @@
 <?php
 
-namespace Maestriam\Katana\Traits;
+namespace Maestriam\Samurai\Traits;
 
-use Maestriam\Katana\Handlers\DirectiveHandler;
+use Maestriam\Samurai\Handlers\DirectiveHandler;
 
 trait DirectiveHandling
 {
 
+    protected static $directiveHanlder;
+
     /**
-     * Retorna uma instância do serviço de manipulação
-     * de diretivas
+     * Retorna uma instancia singleton de directive
      *
      * @return void
      */
-    public function directive()
+    private function directive() : DirectiveHandler
     {
-        return new DirectiveHandler();
+        if (! isset(static::$directiveHanlder)) {
+            static::$directiveHanlder = new DirectiveHandler();
+        }
+
+        return static::$directiveHanlder;
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace Maestriam\Katana\Console;
+namespace Maestriam\Samurai\Console;
 
 use Illuminate\Console\Command;
-use Maestriam\Katana\Traits\ThemeHandling;
-use Maestriam\Katana\Traits\DirectiveHandling;
+use Maestriam\Samurai\Traits\ThemeHandling;
+use Maestriam\Samurai\Traits\DirectiveHandling;
 
 class CreateIncludeCommand extends Command
 {
@@ -22,7 +22,7 @@ class CreateIncludeCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'katana:make-include {theme} {name}';
+    protected $signature = 'samurai:make-include {theme} {name}';
 
     /**
      * Descrição do comando Artisan
@@ -52,11 +52,11 @@ class CreateIncludeCommand extends Command
         $name  = (string) $this->argument('name');
 
         if (! $this->themeExists($theme)) {
-            return $this->info(__('katana::console.theme.not-exists'));
+            return $this->info(__('Samurai::console.theme.not-exists'));
         }
 
         if ($this->directive()->exists($this->type, $theme, $name)) {
-            return $this->info(__('katana::console.include.exists'));
+            return $this->info(__('Samurai::console.include.exists'));
         }
 
         $this->createinclude($theme, $name);

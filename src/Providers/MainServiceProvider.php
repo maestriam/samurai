@@ -1,15 +1,15 @@
 <?php
 
-namespace Maestriam\Katana;
+namespace Maestriam\Samurai\Providers;
 
 use Config;
 use Illuminate\Support\ServiceProvider;
-use Maestriam\Katana\Traits\BasicConfig;
-use Maestriam\Katana\Traits\ThemeHandling;
-use Maestriam\Katana\Services\ThemeLoader;
-use Maestriam\Katana\Console\CreateThemeCommand;
-use Maestriam\Katana\Console\CreateComponentCommand;
-use Maestriam\Katana\Console\CreateIncludeCommand;
+use Maestriam\Samurai\Traits\BasicConfig;
+use Maestriam\Samurai\Traits\ThemeHandling;
+use Maestriam\Samurai\Services\ThemeLoader;
+use Maestriam\Samurai\Console\CreateThemeCommand;
+use Maestriam\Samurai\Console\CreateComponentCommand;
+use Maestriam\Samurai\Console\CreateIncludeCommand;
 
 class MainServiceProvider extends ServiceProvider
 {
@@ -34,8 +34,7 @@ class MainServiceProvider extends ServiceProvider
         $this->registerConstants();
         $this->registerConfigs();
         $this->registerCommands();
-        $this->registerThemes();
-        $this->loadDefaultTheme();
+        $this->registerServices();
     }
 
     /**
@@ -66,11 +65,15 @@ class MainServiceProvider extends ServiceProvider
      */
     protected function registerConstants()
     {
+        if ( defined('DS')) {
+            return false;
+        }
+
         define('DS', DIRECTORY_SEPARATOR);
     }
 
     /**
-     * Registra todos os comandos artisans do Maestriam Katana
+     * Registra todos os comandos artisans do Maestriam Samurai
      *
      * @return void
      */
@@ -83,6 +86,17 @@ class MainServiceProvider extends ServiceProvider
         ];
 
         $this->commands($cmds);
+    }
+
+    /**
+     * Registra todos os serviços que devem ser iniciados
+     * junto com o pacote
+     *
+     * @return void
+     */
+    protected function registerServices()
+    {
+        $this->app->register(RegisterThemesProvider::class);
     }
 
     /**
