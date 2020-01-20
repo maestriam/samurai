@@ -13,15 +13,16 @@ class LoadThemesServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $themes = $this->theme()->all();
+        $theme = $this->theme()->first();
 
-        foreach($themes as $theme) {
+        if ($theme == null) {
+            return false;
+        }
 
-            $directives = $this->theme()->directives($theme->name);
+        $directives = $this->theme()->directives($theme->name);
 
-            if (! $this->load($directives)) {
-                throw new Exception('Não foi possível carregar o tema '.$theme->name);
-            }
+        if (! $this->load($directives)) {
+            throw new Exception('Não foi possível carregar o tema '.$theme->name);
         }
     }
 

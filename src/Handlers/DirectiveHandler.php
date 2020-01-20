@@ -90,18 +90,6 @@ class DirectiveHandler
     }
 
     /**
-     * Retorna o nível de permissão para criação da diretiva
-     *
-     * @return int
-     */
-    private function permission() : int
-    {
-        $permission = (int) Config::get('Samurai.permission');
-
-        return (! $permission) ? 0755 : $permission;
-    }
-
-    /**
      * Verifica se o tipo de diretiva informada faz parte
      * do ecossistema do Blade
      *

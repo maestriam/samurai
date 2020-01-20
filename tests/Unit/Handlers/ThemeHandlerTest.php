@@ -52,6 +52,22 @@ class ThemeHandlerTest extends TestCase
     }
 
     /**
+     * Verifica se consegue pegar o primeiro tema que encontrar
+     *
+     * @return void
+     */
+    public function testFirstTheme()
+    {
+        $theme = $this->faker->word();
+
+        $this->theme()->create($theme);
+
+        $first = $this->theme()->first();
+
+        $this->assertInstanceOf(Theme::class, $first);
+    }
+
+    /**
      * Verifica se o serviço consegue
      *
      * @return void

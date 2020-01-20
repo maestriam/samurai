@@ -25,6 +25,18 @@ trait HandlerFunctions
     }
 
     /**
+     * Retorna o nível de permissão para criação da diretiva
+     *
+     * @return int
+     */
+    public function permission() : int
+    {
+        $permission = (int) Config::get('Samurai.permission');
+
+        return (! $permission) ? 0755 : $permission;
+    }
+
+    /**
      * Retorna a localização de onde é armazenado determinado tipo
      * de diretiva dentro de um tema
      *

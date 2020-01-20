@@ -8,14 +8,7 @@ use Maestriam\Samurai\Traits\DirectiveHandling;
 
 class CreateIncludeCommand extends Command
 {
-    use ThemeHandling, DirectiveHandling;
-
-    /**
-     * Tipo de diretiva que deseja está predestinado a construir
-     *
-     * @var string
-     */
-    protected $type = 'include';
+    use DirectiveHandling;
 
     /**
      * Assinatura Artisan
@@ -51,27 +44,11 @@ class CreateIncludeCommand extends Command
         $theme = (string) $this->argument('theme');
         $name  = (string) $this->argument('name');
 
-        if (! $this->themeExists($theme)) {
-            return $this->info(__('Samurai::console.theme.not-exists'));
+        if ($this->directive()->exists($theme, $name, 'include')) {
+            return $this->error('Este include já existe nesse tema');
         }
 
-        if ($this->directive()->exists($this->type, $theme, $name)) {
-            return $this->info(__('Samurai::console.include.exists'));
-        }
-
-        $this->createinclude($theme, $name);
-    }
-
-    /**
-     * Executa o comando para criar o arquivo  com sua sub-pasta
-     * no tema desejado
-     *
-     * @param string $theme
-     * @param string $name
-     * @return void
-     */
-    public function createinclude($theme, $name)
-    {
-        $this->directive()->create($this->type, $theme, $name);
+        $this->directive()->include($theme, $name);
+        $this->info('Include criado com sucesso');
     }
 }

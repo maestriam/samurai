@@ -3,26 +3,18 @@
 namespace Maestriam\Samurai\Console;
 
 use Illuminate\Console\Command;
-use Maestriam\Samurai\Traits\ThemeHandling;
 use Maestriam\Samurai\Traits\DirectiveHandling;
 
 class CreateComponentCommand extends Command
 {
-    use ThemeHandling, DirectiveHandling;
-
-    /**
-     * Tipo de diretiva que deseja está predestinado a construir
-     *
-     * @var string
-     */
-    protected $type = 'component';
+    use DirectiveHandling;
 
     /**
      * Assinatura Artisan
      *
      * @var string
      */
-    protected $signature = 'katana:make-component {theme} {name}';
+    protected $signature = 'samurai:make-component {theme} {name}';
 
     /**
      * Descrição do comando Artisan
@@ -30,13 +22,6 @@ class CreateComponentCommand extends Command
      * @var string
      */
     protected $description = 'Create a new component for specific theme';
-
-    /**
-     * Classe construtora de arquivos de diretivas
-     *
-     * @var DirectiveHandler
-     */
-    protected $directive;
 
     /**
      * Construção da classe
@@ -58,27 +43,11 @@ class CreateComponentCommand extends Command
         $theme = (string) $this->argument('theme');
         $name  = (string) $this->argument('name');
 
-        if (! $this->themeExists($theme)) {
-            return $this->info(__('katana::console.theme.not-exists'));
+        if ($this->directive()->exists($theme, $name, 'component')) {
+            return $this->error('Este componente já existe nesse tema');
         }
 
-        if ($this->directive()->exists($this->type, $theme, $name)) {
-            return $this->info(__('katana::console.component.exists'));
-        }
-
-        $this->createComponent($theme, $name);
-    }
-
-    /**
-     * Executa o comando para criar o arquivo  com sua sub-pasta
-     * no tema desejado
-     *
-     * @param string $theme
-     * @param string $name
-     * @return void
-     */
-    public function createComponent($theme, $name)
-    {
-        $this->directive()->create($this->type, $theme, $name);
+        $this->directive()->component($theme, $name);
+        $this->info('Componente criado com sucesso');
     }
 }

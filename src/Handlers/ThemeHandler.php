@@ -66,16 +66,11 @@ class ThemeHandler
      */
     public function all() : array
     {
-        $base = $this->baseFolder();
+        $themes = $this->readBase();
 
-        if (! $this->existsBase($base)) {
+        if (empty($themes)) {
             return [];
         }
-
-        $themes = scandir($base);
-        $themes = array_splice($themes, 2);
-
-        if (empty($themes)) return [];
 
         $collection = [];
 
@@ -84,6 +79,22 @@ class ThemeHandler
         }
 
         return $collection;
+    }
+
+    /**
+     * Retorna o primeiro tema encontrado no projeto
+     *
+     * @return Theme
+     */
+    public function first() : ?Theme
+    {
+        $themes = $this->readBase();
+
+        if (empty($themes)) return null;
+
+        $first = $themes[0];
+
+        return $this->objectTheme($first);
     }
 
     /**
@@ -113,7 +124,7 @@ class ThemeHandler
      * @param string $name
      * @return void
      */
-    public function create($name)
+    public function create($name) : ?Theme
     {
         if (! $this->existsBase()) {
             $this->makeBase();
@@ -126,6 +137,8 @@ class ThemeHandler
         }
 
         mkdir($path);
+
+        $this->subFolders($path);
 
         return $this->objectTheme($name);
     }
@@ -201,7 +214,28 @@ class ThemeHandler
     }
 
     /**
-     * Undocumented function
+     * Retorna o conteúdo de TODOS os temas
+     * dentro do diretório base
+     *
+     * @return array
+     */
+    private function readBase() : array
+    {
+        $base = $this->baseFolder();
+
+        if (! $this->existsBase($base)) {
+            return [];
+        }
+
+        $themes = scandir($base);
+        $themes = array_splice($themes, 2);
+
+        return empty($themes) ?  [] : $themes;
+    }
+
+    /**
+     * Extrai TODOS as diretivas registradas em um tema
+     * especificando por tipo
      *
      * @param string $name
      * @param string $type
@@ -227,5 +261,24 @@ class ThemeHandler
         }
 
         return $itens;
+    }
+
+    /**
+     * Cria a estrutura de sub-diretórios do tema
+     *
+     * @param string $themePath
+     * @return void
+     */
+    private function subFolders($themePath)
+    {
+        $structure = $this->structure();
+
+        foreach ($structure as $type => $folder) {
+
+            $subfolder = str_replace('/', DS, $folder);
+            $subfolder = $themePath . DS . $subfolder;
+
+            mkdir($subfolder, $this->permission(), true);
+        }
     }
 }
