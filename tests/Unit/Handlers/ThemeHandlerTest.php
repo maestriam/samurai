@@ -64,6 +64,14 @@ class ThemeHandlerTest extends TestCase
 
         $this->assertInstanceOf(Theme::class, $object);
 
+        $this->assertObjectHasAttribute('name', $object);
+        $this->assertObjectHasAttribute('path', $object);
+        $this->assertObjectHasAttribute('namespace', $object);
+
+        $this->assertNotEmpty($object->name);
+        $this->assertNotEmpty($object->path);
+        $this->assertNotEmpty($object->namespace);
+
         $this->assertDirectoryExists($object->path);
         $this->assertDirectoryIsReadable($object->path);
         $this->assertDirectoryIsWritable($object->path);
@@ -208,9 +216,32 @@ class ThemeHandlerTest extends TestCase
         $this->assertInstanceOf(Directive::class, $include);
         $this->assertInstanceOf(Directive::class, $component);
 
-        $this->assertAttributeInstanceOf(Theme::class, 'theme', $include);
-        $this->assertAttributeInstanceOf(Theme::class, 'theme', $component);
+        $this->assertInstanceOf(Theme::class, $include->theme);
+        $this->assertInstanceOf(Theme::class, $component->theme);
+    }
 
+    /**
+     * Verifica se retorna todas as diretivas de um tema
+     * com apenas includes dentro do tema
+     *
+     * @return void
+     */
+    public function testGetDirectiveOnlyInclude()
+    {
+        $theme   = $this->faker->word() . time();
+        $include = $this->faker->word();
+
+        $this->theme()->create($theme);
+
+        $this->directive()->include($theme, $include);
+
+        $directives = $this->theme()->directives($theme);
+
+        $this->assertIsArray($directives);
+        $this->assertArrayHasKey('include', $directives);
+        $this->assertArrayHasKey('component', $directives);
+        $this->assertNotEmpty($directives['include']);
+        $this->assertEmpty($directives['component']);
     }
 
     /**

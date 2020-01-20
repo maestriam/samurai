@@ -3,6 +3,7 @@
 namespace Maestriam\Samurai\Handlers;
 
 use Exception;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Maestriam\Samurai\Models\Directive;
 use Maestriam\Samurai\Traits\HandlerFunctions;
@@ -76,6 +77,10 @@ class DirectiveHandler
      */
     public function create($theme, $name) : Directive
     {
+        if ($this->exists($theme, $name)) {
+            return $this->objectDirective($name, $theme, $this->type);
+        }
+
         $mod  = $this->permission();
         $path = $this->path($theme, $name);
 
@@ -100,14 +105,12 @@ class DirectiveHandler
      * Verifica se o tipo de diretiva informada faz parte
      * do ecossistema do Blade
      *
-     * @param string $directive
+     * @param string $type
      * @return boolean
      */
-    public function isValid(string $directive) : bool
+    public function isValid(string $type) : bool
     {
-        $species = $this->types();
-
-        return in_array($directive, $species);
+        return $this->isValidDirectiveType($type);
     }
 
     /**
@@ -119,34 +122,62 @@ class DirectiveHandler
      * @param string $name
      * @return boolean
      */
-    public function exists(string $theme, string $name) : bool
+    public function exists(string $theme, string $name, string $type = null) : bool
     {
-        $dir = $this->path($theme, $this->type, $name);
+        if ($type == null) {
+            $type = $this->type;
+        }
+
+        $dir = $this->path($theme, $name, $type);
 
         return (is_dir($dir)) ? true : false;
     }
 
     /**
-     * Retorna a estrutura de pastas dentro do tema de acordo
-     * com o tipo de diretiva selecionada (include/component)
+     * Carrega a diretiva para ser usada dentro do projeto
      *
-     * @param string $theme
-     * @return array
+     * @param Directive $directive
+     * @return boolean
      */
-    public function folders(string $theme) : array
+    public function load(Directive $obj) : bool
     {
-        $path = $this->path($theme, $this->type);
-
-        if (! is_dir($path)) return [];
-
-        $scan = scandir($path);
-        $dirs = array_splice($scan, 2);
-
-        foreach ($dirs as $dir) {
-            $folders[] = $path . $dir;
+        if (! file_exists($obj->path)) {
+            return false;
         }
 
-        return $folders;
+        $path = $this->getBladePathDirective($obj);
+
+        if ($obj->type == 'include') {
+            return $this->loadInclude($path, $obj->name);
+        }
+
+        return $this->loadComponent($path, $obj->name);
+    }
+
+    /**
+     * Importa um include para ser usado no projeto
+     *
+     * @param string $path
+     * @param string $name
+     * @return bool
+     */
+    private function loadInclude($path, $name) : bool
+    {
+        Blade::include($path, $name);
+        return true;
+    }
+
+    /**
+     * Importa um component para ser usado no projeto
+     *
+     * @param string $path
+     * @param string $name
+     * @return bool
+     */
+    private function loadComponent($path, $name) : bool
+    {
+        Blade::component($path, $name);
+        return true;
     }
 
     /**
@@ -172,9 +203,13 @@ class DirectiveHandler
      * @param string $name
      * @return string
      */
-    private function path($theme, $name) : string
+    private function path($theme, $name, $type = null) : string
     {
-        return $this->directivePath($theme, $name, $this->type);
+        if ($type == null) {
+            $type = $this->type;
+        }
+
+        return $this->directivePath($theme, $name, $type);
     }
 
     /**
@@ -189,14 +224,12 @@ class DirectiveHandler
     private function materialize($path, $name, $theme) : Directive
     {
         $content = $this->stub($this->type, $name);
-
-        $file = $path .  DS  . $name . '-' .$this->type . '.php';
-
+        $file    = $this->directiveFileName($path, $name, $this->type);
         $handle  = fopen($file, 'w');
 
         fwrite($handle, $content);
         fclose($handle);
 
-        return $this->objectDirective($name, $theme, $file, $this->type);
+        return $this->objectDirective($name, $theme, $this->type);
     }
 }

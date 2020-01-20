@@ -2,22 +2,14 @@
 
 namespace Maestriam\Samurai\Providers;
 
-use Config;
 use Illuminate\Support\ServiceProvider;
-use Maestriam\Samurai\Traits\BasicConfig;
 use Maestriam\Samurai\Traits\ThemeHandling;
-use Maestriam\Samurai\Services\ThemeLoader;
 use Maestriam\Samurai\Console\CreateThemeCommand;
 use Maestriam\Samurai\Console\CreateComponentCommand;
 use Maestriam\Samurai\Console\CreateIncludeCommand;
 
 class MainServiceProvider extends ServiceProvider
 {
-    /**
-     * Trait com as propriedades gerais do pacote
-     */
-    use BasicConfig;
-
     /**
      * Trait com as funções gerais de tema
      */
@@ -44,7 +36,7 @@ class MainServiceProvider extends ServiceProvider
      */
     public function registerTranslations()
     {
-        $alias    = $this->commandAlias;
+        $alias    = 'Samurai';
         $basePath = 'resources/lang/vendor/';
 
         $langPath = base_path($basePath) . $alias;
@@ -55,6 +47,19 @@ class MainServiceProvider extends ServiceProvider
         }
 
         $this->loadTranslationsFrom($dirPath, $alias);
+    }
+
+
+    /**
+     * Registra todos os arquivos de configurações do componente
+     *
+     * @return void
+     */
+    protected function registerConfigs()
+    {
+        $dir = __DIR__.'/../Config/config.php';
+
+        $this->mergeConfigFrom($dir, 'Samurai');
     }
 
     /**
@@ -96,71 +101,7 @@ class MainServiceProvider extends ServiceProvider
      */
     protected function registerServices()
     {
-        $this->app->register(RegisterThemesProvider::class);
-    }
-
-    /**
-     *
-     *
-     * @return void
-     */
-    protected function loadDefaultTheme()
-    {
-        $loader = new ThemeLoader();
-
-        $loader->load();
-    }
-
-    /**
-     * Registra todos os arquivos de configurações do componente
-     *
-     * @return void
-     */
-    protected function registerConfigs()
-    {
-        $dir = __DIR__.'/../Config/config.php';
-
-        $this->mergeConfigFrom($dir, $this->configAlias);
-    }
-
-    /**
-     * Percorre todos os temas para registrar os caminhos
-     * dos temas para serem monitorados pelo Laravel.
-     *
-     * @return void
-     */
-    protected function registerThemes()
-    {
-        $dir    = $this->getThemeConfig('themes.folder');
-        $themes = $this->getAllThemes();
-
-        if (empty($themes)) {
-            return false;
-        }
-
-        foreach ($themes as $theme) {
-
-            $namespace = $this->theme()->namespace($theme);
-            $source    = $dir . DS . $theme;
-
-            $this->registerView($source, $namespace);
-        }
-
-        return true;
-    }
-
-    /**
-     * Registra um caminho como parte da base de views
-     * do Laravel
-     *
-     * @param string $source
-     * @param string $namespace
-     * @return void
-     */
-    protected function registerView($source, $namespace)
-    {
-        $views = array_merge([$source], Config::get('view.paths'));
-
-        $this->loadViewsFrom($views, $namespace);
+        $this->app->register(RegistersThemesServiceProvider::class);
+        $this->app->register(LoadThemesServiceProvider::class);
     }
 }

@@ -14,7 +14,7 @@ return [
     */
     'nomenclature' => [
         'prefix' => [
-            'theme' => 'katana-theme-',
+            'theme' => 'samurai-theme-',
         ]
     ],
 

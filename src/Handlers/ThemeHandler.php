@@ -68,20 +68,28 @@ class ThemeHandler
     {
         $base = $this->baseFolder();
 
-        if (! $this->exists($base)) {
+        if (! $this->existsBase($base)) {
             return [];
         }
 
         $themes = scandir($base);
         $themes = array_splice($themes, 2);
 
-        return $themes;
+        if (empty($themes)) return [];
+
+        $collection = [];
+
+        foreach ($themes as $theme) {
+            $collection[] = $this->objectTheme($theme);
+        }
+
+        return $collection;
     }
 
     /**
-     * Undocumented function
+     * Retorna uma lista de todas as diretivas de um determinado tema
      *
-     * @param [type] $name
+     * @param string $name
      * @return array
      */
     public function directives(string $name) : array
@@ -201,13 +209,16 @@ class ThemeHandler
      */
     private function extract(string $theme, string $type) : array
     {
-        $path = $this->path($theme);
-        $dir  = $this->structure($type);
-
-        $folders = scandir($path . DS .  $dir);
-        $folders = array_splice($folders, 2);
-
         $itens = [];
+        $path  = $this->path($theme);
+        $dir   = $this->structure($type);
+
+        $directive = $path . DS .  $dir;
+
+        if (! is_dir($directive)) return $itens;
+
+        $folders = scandir($directive);
+        $folders = array_splice($folders, 2);
 
         if (empty($folders)) return $itens;
 

@@ -2,9 +2,10 @@
 
 namespace Maestriam\Samurai\Traits;
 
+use Exception;
+use Maestriam\Samurai\Models\Theme;
 use Illuminate\Support\Facades\Config;
 use Maestriam\Samurai\Models\Directive;
-use Maestriam\Samurai\Models\Theme;
 
 /**
  * Funções de domínio de todos os manipuladores
@@ -47,6 +48,20 @@ trait HandlerFunctions
     public final function baseFolder() : string
     {
         return Config::get('Samurai.themes.folder');
+    }
+
+    /**
+     * Verifica se o tipo de diretiva informada faz parte
+     * do ecossistema do Blade
+     *
+     * @param string $type
+     * @return boolean
+     */
+    private function isValidDirectiveType(string $type)
+    {
+        $species = $this->types();
+
+        return in_array($type, $species);
     }
 
     /**
@@ -98,6 +113,19 @@ trait HandlerFunctions
     }
 
     /**
+     * Retorna o caminho completo com o nome
+     *
+     * @param string $path
+     * @param string $name
+     * @param string $type
+     * @return string
+     */
+    private final function directiveFileName(string $path, string $name, string $type) : string
+    {
+        return $path .  DS  . $name . '-' .$type . '.php';
+    }
+
+    /**
      * Retorna um objeto com todas as informações de uma diretiva
      *
      * @param string $name
@@ -108,14 +136,19 @@ trait HandlerFunctions
      */
     private final function objectDirective(string $name, string $themeName, string $type) : Directive
     {
-        $path  = $this->directivePath($themeName, $name, $type);
+        if (! $this->isValidDirectiveType($type)) {
+            throw new Exception('Tipo inválido');
+        }
+
         $theme = $this->objectTheme($themeName);
+        $path  = $this->directivePath($themeName, $name, $type);
+        $file  = $this->directiveFileName($path, $name, $type);
 
         $directive = new Directive();
 
         $directive->name  = $name;
         $directive->theme = $theme;
-        $directive->path  = $path;
+        $directive->path  = $file;
         $directive->type  = $type;
 
         return $directive;
