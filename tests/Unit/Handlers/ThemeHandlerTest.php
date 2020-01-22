@@ -94,6 +94,29 @@ class ThemeHandlerTest extends TestCase
     }
 
     /**
+     * Verifica se todas as subpastas do tema
+     * foram criadas com sucesso e com as permissões corretas
+     *
+     * @return void
+     */
+    public function testSubfolderTheme()
+    {
+        $name = $this->faker->word();
+        $structure = $this->theme()->structure();
+
+        $theme = $this->theme()->create($name);
+
+        foreach($structure as $t => $folder) {
+
+            $path = $theme->path . DS . $folder;
+
+            $this->assertDirectoryExists($path);
+            $this->assertDirectoryIsReadable($path);
+            $this->assertDirectoryIsWritable($path);
+        }
+    }
+
+    /**
      * Valida se é um nome correto para tema
      *
      * @return void
@@ -142,6 +165,19 @@ class ThemeHandlerTest extends TestCase
         $this->assertFalse($check);
     }
 
+    public function testPublishTheme()
+    {
+        $name  = $this->faker->word();
+        $theme = $this->theme()->create($name);
+        $dist  = public_path('themes'. DS . $theme->name);
+
+        $check = $this->theme()->publish($name);
+
+        $this->assertIsBool($check);
+        $this->assertTrue($check);
+        $this->assertDirectoryExists($dist);
+    }
+
     /**
      * Verifica o namespace para chamar o tema está OK
      *
@@ -154,6 +190,25 @@ class ThemeHandlerTest extends TestCase
         $namespace = $this->theme()->namespace($theme);
 
         $this->assertIsString($namespace, $theme);
+    }
+
+    /**
+     * Verifica se consegue recuperar todas as
+     *
+     * @return void
+     */
+    public function testGetTheme()
+    {
+        $name1 = $this->faker->word();
+        $name2 = $this->faker->word() . time();
+
+        $this->theme()->create($name1);
+
+        $theme1 = $this->theme()->get($name1);
+        $theme2 = $this->theme()->get($name2);
+
+        $this->assertInstanceOf(Theme::class, $theme1);
+        $this->assertNull($theme2);
     }
 
     /**
@@ -218,7 +273,8 @@ class ThemeHandlerTest extends TestCase
     }
 
     /**
-     * Undocumented function
+     * Verifica se os retornos das diretivas estão vindo de maneira
+     * correta e com as propriedades OK
      *
      * @return void
      */

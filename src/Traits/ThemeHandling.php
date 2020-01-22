@@ -2,7 +2,6 @@
 
 namespace Maestriam\Samurai\Traits;
 
-use Config;
 use Maestriam\Samurai\Handlers\ThemeHandler;
 
 /**

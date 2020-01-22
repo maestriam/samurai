@@ -109,7 +109,6 @@ class DirectiveHanlderTest extends TestCase
         $directives = $this->theme()->directives($theme);
 
         foreach($types as $type) {
-
             foreach ($directives[$type] as $directive) {
 
                 $check = $this->directive()->load($directive);

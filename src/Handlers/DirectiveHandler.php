@@ -46,7 +46,7 @@ class DirectiveHandler
      * @param string $name
      * @return Directive
      */
-    public function component($theme, $name) : Directive
+    public function component($theme, $name) : ?Directive
     {
         $this->define('component');
 
@@ -60,7 +60,7 @@ class DirectiveHandler
      * @param string $name
      * @return Directive
      */
-    public function include($theme, $name) : Directive
+    public function include($theme, $name) : ?Directive
     {
         $this->define('include');
 
@@ -75,8 +75,12 @@ class DirectiveHandler
      * @param string $type
      * @return Directive
      */
-    public function create($theme, $name) : Directive
+    public function create($theme, $name) : ?Directive
     {
+        if (! $this->isValidName($name)) {
+            return null;
+        }
+
         if ($this->exists($theme, $name)) {
             return $this->objectDirective($name, $theme, $this->type);
         }

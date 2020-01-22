@@ -3,11 +3,13 @@
 namespace Maestriam\Samurai\Console;
 
 use Illuminate\Console\Command;
+use Maestriam\Samurai\Traits\ThemeHandling;
+use Maestriam\Samurai\Traits\LoggingMessages;
 use Maestriam\Samurai\Traits\DirectiveHandling;
 
 class CreateComponentCommand extends Command
 {
-    use DirectiveHandling;
+    use DirectiveHandling, ThemeHandling, LoggingMessages;
 
     /**
      * Assinatura Artisan
@@ -43,11 +45,20 @@ class CreateComponentCommand extends Command
         $theme = (string) $this->argument('theme');
         $name  = (string) $this->argument('name');
 
-        if ($this->directive()->exists($theme, $name, 'component')) {
-            return $this->error('Este componente já existe nesse tema');
+        if (! $this->theme()->exists($theme)) {
+            return $this->_error('theme.not-exists', 1);
         }
 
-        $this->directive()->component($theme, $name);
-        $this->info('Componente criado com sucesso');
+        if ($this->directive()->exists($theme, $name, 'component')) {
+            return $this->_error('component.exists', 2);
+        }
+
+        $directive = $this->directive()->component($theme, $name);
+
+        if ($directive == null) {
+            return $this->_error('component.invalid', 3);
+        }
+
+        return $this->_success('component.created');
     }
 }

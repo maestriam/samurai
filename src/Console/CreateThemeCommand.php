@@ -13,13 +13,6 @@ class CreateThemeCommand extends Command
     use ThemeHandling;
 
     /**
-     * Caminho onde será armazenados os temas
-     *
-     * @var string
-     */
-    protected $themePath = '';
-
-    /**
      * The name and signature of the console command.
      *
      * @var string

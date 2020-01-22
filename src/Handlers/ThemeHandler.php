@@ -2,8 +2,9 @@
 
 namespace Maestriam\Samurai\Handlers;
 
-use Maestriam\Samurai\Models\Theme;
 use Illuminate\Support\Facades\Config;
+use Maestriam\Samurai\Models\Theme;
+use Illuminate\Support\Facades\File;
 use Maestriam\Samurai\Traits\HandlerFunctions;
 
 class ThemeHandler
@@ -32,11 +33,16 @@ class ThemeHandler
 
     /**
      * Retorna as propriedades de um tema
+     * de acordo com o nome específicado
      *
      * @return Theme
      */
-    public function get($name) : Theme
+    public function get(string $name) : ?Theme
     {
+        if (! $this->exists($name)) {
+            return null;
+        }
+
         return $this->objectTheme($name);
     }
 
@@ -126,18 +132,21 @@ class ThemeHandler
      */
     public function create($name) : ?Theme
     {
+        if (! $this->isValidName($name)) {
+            return null;
+        }
+
+        if ($this->exists($name)) {
+            return $this->objectTheme($name);
+        }
+
         if (! $this->existsBase()) {
             $this->makeBase();
         }
 
         $path = $this->path($name);
 
-        if ($this->exists($name)) {
-            return $this->objectTheme($name);
-        }
-
-        mkdir($path);
-
+        $this->mkFolder($path);
         $this->subFolders($path);
 
         return $this->objectTheme($name);
@@ -152,28 +161,6 @@ class ThemeHandler
     public function path(string $name) : string
     {
         return $this->themePath($name);
-    }
-
-    /**
-     * Verifica se o nome informado para o tema
-     * segue os padrões
-     *
-     * @return boolean
-     */
-    public function isValidName($name) : bool
-    {
-        $startNumbers   = "/^[\d]/";
-        $onlyValidChars = "/^[\w&.\-]+$/";
-
-        if (preg_match($startNumbers, $name)) {
-            return false;
-        }
-
-        if (! preg_match($onlyValidChars, $name)) {
-            return false;
-        }
-
-        return true;
     }
 
     /**
@@ -194,10 +181,7 @@ class ThemeHandler
      */
     public function exists(string $name) : bool
     {
-        $dir  = $this->baseFolder();
-        $path = $dir . DS . $name;
-
-        return (is_dir($path));
+        return $this->themeExists($name);
     }
 
     /**
@@ -211,6 +195,28 @@ class ThemeHandler
         $base = $this->baseFolder();
 
         return (is_dir($base));
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function publish(string $name) : bool
+    {
+        $theme = $this->get($name);
+        $dist  = Config::get('Samurai.publishable');
+
+        if ($theme == null) {
+            return false;
+        }
+
+        $origin = $theme->path . DS . $dist;
+        $destination = public_path('themes/'. $theme->name);
+
+        File::copyDirectory($origin, $destination);
+
+        return true;
     }
 
     /**
@@ -278,7 +284,19 @@ class ThemeHandler
             $subfolder = str_replace('/', DS, $folder);
             $subfolder = $themePath . DS . $subfolder;
 
-            mkdir($subfolder, $this->permission(), true);
+            $this->mkFolder($subfolder);
         }
+    }
+
+    /**
+     * Cria um novo diretório com as configurações
+     * fornecidas no arquivo de configuração
+     *
+     * @param string $path
+     * @return int
+     */
+    private function mkFolder(string $path) : bool
+    {
+        return mkdir($path, $this->permission(), true);
     }
 }

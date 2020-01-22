@@ -29,7 +29,7 @@ trait HandlerFunctions
      *
      * @return int
      */
-    public function permission() : int
+    public final function permission() : int
     {
         $permission = (int) Config::get('Samurai.permission');
 
@@ -60,6 +60,29 @@ trait HandlerFunctions
     public final function baseFolder() : string
     {
         return Config::get('Samurai.themes.folder');
+    }
+
+
+    /**
+     * Verifica se o nome informado para o tema
+     * segue os padrões
+     *
+     * @return boolean
+     */
+    public final function isValidName($name) : bool
+    {
+        $startNumbers   = "/^[\d]/";
+        $onlyValidChars = "/^[\w&.\-]+$/";
+
+        if (preg_match($startNumbers, $name)) {
+            return false;
+        }
+
+        if (! preg_match($onlyValidChars, $name)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -134,7 +157,21 @@ trait HandlerFunctions
      */
     private final function directiveFileName(string $path, string $name, string $type) : string
     {
-        return $path .  DS  . $name . '-' .$type . '.php';
+        return $path .  DS  . $name . '-' .$type . '.blade.php';
+    }
+
+    /**
+     * Verifica se um tema já existe com o nome específicado
+     *
+     * @param string $name
+     * @return boolean
+     */
+    private final function themeExists(string $name) : bool
+    {
+        $dir  = $this->baseFolder();
+        $path = $dir . DS . $name;
+
+        return (is_dir($path));
     }
 
     /**

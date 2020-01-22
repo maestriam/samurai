@@ -4,11 +4,12 @@ namespace Maestriam\Samurai\Console;
 
 use Illuminate\Console\Command;
 use Maestriam\Samurai\Traits\ThemeHandling;
+use Maestriam\Samurai\Traits\LoggingMessages;
 use Maestriam\Samurai\Traits\DirectiveHandling;
 
 class CreateIncludeCommand extends Command
 {
-    use DirectiveHandling;
+    use ThemeHandling, DirectiveHandling, LoggingMessages;
 
     /**
      * Assinatura Artisan
@@ -44,11 +45,20 @@ class CreateIncludeCommand extends Command
         $theme = (string) $this->argument('theme');
         $name  = (string) $this->argument('name');
 
-        if ($this->directive()->exists($theme, $name, 'include')) {
-            return $this->error('Este include já existe nesse tema');
+        if (! $this->theme()->exists($theme)) {
+            return $this->_error('theme.not-exists', 1);
         }
 
-        $this->directive()->include($theme, $name);
-        $this->info('Include criado com sucesso');
+        if ($this->directive()->exists($theme, $name, 'include')) {
+            return $this->_error('include.exists', 2);
+        }
+
+        $directive = $this->directive()->include($theme, $name);
+
+        if ($directive == null) {
+            return $this->_error('include.invalid', 3);
+        }
+
+        return $this->_success('include.created');
     }
 }
