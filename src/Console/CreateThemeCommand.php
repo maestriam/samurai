@@ -4,13 +4,14 @@ namespace Maestriam\Samurai\Console;
 
 use Illuminate\Console\Command;
 use Maestriam\Samurai\Traits\ThemeHandling;
+use Maestriam\Samurai\Traits\LoggingMessages;
 
 class CreateThemeCommand extends Command
 {
     /**
      * Propriedades e funções básicas do sistema
      */
-    use ThemeHandling;
+    use ThemeHandling, LoggingMessages;
 
     /**
      * The name and signature of the console command.

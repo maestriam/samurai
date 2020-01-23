@@ -11,6 +11,11 @@ class LoadThemesServiceProvider extends ServiceProvider
 {
     use ThemeHandling, DirectiveHandling;
 
+    /**
+     * Inicia o carregamento do primeiro tema que encontrar
+     *
+     * @return void
+     */
     public function boot()
     {
         $theme = $this->theme()->first();
@@ -26,16 +31,20 @@ class LoadThemesServiceProvider extends ServiceProvider
         }
     }
 
-    public function load($directives) : bool
+    /**
+     * Carrega todas as diretivas de um tema
+     *
+     * @param array $directives
+     * @return boolean
+     */
+    public function load(array $directives) : bool
     {
         $valid = true;
         $types = $this->directive()->types();
 
         foreach($types as $type) {
             foreach ($directives[$type] as $directive) {
-
                 $check = $this->directive()->load($directive);
-
                 if ($check == false) {
                     $valid = false;
                 }
