@@ -19,10 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-          "Nwidart\\Modules\\": "src"
-        },
-        "files": [
-          "src/helpers.php"
-        ]
+            "Maestriam\\Samurai\\Tests\\": "src"
+        }
     }
 }
