@@ -21,5 +21,12 @@
         "psr-4": {
             "Maestriam\\Samurai\\": "src"
         }
+    },
+    "extra": {
+        "laravel": {
+          "providers": [
+            "Maestriam\\Samurai\\Providers\\MainServiceProvider"
+          ]
+        }
     }
 }
