@@ -1,5 +1,5 @@
 {
-    "name": "giuliano/samurai",
+    "name": "maestriam/samurai",
     "description": "Blade-based theme manager for Laravel apps",
     "type": "library",
     "require-dev": {
@@ -16,5 +16,7 @@
             "Maestriam\\Samurai\\Tests\\": "tests/"
         }
     },
-    "require": {}
+    "require": {
+
+    }
 }
