@@ -11,12 +11,18 @@
             "email": "giuguitar@gmail.com"
         }
     ],
+    "require": {},
     "autoload-dev": {
         "psr-4": {
             "Maestriam\\Samurai\\Tests\\": "tests/"
         }
     },
-    "require": {
-
+    "autoload": {
+        "psr-4": {
+          "Nwidart\\Modules\\": "src"
+        },
+        "files": [
+          "src/helpers.php"
+        ]
     }
 }
