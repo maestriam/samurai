@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Maestriam\\Samurai\\Tests\\": "src"
+            "Maestriam\\Samurai\\": "src"
         }
     }
 }
