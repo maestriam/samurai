@@ -6,6 +6,7 @@ return [
         'invalid'    => 'Não é possível criar um tema com este nome. Nome inválido.',
         'exists'     => 'O tema com este nome já existe. Remova-o ou escolha outro nome de sua preferência.',
         'subdir'     => 'Criando sub-diretório: :folder',
+        'published'  => 'Tema publicado com sucesso',
         'not-exists' => 'Este tema não existe. Verifique se o nome foi digitado corretamente e tente novamente.',
     ],
     'component' => [

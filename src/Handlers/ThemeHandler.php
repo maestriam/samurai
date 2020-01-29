@@ -2,9 +2,9 @@
 
 namespace Maestriam\Samurai\Handlers;
 
-use Illuminate\Support\Facades\Config;
 use Maestriam\Samurai\Models\Theme;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Config;
 use Maestriam\Samurai\Traits\HandlerFunctions;
 
 class ThemeHandler

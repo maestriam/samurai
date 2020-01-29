@@ -7,7 +7,7 @@ use Maestriam\Samurai\Traits\ThemeHandling;
 use Maestriam\Samurai\Traits\LoggingMessages;
 use Maestriam\Samurai\Traits\DirectiveHandling;
 
-class CreateIncludeCommand extends Command
+class MakeIncludeCommand extends Command
 {
     use ThemeHandling, DirectiveHandling, LoggingMessages;
 

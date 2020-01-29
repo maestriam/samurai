@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Maestriam\Samurai\Traits\ThemeHandling;
 use Maestriam\Samurai\Traits\LoggingMessages;
 
-class CreateThemeCommand extends Command
+class MakeThemeCommand extends Command
 {
     /**
      * Propriedades e funções básicas do sistema
@@ -45,12 +45,17 @@ class CreateThemeCommand extends Command
     public function handle()
     {
         $name  = $this->argument('name');
-        $theme = $this->theme()->create($name);
 
-        if ($this->theme()->exists($theme->name)) {
-            return $this->info('Tema '.$theme->name.' criado com sucesso');
+        if ($this->theme()->exists($name)) {
+            return $this->_error('theme.exists', 1);
         }
 
-        return $this->error('Não foi possível criar o tema.');
+        $theme = $this->theme()->create($name);
+
+        if ($theme == null) {
+            return $this->_error('theme.invalid', 2);
+        }
+
+        return $this->_success('theme.created');
     }
 }

@@ -4,10 +4,10 @@ namespace Maestriam\Samurai\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Maestriam\Samurai\Traits\ThemeHandling;
-use Maestriam\Samurai\Console\CreateThemeCommand;
+use Maestriam\Samurai\Console\MakeThemeCommand;
 use Maestriam\Samurai\Console\PublishThemeCommand;
-use Maestriam\Samurai\Console\CreateIncludeCommand;
-use Maestriam\Samurai\Console\CreateComponentCommand;
+use Maestriam\Samurai\Console\MakeIncludeCommand;
+use Maestriam\Samurai\Console\MakeComponentCommand;
 
 class MainServiceProvider extends ServiceProvider
 {
@@ -86,9 +86,9 @@ class MainServiceProvider extends ServiceProvider
     protected function registerCommands()
     {
         $cmds = [
-            CreateThemeCommand::class,
-            CreateComponentCommand::class,
-            CreateIncludeCommand::class,
+            MakeThemeCommand::class,
+            MakeComponentCommand::class,
+            MakeIncludeCommand::class,
             PublishThemeCommand::class,
         ];
 
