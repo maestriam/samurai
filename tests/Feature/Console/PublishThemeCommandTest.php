@@ -36,7 +36,7 @@ class PublishThemeCommandTest extends TestCase
      */
     public function testInvalidTheme()
     {
-        $theme = $this->faker->word();
+        $theme = $this->faker->word() . time();
         $code  = Artisan::call("samurai:publish {$theme}");
 
         $this->assertIsInt($code);

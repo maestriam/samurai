@@ -11,7 +11,6 @@
             "email": "giuguitar@gmail.com"
         }
     ],
-    "require": {},
     "autoload-dev": {
         "psr-4": {
             "Maestriam\\Samurai\\Tests\\": "tests/"
@@ -19,10 +18,11 @@
     },
     "autoload": {
         "psr-4": {
-            "Maestriam\\Samurai\\": "src"
+            "Maestriam\\Samurai\\": "src/"
         }
     },
     "extra": {
+        "class": "Maestriam\\Samurai\\Installer\\LaravelModuleInstallerPlugin",
         "laravel": {
           "providers": [
             "Maestriam\\Samurai\\Providers\\MainServiceProvider"
