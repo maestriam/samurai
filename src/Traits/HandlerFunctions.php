@@ -62,29 +62,6 @@ trait HandlerFunctions
         return Config::get('Samurai.themes.folder');
     }
 
-
-    /**
-     * Verifica se o nome informado para o tema
-     * segue os padrões
-     *
-     * @return boolean
-     */
-    public final function isValidName($name) : bool
-    {
-        $startNumbers   = "/^[\d]/";
-        $onlyValidChars = "/^[\w&.\-]+$/";
-
-        if (preg_match($startNumbers, $name)) {
-            return false;
-        }
-
-        if (! preg_match($onlyValidChars, $name)) {
-            return false;
-        }
-
-        return true;
-    }
-
     /**
      * Verifica se o tipo de diretiva informada faz parte
      * do ecossistema do Blade

@@ -3,18 +3,21 @@
 namespace Maestriam\Samurai\Unit\Handlers;
 
 use Tests\TestCase;
+use ArgumentCountError;
 use Maestriam\Samurai\Models\Theme;
+use Maestriam\Samurai\Models\Directive;
 use Maestriam\Samurai\Traits\ThemeHandling;
 use Illuminate\Foundation\Testing\WithFaker;
-use Maestriam\Samurai\Models\Directive;
 use Maestriam\Samurai\Traits\DirectiveHandling;
+use Maestriam\Samurai\Exceptions\InvalidThemeNameException;
 
 class ThemeHandlerTest extends TestCase
 {
     use WithFaker, ThemeHandling, DirectiveHandling;
 
     /**
-     * Verifica se a função para trazer o diretório base funciona
+     * Verifica se a função para trazer o diretório base de temas
+     * retorna o caminho corretamente
      *
      * @return void
      */
@@ -26,7 +29,8 @@ class ThemeHandlerTest extends TestCase
     }
 
     /**
-     * Verifica se o serviço consegue criar a pasta base
+     * Verifica se o serviço consegue criar o diretório-base
+     * para o armazemanento de temas
      */
     public function testMakeBase()
     {
@@ -40,7 +44,7 @@ class ThemeHandlerTest extends TestCase
 
     /**
      * Verifica se o serviço consegue trazer os temas dentro do
-     * diretório base
+     * diretório-base
      *
      * @return void
      */
@@ -53,6 +57,7 @@ class ThemeHandlerTest extends TestCase
 
     /**
      * Verifica se consegue pegar o primeiro tema que encontrar
+     * dentro do diretório-base
      *
      * @return void
      */
@@ -165,6 +170,52 @@ class ThemeHandlerTest extends TestCase
         $this->assertFalse($check);
     }
 
+    /**
+     * Valida se é possível criar um tema com
+     *
+     * @return void
+     */
+    public function testCreateThemeNameWithNumberName()
+    {
+        $theme = '123theme';
+
+        $this->expectException(InvalidThemeNameException::class);
+
+        $this->theme()->create($theme);
+    }
+
+    /**
+     * Valida se é possível criar um tema com caracteres especiais
+     *
+     * @return void
+     */
+    public function testCreateThemeWithSpecialCharsName()
+    {
+        $theme = 'it$-my-th3m3!';
+
+        $this->expectException(InvalidThemeNameException::class);
+
+        $this->theme()->create($theme);
+    }
+
+    /**
+     * Tentar criar um tema sem passar o nome do tema
+     *
+     * @return void
+     */
+    public function testeCreateThemeWithoutName()
+    {
+        $this->expectException(ArgumentCountError::class);
+
+        $theme = $this->theme()->create();
+    }
+
+    /**
+     * Valida se é possível publicar os assets de um determinado
+     * tema
+     *
+     * @return void
+     */
     public function testPublishTheme()
     {
         $name  = $this->faker->word();
@@ -176,6 +227,18 @@ class ThemeHandlerTest extends TestCase
         $this->assertIsBool($check);
         $this->assertTrue($check);
         $this->assertDirectoryExists($dist);
+    }
+
+    /**
+     * Verifica se é um exception é enviado
+     *
+     * @return void
+     */
+    public function testPublishWithoutTheme()
+    {
+        $this->expectException(ArgumentCountError::class);
+
+        $this->theme()->publish();
     }
 
     /**
@@ -241,8 +304,8 @@ class ThemeHandlerTest extends TestCase
     }
 
     /**
-     * Verifica se o diretório-base para os temas está trazendo
-     * um resultado booleano
+     * Verifica se o diretório-base para os tema
+     * foi criado sim ou não
      *
      * @return boolean
      */

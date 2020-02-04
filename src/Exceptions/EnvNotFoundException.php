@@ -6,9 +6,6 @@ use Exception;
 
 class EnvNotFoundException extends Exception
 {
-    public function getMessage()
-    {
 
-    }
 }
 

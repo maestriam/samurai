@@ -6,6 +6,8 @@ use Maestriam\Samurai\Models\Theme;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Config;
 use Maestriam\Samurai\Traits\HandlerFunctions;
+use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
+use Maestriam\Samurai\Exceptions\InvalidThemeNameException;
 
 class ThemeHandler
 {
@@ -63,7 +65,6 @@ class ThemeHandler
 
         return $base;
     }
-
 
     /**
      * Retorna todos os temas criados
@@ -125,6 +126,28 @@ class ThemeHandler
     }
 
     /**
+     * Verifica se o nome informado para o tema
+     * segue os padrões corretos
+     *
+     * @return boolean
+     */
+    public final function isValidName($name) : bool
+    {
+        $startNumbers   = "/^[\d]/";
+        $onlyValidChars = "/^[\w&.\-]+$/";
+
+        if (preg_match($startNumbers, $name)) {
+            return false;
+        }
+
+        if (! preg_match($onlyValidChars, $name)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Cria um novo diretório de tema
      *
      * @param string $name
@@ -133,7 +156,7 @@ class ThemeHandler
     public function create($name) : ?Theme
     {
         if (! $this->isValidName($name)) {
-            return null;
+            throw new InvalidThemeNameException($name);
         }
 
         if ($this->exists($name)) {
@@ -208,7 +231,7 @@ class ThemeHandler
         $dist  = Config::get('Samurai.publishable');
 
         if ($theme == null) {
-            return false;
+            throw new ThemeNotFoundException($name);
         }
 
         $origin = $theme->path . DS . $dist;
@@ -216,7 +239,7 @@ class ThemeHandler
 
         File::copyDirectory($origin, $destination);
 
-        return true;
+        return (is_dir($destination)) ? true : false;
     }
 
     /**

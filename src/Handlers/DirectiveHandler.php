@@ -106,6 +106,28 @@ class DirectiveHandler
     }
 
     /**
+     * Verifica se o nome informado para a diretiva
+     * segue os padrões corretos
+     *
+     * @return boolean
+     */
+    public final function isValidName($name) : bool
+    {
+        $startNumbers   = "/^[\d]/";
+        $onlyValidChars = "/^[\w&.\-]+$/";
+
+        if (preg_match($startNumbers, $name)) {
+            return false;
+        }
+
+        if (! preg_match($onlyValidChars, $name)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Verifica se a já existe uma diretiva com determinado nome
      * em um tema específico
      *

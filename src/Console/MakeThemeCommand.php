@@ -46,6 +46,8 @@ class MakeThemeCommand extends Command
     {
         $name  = $this->argument('name');
 
+        return response('xx');
+
         if ($this->theme()->exists($name)) {
             return $this->_error('theme.exists', 1);
         }
