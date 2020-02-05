@@ -3,11 +3,12 @@
 namespace Maestriam\Samurai\Unit\Handlers;
 
 use Tests\TestCase;
+use Maestriam\Samurai\Models\Theme;
 use Maestriam\Samurai\Models\Directive;
 use Maestriam\Samurai\Traits\ThemeHandling;
 use Illuminate\Foundation\Testing\WithFaker;
-use Maestriam\Samurai\Models\Theme;
 use Maestriam\Samurai\Traits\DirectiveHandling;
+use Maestriam\Samurai\Exceptions\InvalidDirectiveNameException;
 
 class DirectiveHanlderTest extends TestCase
 {
@@ -86,6 +87,60 @@ class DirectiveHanlderTest extends TestCase
 
         $this->assertIsArray($types);
         $this->assertNotEmpty($types);
+    }
+
+    /**
+     * Verifica se é possível criar um include com um nome inválido
+     * com nome começando com números
+     * 
+     * @return void
+     */
+    public function testInvalidNameWithNumbers()
+    {
+        $this->expectException(InvalidDirectiveNameException::class);
+        
+        $name  = '123include';
+        $theme = $this->faker->word();
+        
+        $this->theme()->create($theme);
+        
+        $this->directive()->include($theme, $name);
+    }
+    
+    /**
+     * Verifica se é possível criar um include com um nome inválido
+     * com caracteres especiais
+     * 
+     * @return void
+     */
+    public function testInvalidNameWithSpecialChars()
+    {
+        $this->expectException(InvalidDirectiveNameException::class);
+        
+        $name  = 'inc$ud#';
+        $theme = $this->faker->word();
+
+        $this->theme()->create($theme);
+        
+        $this->directive()->include($theme, $name);
+    }
+    
+    /**
+     * Verifica se é possível criar um include com um nome inválido
+     * com traços
+     * 
+     * @return void
+     */
+    public function testInvalidNameWithDash()
+    {
+        $this->expectException(InvalidDirectiveNameException::class);
+        
+        $name  = 'my-include';
+        $theme = $this->faker->word();
+
+        $this->theme()->create($theme);
+
+        $this->directive()->include($theme, $name);
     }
 
     /**

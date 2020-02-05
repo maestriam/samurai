@@ -7,18 +7,21 @@ use Illuminate\Support\Facades\Lang;
 /**
  * Funções compartilhadas para manipulação de temas
  */
-trait LoggingMessages
+trait ConsoleLog
 {
     /**
-     * Exibe uma mensagem de erro e retorna o código para debug
+     * Exibe uma mensagem de erro para o console e envia o código
+     * de erro para Debug
      *
      * @param string $key
      * @param integer $code
      * @return integer
      */
-    public final function _error(string $key, int $code) : int
+    public final function failed(string $message, int $code, bool $key = false)
     {
-        $message = Lang::get('Samurai::console.' .$key);
+        if ($key) {
+            $message = Lang::get('Samurai::console.' .$message);
+        }
 
         $this->error($message);
 
@@ -31,12 +34,14 @@ trait LoggingMessages
      * @param string $key
      * @return integer
      */
-    public final function _success(string $key) : int
+    public final function success(string $message, int $code, bool $key = false) : string
     {
-        $message = Lang::get('Samurai::console.' .$key);
+        if ($key) {
+            $message = Lang::get('Samurai::console.' .$message);
+        }
 
         $this->info($message);
 
-        return 0;
+        return $code;
     }
 }

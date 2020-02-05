@@ -15,7 +15,7 @@ class InvalidThemeNameException extends Exception
     public function __construct(string $name)
     {
         $this->setMessage($name);
-        $this->setCode(0101);
+        $this->setCode('0101');
     }
 
     /**
@@ -37,7 +37,7 @@ class InvalidThemeNameException extends Exception
      * @param integer $code
      * @return void
      */
-    public function setCode(int $code)
+    public function setCode(string $code)
     {
         $this->code = $code;
     }

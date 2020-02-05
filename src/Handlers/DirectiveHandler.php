@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Maestriam\Samurai\Models\Directive;
 use Maestriam\Samurai\Traits\HandlerFunctions;
+use Maestriam\Samurai\Exceptions\InvalidDirectiveNameException;
 
 class DirectiveHandler
 {
@@ -77,8 +78,12 @@ class DirectiveHandler
      */
     public function create($theme, $name) : ?Directive
     {
+        if (! $this->themeExists($theme)) {
+            throw new ThemeNotFound($theme);
+        }
+
         if (! $this->isValidName($name)) {
-            return null;
+            throw new InvalidDirectiveNameException($name);
         }
 
         if ($this->exists($theme, $name)) {
@@ -114,7 +119,7 @@ class DirectiveHandler
     public final function isValidName($name) : bool
     {
         $startNumbers   = "/^[\d]/";
-        $onlyValidChars = "/^[\w&.\-]+$/";
+        $onlyValidChars = "/^[a-zA-Z0-9]+$/";
 
         if (preg_match($startNumbers, $name)) {
             return false;

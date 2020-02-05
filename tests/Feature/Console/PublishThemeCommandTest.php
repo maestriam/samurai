@@ -1,6 +1,6 @@
 <?php
 
-namespace Maestriam\Samurai\Unit\Handlers;
+namespace Maestriam\Samurai\Feature\Console;
 
 use Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
@@ -20,6 +20,7 @@ class PublishThemeCommandTest extends TestCase
     public function testPublishTheme()
     {
         $theme = $this->faker->word();
+        
         $this->theme()->create($theme);
 
         $code = Artisan::call("samurai:publish {$theme}");
@@ -40,6 +41,6 @@ class PublishThemeCommandTest extends TestCase
         $code  = Artisan::call("samurai:publish {$theme}");
 
         $this->assertIsInt($code);
-        $this->assertEquals(1, $code);
+        $this->assertEquals(103, $code);
     }
 }

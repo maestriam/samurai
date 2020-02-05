@@ -2,16 +2,17 @@
 
 namespace Maestriam\Samurai\Console;
 
+use Exception;
 use Illuminate\Console\Command;
+use Maestriam\Samurai\Traits\ConsoleLog;
 use Maestriam\Samurai\Traits\ThemeHandling;
-use Maestriam\Samurai\Traits\LoggingMessages;
 
 class MakeThemeCommand extends Command
 {
     /**
      * Propriedades e funções básicas do sistema
      */
-    use ThemeHandling, LoggingMessages;
+    use ThemeHandling, ConsoleLog;
 
     /**
      * The name and signature of the console command.
@@ -46,18 +47,17 @@ class MakeThemeCommand extends Command
     {
         $name  = $this->argument('name');
 
-        return response('xx');
-
         if ($this->theme()->exists($name)) {
-            return $this->_error('theme.exists', 1);
+            return $this->failed('theme.exists', 102, true);
         }
 
-        $theme = $this->theme()->create($name);
+        try {
+            $theme = $this->theme()->create($name);
 
-        if ($theme == null) {
-            return $this->_error('theme.invalid', 2);
-        }
-
-        return $this->_success('theme.created');
+            return $this->success('theme.created', 0 ,true);
+        
+        } catch (Exception $e) {
+            return $this->failed($e->getMessage(), $e->getCode());
+        }   
     }
 }

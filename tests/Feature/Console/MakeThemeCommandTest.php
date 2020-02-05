@@ -1,6 +1,6 @@
 <?php
 
-namespace Maestriam\Samurai\Unit\Handlers;
+namespace Maestriam\Samurai\Feature\Console;
 
 use Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
@@ -37,12 +37,12 @@ class MakeThemeCommandTest extends TestCase
     {
         $theme = $this->faker->word() . time();
 
-        $this->theme()->create($theme);
+        $obj = $this->theme()->create($theme);
 
         $code  = Artisan::call("samurai:make-theme {$theme}");
 
         $this->assertIsInt($code);
-        $this->assertEquals(1, $code);
+        $this->assertEquals(102, $code);
     }
 
     /**
@@ -58,6 +58,6 @@ class MakeThemeCommandTest extends TestCase
         $code  = Artisan::call("samurai:make-theme {$theme}");
 
         $this->assertIsInt($code);
-        $this->assertEquals(2, $code);
+        $this->assertEquals(101, $code);
     }
 }

@@ -20,7 +20,7 @@ class RegistersThemesServiceProvider extends ServiceProvider
         }
     }
 
-        /**
+    /**
      * Registra um caminho como parte da base de views
      * do Laravel
      *

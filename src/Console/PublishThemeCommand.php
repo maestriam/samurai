@@ -2,13 +2,14 @@
 
 namespace Maestriam\Samurai\Console;
 
+use Exception;
 use Illuminate\Console\Command;
 use Maestriam\Samurai\Traits\ThemeHandling;
-use Maestriam\Samurai\Traits\LoggingMessages;
+use Maestriam\Samurai\Traits\ConsoleLog;
 
 class PublishThemeCommand extends Command
 {
-    use ThemeHandling, LoggingMessages;
+    use ThemeHandling, ConsoleLog;
 
     /**
      * The name and signature of the console command.
@@ -29,14 +30,17 @@ class PublishThemeCommand extends Command
      */
     public function handle()
     {
-        $theme = $this->argument('theme');
+        try {
+            
+            $theme = $this->argument('theme');
+            
+            $this->theme()->publish($theme);
 
-        if (! $this->theme()->exists($theme)) {
-            return $this->_error('theme.not-exists', 1);
+            return $this->success('themes.published', 0, true);
+
+        } catch (Exception $e) {
+       
+            return $this->failed($e->getMessage(), $e->getCode());
         }
-
-        $this->theme()->publish($theme);
-
-        return $this->_success('themes.published');
     }
 }

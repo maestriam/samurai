@@ -19,7 +19,7 @@ class EnvFileHanlderTest extends TestCase
      */
     public function testGetKey()
     {
-        $real  = 'APP_ENV';
+        $real = 'APP_ENV';
         $fake = 'FAKE_KEY_' . time();
 
         $true  = $this->env()->get($real);

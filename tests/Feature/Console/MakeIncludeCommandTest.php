@@ -1,6 +1,6 @@
 <?php
 
-namespace Maestriam\Samurai\Unit\Handlers;
+namespace Maestriam\Samurai\Feature\Console;
 
 use Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
@@ -47,7 +47,7 @@ class MakeIncludeCommandTest extends TestCase
         $code = Artisan::call('samurai:make-include', $params);
 
         $this->assertIsInt($code);
-        $this->assertEquals(1, $code);
+        $this->assertEquals(103, $code);
     }
 
     /**
@@ -69,7 +69,7 @@ class MakeIncludeCommandTest extends TestCase
         $code = Artisan::call('samurai:make-include', $params);
 
         $this->assertIsInt($code);
-        $this->assertEquals(2, $code);
+        $this->assertEquals(201, $code);
     }
 
     /**
@@ -77,11 +77,12 @@ class MakeIncludeCommandTest extends TestCase
      *
      * @return void
      */
-    public function testInvalidName()
+    public function testInvalidNameWithNumbers()
     {
         $theme   = $this->faker->word();
         $include = time() . $this->faker->word();
-        $params  = ['theme' => $theme, 'name' => $include];
+        
+        $params = ['theme' => $theme, 'name' => $include];
 
         $this->theme()->create($theme);
 
@@ -91,4 +92,14 @@ class MakeIncludeCommandTest extends TestCase
         $this->assertEquals(3, $code);
     }
 
+    public function testInvalidNameWithSpecialChars()
+    {
+
+
+    }
+
+    public function testInvalidNameWithDash()
+    {
+
+    }
 }

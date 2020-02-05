@@ -1,6 +1,6 @@
 <?php
 
-namespace Maestriam\Samurai\Unit\Handlers;
+namespace Maestriam\Samurai\Feature\Console;
 
 use Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;

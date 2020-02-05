@@ -4,12 +4,12 @@ namespace Maestriam\Samurai\Console;
 
 use Illuminate\Console\Command;
 use Maestriam\Samurai\Traits\ThemeHandling;
-use Maestriam\Samurai\Traits\LoggingMessages;
+use Maestriam\Samurai\Traits\ConsoleLog;
 use Maestriam\Samurai\Traits\DirectiveHandling;
 
 class MakeComponentCommand extends Command
 {
-    use DirectiveHandling, ThemeHandling, LoggingMessages;
+    use DirectiveHandling, ThemeHandling, ConsoleLog;
 
     /**
      * Assinatura Artisan

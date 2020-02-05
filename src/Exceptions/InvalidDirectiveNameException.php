@@ -5,7 +5,7 @@ namespace Maestriam\Samurai\Exceptions;
 use Exception;
 use Illuminate\Support\Facades\Lang;
 
-class ThemeNotFoundException extends Exception
+class InvalidDirectiveNameException extends Exception
 {
     /**
      * Define as configuração para enviar o exception
@@ -15,7 +15,7 @@ class ThemeNotFoundException extends Exception
     public function __construct(string $name)
     {
         $this->setMessage($name);
-        $this->setCode('0103');
+        $this->setCode('0201');
     }
 
     /**
@@ -26,7 +26,7 @@ class ThemeNotFoundException extends Exception
      */
     public function setMessage(string $name)
     {
-        $key = 'Samurai::exceptions.theme.not-exists';
+        $key = 'Samurai::exceptions.include.invalid-name';
 
         $this->message = Lang::get($key, ['name' => $name]);
     }

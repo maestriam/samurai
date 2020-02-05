@@ -4,12 +4,12 @@ namespace Maestriam\Samurai\Console;
 
 use Illuminate\Console\Command;
 use Maestriam\Samurai\Traits\ThemeHandling;
-use Maestriam\Samurai\Traits\LoggingMessages;
+use Maestriam\Samurai\Traits\ConsoleLog;
 use Maestriam\Samurai\Traits\DirectiveHandling;
 
 class MakeIncludeCommand extends Command
 {
-    use ThemeHandling, DirectiveHandling, LoggingMessages;
+    use ThemeHandling, DirectiveHandling, ConsoleLog;
 
     /**
      * Assinatura Artisan
@@ -46,19 +46,19 @@ class MakeIncludeCommand extends Command
         $name  = (string) $this->argument('name');
 
         if (! $this->theme()->exists($theme)) {
-            return $this->_error('theme.not-exists', 1);
+            return $this->failed('theme.not-exists', 103, true);
         }
 
         if ($this->directive()->exists($theme, $name, 'include')) {
-            return $this->_error('include.exists', 2);
+            return $this->failed('include.exists', 201, true);
         }
 
         $directive = $this->directive()->include($theme, $name);
 
         if ($directive == null) {
-            return $this->_error('include.invalid', 3);
+            return $this->failed('include.invalid', 3);
         }
 
-        return $this->_success('include.created');
+        return $this->success('include.created', 0);
     }
 }
