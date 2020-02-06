@@ -6,6 +6,7 @@ use Maestriam\Samurai\Models\Theme;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Config;
 use Maestriam\Samurai\Traits\HandlerFunctions;
+use  Maestriam\Samurai\Handlers\EnvFileHandler;
 use Maestriam\Samurai\Exceptions\ThemeExistsException;
 use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
 use Maestriam\Samurai\Exceptions\InvalidThemeNameException;
@@ -148,7 +149,7 @@ class ThemeHandler
      *
      * @return boolean
      */
-    public final function isValidName($name) : bool
+    public function isValidName($name) : bool
     {
         $startNumbers   = "/^[\d]/";
         $onlyValidChars = "/^[\w&.\-]+$/";
@@ -190,6 +191,24 @@ class ThemeHandler
         $this->subFolders($path);
 
         return $this->objectTheme($name);
+    }
+
+    /**
+     * 
+     * @return 
+     */
+    public function use($theme)
+    {
+        if (! $this->exists($theme)) {
+            throw new ThemeNotFoundException($theme);
+        }
+
+        $key = 'THEME_CURRENT';
+        $env = new EnvFileHandler();        
+
+        $env->set($key, $theme);
+
+        return ($env->get($key) == $theme) ? true : false;
     }
 
     /**

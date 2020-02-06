@@ -196,9 +196,7 @@ class ThemeHandlerTest extends TestCase
      */
     public function testCreateThemeNameWithNumberName()
     {
-        $theme = '123theme';
-
-        $this->invalidNameTest($theme);
+        $this->invalidNameTest('123theme');
     }
 
     /**
@@ -208,9 +206,7 @@ class ThemeHandlerTest extends TestCase
      */
     public function testCreateThemeWithSpecialCharsName()
     {
-        $theme = 'it$-my-th3m3!';
-
-        $this->invalidNameTest($theme);
+        $this->invalidNameTest('it$-my-th3m3!');
     }
 
     /**
@@ -413,6 +409,22 @@ class ThemeHandlerTest extends TestCase
         $this->directive()->include($theme, $include);
 
         return $this->theme()->directives($theme);
+    }
+
+    /**
+     * 
+     * @return void
+     */
+    public function testUseTheme()
+    {
+        $theme = $this->randomName() . sha1(time());
+
+        $this->theme()->findOrCreate($theme);
+
+        $check = $this->theme()->use($theme);
+
+        $this->assertIsBool($check);
+        $this->assertTrue($check);
     }
 
     /**

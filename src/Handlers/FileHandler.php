@@ -23,7 +23,6 @@ class FileHandler
         return $this;
     }
 
-
     /**
      * Verifica todas as premissas para se criar uma nova diretiva
      * dentro de um tema específico
@@ -42,8 +41,6 @@ class FileHandler
 
         $this->materialize($type, $path, $name);
     }
-
-
 
     /**
      * Retorna o caminho completo da diretiva
@@ -112,6 +109,4 @@ class FileHandler
 
         return Blade::include($path, $directive->name);
     }
-
-
 }
