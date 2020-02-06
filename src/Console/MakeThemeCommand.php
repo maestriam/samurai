@@ -52,6 +52,7 @@ class MakeThemeCommand extends Command
         }
 
         try {
+            
             $theme = $this->theme()->create($name);
 
             return $this->success('theme.created', 0 ,true);

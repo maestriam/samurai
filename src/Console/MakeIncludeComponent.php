@@ -2,6 +2,7 @@
 
 namespace Maestriam\Samurai\Console;
 
+use Exception;
 use Illuminate\Console\Command;
 use Maestriam\Samurai\Traits\ThemeHandling;
 use Maestriam\Samurai\Traits\ConsoleLog;
@@ -45,20 +46,14 @@ class MakeIncludeCommand extends Command
         $theme = (string) $this->argument('theme');
         $name  = (string) $this->argument('name');
 
-        if (! $this->theme()->exists($theme)) {
-            return $this->failed('theme.not-exists', 103, true);
+        try {
+        
+            $directive = $this->directive()->include($theme, $name);
+
+            return $this->success('include.created');
+
+        } catch (Exception $e) {
+            return $this->failed($e->getMessage(), $e->getCode());
         }
-
-        if ($this->directive()->exists($theme, $name, 'include')) {
-            return $this->failed('include.exists', 201, true);
-        }
-
-        $directive = $this->directive()->include($theme, $name);
-
-        if ($directive == null) {
-            return $this->failed('include.invalid', 3);
-        }
-
-        return $this->success('include.created', 0);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Maestriam\Samurai\Console;
 
+use Exception;
 use Illuminate\Console\Command;
 use Maestriam\Samurai\Traits\ThemeHandling;
 use Maestriam\Samurai\Traits\ConsoleLog;
@@ -45,20 +46,14 @@ class MakeComponentCommand extends Command
         $theme = (string) $this->argument('theme');
         $name  = (string) $this->argument('name');
 
-        if (! $this->theme()->exists($theme)) {
-            return $this->_error('theme.not-exists', 1);
+        try {
+        
+            $directive = $this->directive()->component($theme, $name);
+
+            return $this->success('component.created');
+
+        } catch (Exception $e) {
+            return $this->failed($e->getMessage(), $e->getCode());
         }
-
-        if ($this->directive()->exists($theme, $name, 'component')) {
-            return $this->_error('component.exists', 2);
-        }
-
-        $directive = $this->directive()->component($theme, $name);
-
-        if ($directive == null) {
-            return $this->_error('component.invalid', 3);
-        }
-
-        return $this->_success('component.created');
     }
 }

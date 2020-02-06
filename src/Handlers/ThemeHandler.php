@@ -228,13 +228,14 @@ class ThemeHandler
     public function publish(string $name) : bool
     {
         $theme = $this->get($name);
-        $dist  = Config::get('Samurai.publishable');
-
+        
         if ($theme == null) {
             throw new ThemeNotFoundException($name);
         }
-
+        
+        $dist   = Config::get('Samurai.publishable');
         $origin = $theme->path . DS . $dist;
+        
         $destination = public_path('themes/'. $theme->name);
 
         File::copyDirectory($origin, $destination);

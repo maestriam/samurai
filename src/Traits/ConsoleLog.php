@@ -17,9 +17,9 @@ trait ConsoleLog
      * @param integer $code
      * @return integer
      */
-    public final function failed(string $message, int $code, bool $key = false)
+    public final function failed(string $message, int $code, bool $verbose = false)
     {
-        if ($key) {
+        if ($verbose) {
             $message = Lang::get('Samurai::console.' .$message);
         }
 
@@ -34,9 +34,9 @@ trait ConsoleLog
      * @param string $key
      * @return integer
      */
-    public final function success(string $message, int $code, bool $key = false) : string
+    public final function success(string $message, int $code = 0, bool $verbose = false) : string
     {
-        if ($key) {
+        if (! $verbose) {
             $message = Lang::get('Samurai::console.' .$message);
         }
 

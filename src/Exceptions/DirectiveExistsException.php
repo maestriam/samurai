@@ -5,30 +5,33 @@ namespace Maestriam\Samurai\Exceptions;
 use Exception;
 use Illuminate\Support\Facades\Lang;
 
-class InvalidDirectiveNameException extends Exception
+class DirectiveExistsException extends Exception
 {
     /**
      * Define as configuração para enviar o exception
      *
      * @param string $name
      */
-    public function __construct(string $name)
+    public function __construct(string $theme, string $name)
     {
-        $this->setMessage($name);
-        $this->setCode('0201');
+        $this->setMessage($theme, $name);
+        $this->setCode('0203');
     }
 
     /**
      * Define a mensagem de texto que será enviado para o cliente
      *
+     * @param string $theme
      * @param string $name
      * @return void
      */
-    public function setMessage(string $name)
+    public function setMessage(string $theme, string $name)
     {
-        $key = 'Samurai::exceptions.directive.invalid-name';
+        $key = 'Samurai::exceptions.directive.exists';
 
-        $this->message = Lang::get($key, ['name' => $name]);
+        $placeholders = ['name' => $name, 'theme' => $theme];
+
+        $this->message = Lang::get($key, $placeholders);
     }
 
     /**

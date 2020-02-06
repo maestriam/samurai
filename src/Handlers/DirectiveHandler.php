@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Maestriam\Samurai\Models\Directive;
 use Maestriam\Samurai\Traits\HandlerFunctions;
+use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
+use Maestriam\Samurai\Exceptions\DirectiveExistsException;
 use Maestriam\Samurai\Exceptions\InvalidDirectiveNameException;
 
 class DirectiveHandler
@@ -76,10 +78,10 @@ class DirectiveHandler
      * @param string $type
      * @return Directive
      */
-    public function create($theme, $name) : ?Directive
+    private function create($theme, $name) : ?Directive
     {
         if (! $this->themeExists($theme)) {
-            throw new ThemeNotFound($theme);
+            throw new ThemeNotFoundException($theme);
         }
 
         if (! $this->isValidName($name)) {
@@ -87,7 +89,7 @@ class DirectiveHandler
         }
 
         if ($this->exists($theme, $name)) {
-            return $this->objectDirective($name, $theme, $this->type);
+            throw new DirectiveExistsException($theme, $name);
         }
 
         $mod  = $this->permission();
