@@ -35,14 +35,14 @@ class MakeThemeCommandTest extends TestCase
      */
     public function testExistsTheme()
     {
-        $theme = $this->faker->word() . time();
+        $name  = $this->faker->word() .time();
+        
+        $this->theme()->findOrCreate($name);
 
-        $obj = $this->theme()->create($theme);
-
-        $code  = Artisan::call("samurai:make-theme {$theme}");
+        $code = Artisan::call("samurai:make-theme {$name}");
 
         $this->assertIsInt($code);
-        $this->assertEquals(102, $code);
+        $this->assertEquals(104, $code);
     }
 
     /**

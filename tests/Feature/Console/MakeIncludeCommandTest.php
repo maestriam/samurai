@@ -27,7 +27,7 @@ class MakeIncludeCommandTest extends TestCase
         $include = $this->faker->word();
         $params  = ['theme' => $theme, 'name' => $include];
         
-        $this->theme()->create($theme);
+        $this->theme()->findOrCreate($theme);
 
         $code = Artisan::call('samurai:make-include', $params);
 
@@ -68,7 +68,7 @@ class MakeIncludeCommandTest extends TestCase
         $theme   = $this->faker->word();
         $include = $this->faker->word();
         
-        $this->theme()->create($theme);
+        $this->theme()->findOrCreate($theme);
 
         $this->directive()->include($theme, $include);
         
@@ -128,7 +128,7 @@ class MakeIncludeCommandTest extends TestCase
             'name'  => $include
         ];
         
-        $this->theme()->create($theme);
+        $this->theme()->findOrCreate($theme);
 
         $code = Artisan::call('samurai:make-include', $params);
 

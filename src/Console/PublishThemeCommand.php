@@ -36,7 +36,7 @@ class PublishThemeCommand extends Command
             
             $this->theme()->publish($theme);
 
-            return $this->success('themes.published', 0, true);
+            return $this->success('themes.published');
 
         } catch (Exception $e) {
        

@@ -9,6 +9,7 @@ use Maestriam\Samurai\Models\Directive;
 use Maestriam\Samurai\Traits\ThemeHandling;
 use Illuminate\Foundation\Testing\WithFaker;
 use Maestriam\Samurai\Traits\DirectiveHandling;
+use Maestriam\Samurai\Exceptions\ThemeExistsException;
 use Maestriam\Samurai\Exceptions\InvalidThemeNameException;
 
 class ThemeHandlerTest extends TestCase
@@ -63,7 +64,7 @@ class ThemeHandlerTest extends TestCase
      */
     public function testFirstTheme()
     {
-        $theme = $this->faker->word();
+        $theme = $this->randomName();
 
         $this->theme()->create($theme);
 
@@ -73,13 +74,31 @@ class ThemeHandlerTest extends TestCase
     }
 
     /**
+     * Verifica se consegue achar um tema com determinado nome
+     * Se não conseguir, deve ser criado mandatóriamente
+     */
+    public function testFindOrCreateTheme()
+    {
+        $name1 = $this->randomName() . '-never-find-me-1-' . time();
+        $name2 = $this->randomName() . '-never-find-me-2-' . time();
+
+        $this->theme()->create($name1);
+
+        $theme1 = $this->theme()->findOrCreate($name1);
+        $theme2 = $this->theme()->findOrCreate($name2);
+
+        $this->assertInstanceOf(Theme::class, $theme1);
+        $this->assertInstanceOf(Theme::class, $theme2);
+    }
+
+    /**
      * Verifica se o serviço consegue
      *
      * @return void
      */
     public function testCreateTheme()
     {
-        $theme = $this->faker->word();
+        $theme = $this->randomName() . 'create-me'. sha1(time());
 
         $object = $this->theme()->create($theme);
 
@@ -109,7 +128,7 @@ class ThemeHandlerTest extends TestCase
         $name = $this->faker->word();
         $structure = $this->theme()->structure();
 
-        $theme = $this->theme()->create($name);
+        $theme = $this->theme()->findOrCreate($name);
 
         foreach($structure as $t => $folder) {
 
@@ -128,7 +147,7 @@ class ThemeHandlerTest extends TestCase
      */
     public function testIsValidThemeName()
     {
-        $theme = $this->faker->word();
+        $theme = $this->randomName();
 
         $check = $this->theme()->isValidName($theme);
 
@@ -179,9 +198,7 @@ class ThemeHandlerTest extends TestCase
     {
         $theme = '123theme';
 
-        $this->expectException(InvalidThemeNameException::class);
-
-        $this->theme()->create($theme);
+        $this->invalidNameTest($theme);
     }
 
     /**
@@ -193,9 +210,7 @@ class ThemeHandlerTest extends TestCase
     {
         $theme = 'it$-my-th3m3!';
 
-        $this->expectException(InvalidThemeNameException::class);
-
-        $this->theme()->create($theme);
+        $this->invalidNameTest($theme);
     }
 
     /**
@@ -218,10 +233,10 @@ class ThemeHandlerTest extends TestCase
      */
     public function testPublishTheme()
     {
-        $name  = $this->faker->word();
+        $name  = $this->randomName();
         $theme = $this->theme()->create($name);
+        
         $dist  = public_path('themes'. DS . $theme->name);
-
         $check = $this->theme()->publish($name);
 
         $this->assertIsBool($check);
@@ -248,7 +263,7 @@ class ThemeHandlerTest extends TestCase
      */
     public function testNamespace()
     {
-        $theme = $this->faker->word();
+        $theme = $this->randomName();
 
         $namespace = $this->theme()->namespace($theme);
 
@@ -262,10 +277,10 @@ class ThemeHandlerTest extends TestCase
      */
     public function testGetTheme()
     {
-        $name1 = $this->faker->word();
-        $name2 = $this->faker->word() . time();
+        $name1 = $this->randomName();
+        $name2 = $this->randomName() . '-not-exists' . time();
 
-        $this->theme()->create($name1);
+        $this->theme()->findOrCreate($name1);
 
         $theme1 = $this->theme()->get($name1);
         $theme2 = $this->theme()->get($name2);
@@ -281,11 +296,11 @@ class ThemeHandlerTest extends TestCase
      */
     public function testExistsTheme()
     {
-        $theme = $this->faker->word();
+        $name = $this->randomName() . '-must-be-exist' . time();
 
-        $this->theme()->create($theme);
+        $this->theme()->create($name);
 
-        $check = $this->theme()->exists($theme);
+        $check = $this->theme()->exists($name);
 
         $this->assertTrue($check);
     }
@@ -297,7 +312,7 @@ class ThemeHandlerTest extends TestCase
      */
     public function testNotExistsTheme()
     {
-        $theme = $this->faker->word() . time();
+        $theme = $this->randomName() . '-not-exists';
         $check = $this->theme()->exists($theme);
 
         $this->assertFalse($check);
@@ -311,7 +326,7 @@ class ThemeHandlerTest extends TestCase
      */
     public function testIsBaseExists()
     {
-        $check = $this->theme()->existsBase();
+        $check = $this->theme()->baseExists();
 
         $this->assertIsBool($check);
     }
@@ -363,7 +378,7 @@ class ThemeHandlerTest extends TestCase
      */
     public function testGetDirectiveOnlyInclude()
     {
-        $theme   = $this->faker->word() . time();
+        $theme   = $this->randomName() . '-only-include';
         $include = $this->faker->word();
 
         $this->theme()->create($theme);
@@ -387,15 +402,38 @@ class ThemeHandlerTest extends TestCase
      */
     private function getDirectives() : array
     {
-        $theme     = $this->faker->word();
+        $theme = $this->randomName();
+
         $include   = $this->faker->word();
         $component = $this->faker->word();
 
-        $this->theme()->create($theme);
+        $this->theme()->findOrCreate($theme);
 
         $this->directive()->component($theme, $component);
         $this->directive()->include($theme, $include);
 
         return $this->theme()->directives($theme);
+    }
+
+    /**
+     * Retorna um texto único para ser usado como tema
+     * 
+     * @return string
+     */
+    private function randomName() : string
+    {
+        return $this->faker->word() . '-' . sha1(time());
+    }
+
+    /**
+     * Função auxiliar para realizar testes de nome inválido
+     */
+    private function invalidNameTest($name)
+    {
+        $name .= time();
+
+        $this->expectException(InvalidThemeNameException::class);
+
+        $this->theme()->create($name); 
     }
 }

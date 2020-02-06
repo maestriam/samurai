@@ -36,10 +36,10 @@ class DirectiveHanlderTest extends TestCase
     public function testLoadDirective()
     {
         $theme     = $this->faker->word();
-        $component = $this->faker->word();
-        $include   = $this->faker->word();
+        $component = $this->faker->word() . 'load'. time();
+        $include   = $this->faker->word() . 'load'. time();
 
-        $this->theme()->create($theme);
+        $this->theme()->findOrCreate($theme);
 
         $this->directive()->include($theme, $include);
         $this->directive()->component($theme, $component);

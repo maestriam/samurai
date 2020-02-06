@@ -21,7 +21,7 @@ class PublishThemeCommandTest extends TestCase
     {
         $theme = $this->faker->word();
         
-        $this->theme()->create($theme);
+        $this->theme()->findOrCreate($theme);
 
         $code = Artisan::call("samurai:publish {$theme}");
 

@@ -31,7 +31,7 @@ class MakeComponentCommandTest extends TestCase
             'name'  => $component
         ];
         
-        $this->theme()->create($theme);
+        $this->theme()->findOrCreate($theme);
 
         $code = Artisan::call('samurai:make-component', $params);
 
@@ -72,7 +72,7 @@ class MakeComponentCommandTest extends TestCase
         $theme   = $this->faker->word();
         $component = $this->faker->word();
         
-        $this->theme()->create($theme);
+        $this->theme()->findOrCreate($theme);
 
         $this->directive()->component($theme, $component);
         
@@ -132,7 +132,7 @@ class MakeComponentCommandTest extends TestCase
             'name'  => $component
         ];
         
-        $this->theme()->create($theme);
+        $this->theme()->findOrCreate($theme);
 
         $code = Artisan::call('samurai:make-component', $params);
 

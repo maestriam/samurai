@@ -47,17 +47,14 @@ class MakeThemeCommand extends Command
     {
         $name  = $this->argument('name');
 
-        if ($this->theme()->exists($name)) {
-            return $this->failed('theme.exists', 102, true);
-        }
-
         try {
             
             $theme = $this->theme()->create($name);
 
-            return $this->success('theme.created', 0 ,true);
+            return $this->success('theme.created');
         
         } catch (Exception $e) {
+            
             return $this->failed($e->getMessage(), $e->getCode());
         }   
     }

@@ -6,6 +6,7 @@ use Maestriam\Samurai\Models\Theme;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Config;
 use Maestriam\Samurai\Traits\HandlerFunctions;
+use Maestriam\Samurai\Exceptions\ThemeExistsException;
 use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
 use Maestriam\Samurai\Exceptions\InvalidThemeNameException;
 
@@ -57,7 +58,7 @@ class ThemeHandler
     {
         $base = $this->baseFolder();
 
-        if ($this->existsBase()) {
+        if ($this->baseExists()) {
             return $base;
         }
 
@@ -102,6 +103,22 @@ class ThemeHandler
         $first = $themes[0];
 
         return $this->objectTheme($first);
+    }
+
+    /**
+     * Verifica se um tema existe. Se encontra-lo, retorne
+     * Caso contário, cria um novo tema 
+     * 
+     * @param string $name
+     * @return theme
+     */
+    public function findOrCreate(string $name) : Theme
+    {
+        if ($this->exists($name)) {
+            return $this->get($name);
+        }
+
+        return $this->create($name);
     }
 
     /**
@@ -160,10 +177,10 @@ class ThemeHandler
         }
 
         if ($this->exists($name)) {
-            return $this->objectTheme($name);
+            throw new ThemeExistsException($name);
         }
 
-        if (! $this->existsBase()) {
+        if (! $this->baseExists()) {
             $this->makeBase();
         }
 
@@ -213,7 +230,7 @@ class ThemeHandler
      *
      * @return bool
      */
-    public function existsBase() : bool
+    public function baseExists() : bool
     {
         $base = $this->baseFolder();
 
@@ -253,7 +270,7 @@ class ThemeHandler
     {
         $base = $this->baseFolder();
 
-        if (! $this->existsBase($base)) {
+        if (! $this->baseExists($base)) {
             return [];
         }
 

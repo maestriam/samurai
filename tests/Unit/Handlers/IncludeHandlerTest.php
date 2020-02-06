@@ -26,7 +26,7 @@ class IncludeHanlderTest extends TestCase
         $theme   = $this->faker->word();
         $include = $this->faker->word();
 
-        $this->theme()->create($theme);
+        $this->theme()->findOrCreate($theme);
 
         $object = $this->directive()->include($theme, $include);
 
@@ -50,7 +50,7 @@ class IncludeHanlderTest extends TestCase
 
         $attrs   = ['name', 'type', 'theme', 'path'];
     
-        $this->theme()->create($theme);
+        $this->theme()->findOrCreate($theme);
         
         $object = $this->directive()->include($theme, $include);
 
@@ -68,14 +68,7 @@ class IncludeHanlderTest extends TestCase
      */
     public function testInvalidNameWithNumbers()
     {
-        $this->expectException(InvalidDirectiveNameException::class);
-        
-        $name  = '123include';
-        $theme = $this->faker->word();
-        
-        $this->theme()->create($theme);
-        
-        $this->directive()->include($theme, $name);
+        return $this->invalidNameTest('123include');
     }
     
     /**
@@ -86,14 +79,7 @@ class IncludeHanlderTest extends TestCase
      */
     public function testInvalidNameWithSpecialChars()
     {
-        $this->expectException(InvalidDirectiveNameException::class);
-        
-        $name  = 'inc$ud#';
-        $theme = $this->faker->word();
-
-        $this->theme()->create($theme);
-        
-        $this->directive()->include($theme, $name);
+        return $this->invalidNameTest('inc$ud#');
     }
     
     /**
@@ -104,14 +90,7 @@ class IncludeHanlderTest extends TestCase
      */
     public function testInvalidNameWithDash()
     {
-        $this->expectException(InvalidDirectiveNameException::class);
-        
-        $name  = 'my-include';
-        $theme = $this->faker->word();
-
-        $this->theme()->create($theme);
-
-        $this->directive()->include($theme, $name);
+        return $this->invalidNameTest('my-include');
     }
 
     /**
@@ -143,9 +122,25 @@ class IncludeHanlderTest extends TestCase
         $theme = $this->faker->word();
         $name  = $this->faker->word();
 
-        $this->theme()->create($theme);
+        $this->theme()->findOrCreate($theme);
 
         $this->directive()->include($theme, $name);
+        $this->directive()->include($theme, $name);
+    }
+
+    /**
+     * 
+     * @param string $name
+     * @return void
+     */
+    private function invalidNameTest(string $name)
+    {
+        $this->expectException(InvalidDirectiveNameException::class);
+        
+        $theme = $this->faker->word();
+
+        $this->theme()->findOrCreate($theme);
+
         $this->directive()->include($theme, $name);
     }
 }
