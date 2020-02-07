@@ -203,7 +203,7 @@ class ThemeHandler
             throw new ThemeNotFoundException($theme);
         }
 
-        $key = 'THEME_CURRENT';
+        $key = Config::get('Samurai.env_key');
         $env = new EnvFileHandler();        
 
         $env->set($key, $theme);
@@ -257,7 +257,7 @@ class ThemeHandler
     }
 
     /**
-     * Undocumented function
+     * Publica todos os assets de um tema para 
      *
      * @return void
      */

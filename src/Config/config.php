@@ -67,4 +67,5 @@ return [
     */
 
     'publishable' => 'assets',
+    'env_key'     => 'THEME_CURRENT'
 ];

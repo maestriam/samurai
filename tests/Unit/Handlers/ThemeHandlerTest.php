@@ -10,6 +10,7 @@ use Maestriam\Samurai\Traits\ThemeHandling;
 use Illuminate\Foundation\Testing\WithFaker;
 use Maestriam\Samurai\Traits\DirectiveHandling;
 use Maestriam\Samurai\Exceptions\ThemeExistsException;
+use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
 use Maestriam\Samurai\Exceptions\InvalidThemeNameException;
 
 class ThemeHandlerTest extends TestCase
@@ -76,6 +77,8 @@ class ThemeHandlerTest extends TestCase
     /**
      * Verifica se consegue achar um tema com determinado nome
      * Se não conseguir, deve ser criado mandatóriamente
+     * 
+     * @return void
      */
     public function testFindOrCreateTheme()
     {
@@ -92,7 +95,7 @@ class ThemeHandlerTest extends TestCase
     }
 
     /**
-     * Verifica se o serviço consegue
+     * Verifica se o serviço consegue criar um tema com sucesso
      *
      * @return void
      */
@@ -141,7 +144,7 @@ class ThemeHandlerTest extends TestCase
     }
 
     /**
-     * Valida se é um nome correto para tema
+     * Valida se é um nome correto para criação de um tema
      *
      * @return void
      */
@@ -190,7 +193,8 @@ class ThemeHandlerTest extends TestCase
     }
 
     /**
-     * Valida se é possível criar um tema com
+     * Valida se é possível criar um tema com um nome incorreto,
+     * passando números no começo do nome
      *
      * @return void
      */
@@ -200,8 +204,9 @@ class ThemeHandlerTest extends TestCase
     }
 
     /**
-     * Valida se é possível criar um tema com caracteres especiais
-     *
+     * Valida se é possível criar um tema com um nome incorreto,
+     * passando caracteres especiais
+     * 
      * @return void
      */
     public function testCreateThemeWithSpecialCharsName()
@@ -210,7 +215,8 @@ class ThemeHandlerTest extends TestCase
     }
 
     /**
-     * Tentar criar um tema sem passar o nome do tema
+     * Valida se é possível criar um tema sem passar um nome 
+     * como parâmetro
      *
      * @return void
      */
@@ -241,15 +247,31 @@ class ThemeHandlerTest extends TestCase
     }
 
     /**
-     * Verifica se é um exception é enviado
-     *
+     * Valida se é possível publicar os assets sem passar o nome
+     * de um tema
+     * 
      * @return void
      */
     public function testPublishWithoutTheme()
     {
         $this->expectException(ArgumentCountError::class);
-
+        
         $this->theme()->publish();
+    }
+    
+    /**
+     * Valida se é possível publicar os assets sem passar o nome
+     * de um tema
+     * 
+     * @return void
+     */
+    public function testPublishInvalidTheme()
+    {
+        $theme = 'inexistent-theme-passed-' . time();
+        
+        $this->expectException(ThemeNotFoundException::class);
+
+        $this->theme()->publish($theme);
     }
 
     /**
@@ -267,7 +289,8 @@ class ThemeHandlerTest extends TestCase
     }
 
     /**
-     * Verifica se consegue recuperar todas as
+     * Verifica se consegue recuperar todas as informações
+     * de um determinado tema
      *
      * @return void
      */
@@ -298,6 +321,7 @@ class ThemeHandlerTest extends TestCase
 
         $check = $this->theme()->exists($name);
 
+        $this->assertIsBool($check);
         $this->assertTrue($check);
     }
 

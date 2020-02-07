@@ -8,7 +8,7 @@ use Maestriam\Samurai\Traits\ThemeHandling;
 use Illuminate\Foundation\Testing\WithFaker;
 use Maestriam\Samurai\Traits\DirectiveHandling;
 
-class UseThemeCommandTest extends TestCase
+class PublishThemeCommandTest extends TestCase
 {
     use ThemeHandling, DirectiveHandling, WithFaker;
 
@@ -17,13 +17,13 @@ class UseThemeCommandTest extends TestCase
      *
      * @return void
      */
-    public function testUseTheme()
+    public function testPublishTheme()
     {
         $theme = $this->faker->word();
         
         $this->theme()->findOrCreate($theme);
 
-        $code = Artisan::call("samurai:use {$theme}");
+        $code = Artisan::call("samurai:publish {$theme}");
 
         $this->assertIsInt($code);
         $this->assertEquals(0, $code);
@@ -38,7 +38,7 @@ class UseThemeCommandTest extends TestCase
     public function testInvalidTheme()
     {
         $theme = $this->faker->word() . '-invalid-theme' . time();
-        $code  = Artisan::call("samurai:use {$theme}");
+        $code  = Artisan::call("samurai:publish {$theme}");
 
         $this->assertIsInt($code);
         $this->assertEquals(103, $code);
