@@ -36,7 +36,7 @@ class UseThemeCommand extends Command
             
             $this->theme()->use($theme);
 
-            return $this->success('themes.used');
+            return $this->success('theme.used');
 
         } catch (Exception $e) {
        

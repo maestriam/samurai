@@ -2,11 +2,12 @@
 
 namespace Maestriam\Samurai\Handlers;
 
+use Artisan;
 use Maestriam\Samurai\Models\Theme;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Config;
 use Maestriam\Samurai\Traits\HandlerFunctions;
-use  Maestriam\Samurai\Handlers\EnvFileHandler;
+use Maestriam\Samurai\Handlers\EnvFileHandler;
 use Maestriam\Samurai\Exceptions\ThemeExistsException;
 use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
 use Maestriam\Samurai\Exceptions\InvalidThemeNameException;
@@ -195,18 +196,24 @@ class ThemeHandler
 
     /**
      * 
+     * 
      * @return 
      */
-    public function use($theme)
+    public function use(string $theme)
     {
         if (! $this->exists($theme)) {
             throw new ThemeNotFoundException($theme);
         }
 
-        $key = Config::get('Samurai.env_key');
-        $env = new EnvFileHandler();        
+        Artisan::call('view:clear');
+        Artisan::call('cache:clear');
 
+        $key = Config::get('Samurai.env_key');
+
+        $env = new EnvFileHandler();        
         $env->set($key, $theme);
+
+        $this->publish($theme);
 
         return ($env->get($key) == $theme) ? true : false;
     }
@@ -263,12 +270,11 @@ class ThemeHandler
      */
     public function publish(string $name) : bool
     {
-        $theme = $this->get($name);
-        
-        if ($theme == null) {
+        if (! $this->exists($theme)) {
             throw new ThemeNotFoundException($name);
         }
         
+        $theme  = $this->get($name);
         $dist   = Config::get('Samurai.publishable');
         $origin = $theme->path . DS . $dist;
         

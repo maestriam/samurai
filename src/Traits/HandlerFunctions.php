@@ -125,7 +125,7 @@ trait HandlerFunctions
     }
 
     /**
-     * Retorna o caminho completo com o nome
+     * Retorna o caminho completo com o nome da diretiva
      *
      * @param string $path
      * @param string $name

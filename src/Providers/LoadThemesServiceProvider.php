@@ -2,6 +2,7 @@
 
 namespace Maestriam\Samurai\Providers;
 
+use Config;
 use Exception;
 use Illuminate\Support\ServiceProvider;
 use Maestriam\Samurai\Traits\ThemeHandling;
@@ -18,7 +19,7 @@ class LoadThemesServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $theme = $this->theme()->first();
+        $theme = $this->getCurrentTheme();
 
         if ($theme == null) {
             return false;
@@ -29,6 +30,21 @@ class LoadThemesServiceProvider extends ServiceProvider
         if (! $this->load($directives)) {
             throw new Exception('Não foi possível carregar o tema '.$theme->name);
         }
+    }
+
+    /**
+     * Retorna o tema atual 
+     *  
+     */  
+    public function getCurrentTheme()
+    {
+        $key = Config::get('Samurai.env_key');
+
+        $current = env($key);
+
+        $theme = $this->theme()->get($current);
+
+        return  (! $theme) ? $this->theme()->first() : $theme;
     }
 
     /**
