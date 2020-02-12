@@ -9,6 +9,7 @@ return [
     ],
     'directive' => [
         'invalid-name' => 'The :name is an invalid name. Its not possible to create an theme with special characters and start number.',
-        'exists'       => 'The :name directive alredy exists in :theme theme.'
+        'exists'       => 'The :name directive alredy exists in :theme theme.',
+        'invalid-type' => 'The :type is a invalid type.'
     ]
 ];

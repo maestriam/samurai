@@ -43,8 +43,8 @@ return [
     |
     */
     'themes' => [
-        'default' => '',
-        'folder'  => base_path('themes'),
+        'files'     => 'src',
+        'folder'    => base_path('themes'),
         'structure' => [
             'js'        => 'assets/js/',
             'css'       => 'assets/css/',

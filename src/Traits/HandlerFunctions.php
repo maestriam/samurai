@@ -115,13 +115,33 @@ trait HandlerFunctions
      * @param string $name
      * @return string
      */
-    private final function directivePath($theme, $name, $type) : string
+    private final function directivePath($theme, $name, $subfolder = null) : string
     {
-        $name = strtolower($name);
-        $base = $this->themePath($theme);
-        $dir  = $this->structure($type);
+        $filename = strtolower($name);
+        $folder   = $this->bladePath();
+        $theme    = $this->themePath($theme);
 
-        return $base  . DS . $dir . $name;
+        if (! $subfolder) {
+            return $theme . DS . $folder . $filename;
+        }
+
+        return $theme  . DS . $folder . DS . $subfolder . DS . $filename;
+    }
+
+
+    /**
+     * Retorna o diretório onde serão armazenados os arquivos
+     * de diretivas do Blade, dentro do tema
+     *
+     * @return string
+     */
+    private final function bladePath() : string 
+    {
+        $dir = Config::get('Samurai.themes.files');
+        $dir = str_replace('/', '', $dir);
+        $dir = str_replace('\\', '', $dir);
+
+        return $dir;
     }
 
     /**
@@ -158,16 +178,17 @@ trait HandlerFunctions
      * @param string $theme
      * @param string $path
      * @param string $type
+     * @param string $sub   Subpasta 
      * @return Directive
      */
-    private final function objectDirective(string $name, string $themeName, string $type) : Directive
+    private final function objectDirective(string $name, string $theme, string $type, string $sub = null) : Directive
     {
         if (! $this->isValidDirectiveType($type)) {
             throw new Exception('Tipo inválido');
         }
 
-        $theme = $this->objectTheme($themeName);
-        $path  = $this->directivePath($themeName, $name, $type);
+        $path  = $this->directivePath($theme, $name, $sub);
+        $theme = $this->objectTheme($theme);
         $file  = $this->directiveFileName($path, $name, $type);
 
         $directive = new Directive();

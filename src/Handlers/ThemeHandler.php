@@ -78,9 +78,7 @@ class ThemeHandler
     {
         $themes = $this->readBase();
 
-        if (empty($themes)) {
-            return [];
-        }
+        if (empty($themes)) return [];
 
         $collection = [];
 
@@ -315,16 +313,17 @@ class ThemeHandler
      */
     private function extract(string $theme, string $type) : array
     {
-        $itens = [];
-        $path  = $this->path($theme);
-        $dir   = $this->structure($type);
-
-        $directive = $path . DS .  $dir;
-
-        if (! is_dir($directive)) return $itens;
-
-        $folders = scandir($directive);
+        $base   = $this->path($theme);
+        $folder = $this->bladePath();
+    
+        $path = $base . DS .  $folder;
+        
+        if (! is_dir($path)) return [];
+        
+        $folders = scandir($path);
         $folders = array_splice($folders, 2);
+        
+        $itens = [];
 
         if (empty($folders)) return $itens;
 

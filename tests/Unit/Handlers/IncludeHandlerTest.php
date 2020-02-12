@@ -37,6 +37,23 @@ class IncludeHanlderTest extends TestCase
         $this->assertFileIsReadable($object->path);
     }
     
+
+    public function testCreateIncludeWithPath()
+    {
+        $theme   = $this->faker->word();
+        $include = 'buttons/button-main';
+
+        $this->theme()->findOrCreate($theme);
+
+        $object = $this->directive()->include($theme, $include);
+
+        $this->assertInstanceOf(Directive::class, $object);
+        $this->assertInstanceOf(Theme::class, $object->theme);
+    
+        $this->assertFileExists($object->path);
+        $this->assertFileIsReadable($object->path);
+    }
+
     /**
      * Verifica se todas as propriedades principais do objeto
      * Directive estão corretas e com a tipagem certa

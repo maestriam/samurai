@@ -10,6 +10,7 @@ use Maestriam\Samurai\Traits\HandlerFunctions;
 use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
 use Maestriam\Samurai\Exceptions\DirectiveExistsException;
 use Maestriam\Samurai\Exceptions\InvalidDirectiveNameException;
+use Maestriam\Samurai\Exceptions\InvalidTypeDirectiveException;
 
 class DirectiveHandler
 {
@@ -35,7 +36,7 @@ class DirectiveHandler
         }
 
         if (! $this->isValid($type)) {
-            throw new Exception('Tipo de diretiva inválida');
+            throw new InvalidTypeDirectiveException($type);
         }
 
         $this->type = strtolower($type);
@@ -71,36 +72,6 @@ class DirectiveHandler
     }
 
     /**
-     *  Cria uma nova diretiva dentro de um tema específico
-     *
-     * @param string $theme
-     * @param string $name
-     * @param string $type
-     * @return Directive
-     */
-    private function create($theme, $name) : ?Directive
-    {
-        if (! $this->themeExists($theme)) {
-            throw new ThemeNotFoundException($theme);
-        }
-
-        if (! $this->isValidName($name)) {
-            throw new InvalidDirectiveNameException($name);
-        }
-
-        if ($this->exists($theme, $name)) {
-            throw new DirectiveExistsException($theme, $name);
-        }
-
-        $mod  = $this->permission();
-        $path = $this->path($theme, $name);
-
-        mkdir($path, $mod, true);
-
-        return $this->materialize($path, $name, $theme);
-    }
-
-    /**
      * Verifica se o tipo de diretiva informada faz parte
      * do ecossistema do Blade
      *
@@ -111,14 +82,14 @@ class DirectiveHandler
     {
         return $this->isValidDirectiveType($type);
     }
-
+    
     /**
      * Verifica se o nome informado para a diretiva
      * segue os padrões corretos
      *
      * @return boolean
      */
-    public final function isValidName($name) : bool
+    public function isValidName($name) : bool
     {
         $startNumbers   = "/^[\d]/";
         $onlyValidChars = "/^[a-zA-Z0-9]+$/";
@@ -138,18 +109,15 @@ class DirectiveHandler
      * Verifica se a já existe uma diretiva com determinado nome
      * em um tema específico
      *
-     * @param string $type
      * @param string $theme
      * @param string $name
+     * @param string $type
+     * @param string $sub   
      * @return boolean
      */
-    public function exists(string $theme, string $name, string $type = null) : bool
+    public function exists(string $theme, string $name, $sub = null) : bool
     {
-        if ($type == null) {
-            $type = $this->type;
-        }
-
-        $dir = $this->path($theme, $name, $type);
+        $dir = $this->path($theme, $name, $sub);
 
         return (is_dir($dir)) ? true : false;
     }
@@ -173,6 +141,55 @@ class DirectiveHandler
         }
 
         return $this->loadComponent($path, $obj->name);
+    }
+
+    /**
+     *  Cria uma nova diretiva dentro de um tema específico
+     *
+     * @param string $theme
+     * @param string $name
+     * @param string $type
+     * @return Directive
+     */
+    private function create($theme, $filename) : ?Directive
+    {        
+        if (! $this->themeExists($theme)) {
+            throw new ThemeNotFoundException($theme);
+        }
+        
+        list($sub, $name) = $this->separate($filename);
+
+        if (! $this->isValidName($name)) {
+            throw new InvalidDirectiveNameException($name);
+        }
+        
+        if ($this->exists($theme, $name, $sub)) {
+            throw new DirectiveExistsException($theme, $name);
+        }
+        
+        $path = $this->path($theme, $name, $sub);
+
+        mkdir($path, $this->permission(), true);
+
+        return $this->materialize($theme, $name, $path, $sub);
+    }
+
+
+    /**
+     * Separa o nome do componente da sub-pasta indicada
+     * pelo usuário
+     *
+     * @param string $file
+     * @return array
+     */
+    private function separate(string $file) : array
+    {
+        $pieces = explode('/', $file);
+
+        $name  = array_pop($pieces);
+        $place = implode(DS, $pieces);
+        
+        return [$place, $name];
     }
 
     /**
@@ -224,13 +241,9 @@ class DirectiveHandler
      * @param string $name
      * @return string
      */
-    private function path($theme, $name, $type = null) : string
+    private function path(string $theme, string $name, $place = null) : string
     {
-        if ($type == null) {
-            $type = $this->type;
-        }
-
-        return $this->directivePath($theme, $name, $type);
+        return $this->directivePath($theme, $name, $place);
     }
 
     /**
@@ -242,7 +255,7 @@ class DirectiveHandler
      * @param string $theme
      * @return Directive
      */
-    private function materialize($path, $name, $theme) : Directive
+    private function materialize($theme, $name, $path, $sub = null) : Directive
     {
         $content = $this->stub($this->type, $name);
         $file    = $this->directiveFileName($path, $name, $this->type);
@@ -251,6 +264,6 @@ class DirectiveHandler
         fwrite($handle, $content);
         fclose($handle);
 
-        return $this->objectDirective($name, $theme, $this->type);
+        return $this->objectDirective($name, $theme, $this->type, $sub);
     }
 }

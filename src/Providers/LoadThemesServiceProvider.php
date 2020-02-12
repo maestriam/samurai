@@ -28,14 +28,15 @@ class LoadThemesServiceProvider extends ServiceProvider
         $directives = $this->theme()->directives($theme->name);
 
         if (! $this->load($directives)) {
-            throw new Exception('Não foi possível carregar o tema '.$theme->name);
+            //throw new Exception('Não foi possível carregar o tema '.$theme->name);
         }
     }
 
     /**
-     * Retorna o tema atual 
-     *  
-     */  
+     * Retorna o tema atual para carregamento
+     *
+     * @return void
+     */
     public function getCurrentTheme()
     {
         $key = Config::get('Samurai.env_key');
