@@ -12,11 +12,8 @@ return [
     | as required, but they're a perfect start for most applications.
     |
     */
-    'nomenclature' => [
-        'prefix' => [
-            'theme' => 'samurai-theme-',
-        ]
-    ],
+    'prefix' => 'samurai-theme-',
+
 
     /*
     |--------------------------------------------------------------------------
@@ -44,6 +41,7 @@ return [
     */
     'themes' => [
         'files'     => 'src',
+        'assets'    => 'assets',
         'folder'    => base_path('themes'),
         'structure' => [
             'js'        => 'assets/js/',

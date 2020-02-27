@@ -14,7 +14,7 @@ trait HandlerFunctions
 {
     /**
      * Retorna o tipos de diretivas que podem ser criadas
-     *
+     * @foundation
      * @return array
      */
     public final function types() : array
@@ -26,7 +26,7 @@ trait HandlerFunctions
 
     /**
      * Retorna o nível de permissão para criação da diretiva
-     *
+     * @foundation
      * @return int
      */
     public final function permission() : int
@@ -39,7 +39,7 @@ trait HandlerFunctions
     /**
      * Retorna a localização de onde é armazenado determinado tipo
      * de diretiva dentro de um tema
-     *
+     * @invalid
      * @param string $type
      * @return array
      */
@@ -54,7 +54,7 @@ trait HandlerFunctions
 
     /**
      * Retorna o diretório base para o armazenamento de temas
-     *
+     * @theme
      * @return string
      */
     public final function baseFolder() : string
@@ -65,7 +65,7 @@ trait HandlerFunctions
     /**
      * Verifica se o tipo de diretiva informada faz parte
      * do ecossistema do Blade
-     *
+     * @foundation
      * @param string $type
      * @return boolean
      */
@@ -79,7 +79,7 @@ trait HandlerFunctions
     /**
      * Retorna o caminho de uma diretiva de acordo com os padrões
      * do Laravel Blade
-     *
+     * @directive
      * @param string $aliasTheme
      * @param string $type
      * @param string $file
@@ -98,7 +98,7 @@ trait HandlerFunctions
 
     /**
      * Retorna o nome para o registro do tema na aplicação Laravel
-     *
+     * @theme
      * @return string
      */
     private final function getThemeNamespace($name) : string
@@ -110,6 +110,7 @@ trait HandlerFunctions
 
     /**
      * Retorna o caminho completo da diretiva
+     * @directive
      *
      * @param string $theme
      * @param string $name
@@ -133,9 +134,10 @@ trait HandlerFunctions
      * Retorna o diretório onde serão armazenados os arquivos
      * de diretivas do Blade, dentro do tema
      *
+     * @foundation
      * @return string
      */
-    private final function bladePath() : string 
+    private final function bladePath() : string
     {
         $dir = Config::get('Samurai.themes.files');
         $dir = str_replace('/', '', $dir);
@@ -146,6 +148,7 @@ trait HandlerFunctions
 
     /**
      * Retorna o caminho completo com o nome da diretiva
+     * @theme
      *
      * @param string $path
      * @param string $name
@@ -160,6 +163,7 @@ trait HandlerFunctions
     /**
      * Verifica se um tema já existe com o nome específicado
      *
+     * @theme
      * @param string $name
      * @return boolean
      */
@@ -178,7 +182,7 @@ trait HandlerFunctions
      * @param string $theme
      * @param string $path
      * @param string $type
-     * @param string $sub   Subpasta 
+     * @param string $sub   Subpasta
      * @return Directive
      */
     private final function objectDirective(string $name, string $theme, string $type, string $sub = null) : Directive
@@ -203,7 +207,7 @@ trait HandlerFunctions
 
     /**
      * Retorna o caminho absoluto do tema
-     *
+     * @theme
      * @param string $name
      * @return string
      */

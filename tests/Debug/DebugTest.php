@@ -5,23 +5,27 @@ namespace Maestriam\Samurai\Debug;
 use Tests\TestCase;
 use Maestriam\Samurai\Traits\ThemeHandling;
 use Illuminate\Foundation\Testing\WithFaker;
+use Maestriam\Samurai\Models\Directive;
 use Maestriam\Samurai\Traits\DirectiveHandling;
 
 class DebugTest extends TestCase
 {
-    use ThemeHandling, DirectiveHandling, WithFaker;
+    //use ThemeHandling, DirectiveHandling, WithFaker;
 
     protected $files;
 
     public function testLoadDirective()
     {
-        dump('Inicio...');
-        $path = base_path('themes/ollaf/src');
+        // $theme = 'witcher';
+        // $path  = $this->getFileFolder();
 
-        $items[] = $this->seekDirectives($path);
+        // $items = $this->seekDirectives($path);
 
-        dump('Resultado');
-        dd($items);
+        // foreach ($items as $item) {
+
+        //     $this->separateFilename($item);
+
+        // }
 
     }
 
@@ -47,25 +51,75 @@ class DebugTest extends TestCase
         return $this->files;
     }
 
-    // public function getDirContents($dir, &$results = array()){
+    public function separateFilename($path)
+    {
+        $type   = $this->getTypeName($path);
+        $folder = $this->getFolder($path);
+        $theme  = $this->getThemeName($path);
+        $path   = $this->getPath($path);
 
-    //     $files = scandir($dir);
-    //     array_shift($files);
-    //     array_shift($files);
+        $obj = New Directive();
 
-    //     foreach($files as $key => $value){
-    //         $path = realpath($dir.DIRECTORY_SEPARATOR.$value);
-    //         dump($path);
-    //         if(! is_dir($path)) {
-    //             $results[] = $path;
-    //         } else if($value != "." && $value != "..") {
-    //             $this->getDirContents($path, $results);
-    //             //$results[] = $path;
-    //         }
-    //     }
+        $obj->folder = $folder;
+        $obj->type   = $type['type'];
+        $obj->name   = $type['name'];
+        $obj->theme  = $theme;
+        $obj->path   = $path;
 
-    //     dump('terminando...');
+        dump($obj);
+    }
 
-    //     return $results;
-    // }
+
+    private function getTypeName($path)
+    {
+        $pieces = explode(DS, $path);
+
+        $filename = array_pop($pieces);
+        $filename = str_replace('.blade.php', '', $filename);
+
+        $name = explode('-', $filename);
+
+        return [
+            'name' => $name[0],
+            'type' => $name[1],
+        ];
+    }
+
+
+    public function getFolder($path)
+    {
+        $base = $this->getFileFolder();
+
+        $path = str_replace($base, '', $path);
+        $path = explode(DS, $path);
+
+        array_splice($path, -2);
+
+        return implode(DS, $path);
+    }
+
+    public function getThemeName($path)
+    {
+        $base = base_path('themes') . DS;
+
+        $path = str_replace($base, '', $path);
+
+        $pieces = explode(DS, $path);
+
+        return array_shift($pieces);
+    }
+
+    public function getFileFolder()
+    {
+        return base_path('themes/witcher/src');
+    }
+
+    public function getPath($path)
+    {
+        $pieces = explode(DS, $path);
+
+        array_splice($pieces, -1);
+
+        return implode(DS, $pieces);
+    }
 }

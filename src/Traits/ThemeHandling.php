@@ -2,7 +2,7 @@
 
 namespace Maestriam\Samurai\Traits;
 
-use Maestriam\Samurai\Handlers\ThemeHandler;
+use Maestriam\Samurai\Models\Theme;
 
 /**
  * Funções compartilhadas para manipulação de temas
@@ -17,10 +17,8 @@ trait ThemeHandling
      *
      * @return void
      */
-    public final function theme()
+    public final function theme(string $name)
     {
-        return isset(static::$themeHanlder)
-            ? static::$themeHanlder
-            : static::$themeHanlder = new ThemeHandler();
+        return new Theme($name);
     }
 }

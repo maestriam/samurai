@@ -4,11 +4,11 @@ namespace Maestriam\Samurai\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Maestriam\Samurai\Traits\ThemeHandling;
-use Maestriam\Samurai\Console\UseThemeCommand;
-use Maestriam\Samurai\Console\MakeThemeCommand;
-use Maestriam\Samurai\Console\MakeIncludeCommand;
-use Maestriam\Samurai\Console\PublishThemeCommand;
-use Maestriam\Samurai\Console\MakeComponentCommand;
+// use Maestriam\Samurai\Console\UseThemeCommand;
+// use Maestriam\Samurai\Console\MakeThemeCommand;
+// use Maestriam\Samurai\Console\MakeIncludeCommand;
+// use Maestriam\Samurai\Console\PublishThemeCommand;
+// use Maestriam\Samurai\Console\MakeComponentCommand;
 
 class MainServiceProvider extends ServiceProvider
 {
@@ -87,11 +87,11 @@ class MainServiceProvider extends ServiceProvider
     protected function registerCommands()
     {
         $cmds = [
-            MakeThemeCommand::class,
-            MakeComponentCommand::class,
-            MakeIncludeCommand::class,
-            PublishThemeCommand::class,
-            UseThemeCommand::class,
+            // MakeThemeCommand::class,
+            // MakeComponentCommand::class,
+            // MakeIncludeCommand::class,
+            // PublishThemeCommand::class,
+            // UseThemeCommand::class,
         ];
 
         $this->commands($cmds);
@@ -105,7 +105,7 @@ class MainServiceProvider extends ServiceProvider
      */
     protected function registerServices()
     {
-        $this->app->register(RegistersThemesServiceProvider::class);
-        $this->app->register(LoadThemesServiceProvider::class);
+        // $this->app->register(RegistersThemesServiceProvider::class);
+        // $this->app->register(LoadThemesServiceProvider::class);
     }
 }
