@@ -38,6 +38,10 @@ class FileSystem
      */
     public function mkFile(string $filename, string $content) : bool
     {
+        $handle = fopen($filename, 'w');
 
+        fwrite($handle, $content);
+
+        return fclose($handle);
     }
 }

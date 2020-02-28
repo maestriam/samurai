@@ -107,8 +107,8 @@ class ThemeHandler
 
     /**
      * Verifica se um tema existe. Se encontra-lo, retorne
-     * Caso contário, cria um novo tema 
-     * 
+     * Caso contário, cria um novo tema
+     *
      * @param string $name
      * @return theme
      */
@@ -193,9 +193,9 @@ class ThemeHandler
     }
 
     /**
-     * 
-     * 
-     * @return 
+     *
+     *
+     * @return
      */
     public function use(string $theme)
     {
@@ -208,7 +208,7 @@ class ThemeHandler
 
         $key = Config::get('Samurai.env_key');
 
-        $env = new EnvFileHandler();        
+        $env = new EnvFileHandler();
         $env->set($key, $theme);
 
         $this->publish($theme);
@@ -262,20 +262,20 @@ class ThemeHandler
     }
 
     /**
-     * Publica todos os assets de um tema para 
+     * Publica todos os assets de um tema para
      *
      * @return void
      */
     public function publish(string $name) : bool
     {
-        if (! $this->exists($theme)) {
+        if (! $this->exists($name)) {
             throw new ThemeNotFoundException($name);
         }
-        
+
         $theme  = $this->get($name);
         $dist   = Config::get('Samurai.publishable');
         $origin = $theme->path . DS . $dist;
-        
+
         $destination = public_path('themes/'. $theme->name);
 
         File::copyDirectory($origin, $destination);
@@ -315,14 +315,14 @@ class ThemeHandler
     {
         $base   = $this->path($theme);
         $folder = $this->bladePath();
-    
+
         $path = $base . DS .  $folder;
-        
+
         if (! is_dir($path)) return [];
-        
+
         $folders = scandir($path);
         $folders = array_splice($folders, 2);
-        
+
         $itens = [];
 
         if (empty($folders)) return $itens;

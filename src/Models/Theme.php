@@ -2,22 +2,29 @@
 
 namespace Maestriam\Samurai\Models;
 
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Artisan;
 use Maestriam\Samurai\Models\Directive;
 use Maestriam\Samurai\Models\Structure;
+use Maestriam\Samurai\Foundation\EnvHandler;
+use Maestriam\Samurai\Foundation\FilenameParser;
+use Maestriam\Samurai\Foundation\DirectiveFinder;
 use Maestriam\Samurai\Exceptions\ThemeExistsException;
+use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
 use Maestriam\Samurai\Exceptions\InvalidThemeNameException;
 
 class Theme extends Structure
 {
     /**
-     * Nome da diretiva
+     * Nome do tema para ser criado/manipulado
      *
      * @var string
      */
     public $name = '';
 
     /**
-     * Caminho do arquivo
+     * Caminho-base do tema
      *
      * @var string
      */
@@ -31,31 +38,56 @@ class Theme extends Structure
     public $namespace = '';
 
     /**
+     * Instância do classe que encontra todos as diretivas
+     * de um tema
+     *
+     * @var DirectiveFinder
+     */
+    private $finder;
+
+    /**
+     * Instância do parser de filepath para objeto
+     *
+     * @var FilenameParser
+     */
+    private $parser;
+
+
+    private $env;
+
+    /**
      * Undocumented function
      *
      * @param string $name
      */
     public function __construct(string $name)
     {
-        parent::__construct();
-
         $this->setPath($name);
         $this->setName($name);
         $this->setNamespace($name);
     }
 
     /**
-     * Undocumented function
+     * Cria um novo diretório para construção de um tema
+     * Retorna true em caso de sucesso na criação do tema
      *
-     * @return void
+     * @return Theme|null
      */
-    public function build()
+    public function build() : ?Theme
     {
-        if ($this->exists($this->name)) {
+        if ($this->exists()) {
             throw new ThemeExistsException($this->name);
         }
 
-        return $this->file->mkFolder($this->path);
+        $theme  = $this->path;
+        $assets = $this->assetPath();
+        $files  = $this->filePath();
+
+        $this->file()->mkFolder($theme);
+        $this->file()->mkFolder($assets);
+        $this->file()->mkFolder($files);
+
+        return (is_dir($theme)) ? $this : null;
     }
 
     /**
@@ -67,9 +99,11 @@ class Theme extends Structure
      */
     public function include(string $name) : Directive
     {
-        $type = 'include';
+        if (! $this->exists()) {
+            throw new ThemeNotFoundException($this->name);
+        }
 
-        return new Directive($name, $type, $this);
+        return $this->directivefy($name, 'include');
     }
 
     /**
@@ -86,51 +120,174 @@ class Theme extends Structure
     }
 
     /**
-     * Undocumented function
+     * Envia os assets para o diretório público do projeto
      *
-     * @return void
+     * @return boolean
      */
-    public function publish()
+    public function publish() : bool
     {
+        if (! $this->exists()) {
+            throw new ThemeNotFoundException($this->name);
+        }
 
+        $from = $this->assetPath();
+        $to   = $this->dir()->public($this->name);
+
+
+        File::copyDirectory($from, $to);
+
+        return (is_dir($to)) ? true : false;
     }
 
-    public function load()
+    /**
+     * Define o tema como padrão para ser usado no projeto
+     *
+     * @return boolean
+     */
+    public function use() : bool
     {
+        if (! $this->exists()) {
+            throw new ThemeNotFoundException($this->name);
+        }
 
+        $steps[] = $this->clearCache();
+        $steps[] = $this->publish();
+        $steps[] = $this->setCurrent();
+
+        $this->load();
+
+        return (in_array(false, $steps)) ? false : true;
     }
 
     public function directives()
     {
+        $files = $this->scan();
 
+        if (empty($files)) return [];
+
+        $collection = [];
+
+        foreach($files as $path) {
+
+            $request = $this->parse($path);
+
+            if ($request == null) continue;
+
+            $obj = $this->directivefy($request->name, $request->type);
+
+            $collection[] = $obj;
+        }
+
+        return $collection;
     }
 
     /**
-     * Undocumented function
+     * Carrega todas as diretivas de um tema para
+     * ser usado dentro do projeto
      *
-     * @param string $path
+     * @return void
+     */
+    public function load()
+    {
+        $directives = $this->directives();
+
+        if (empty($directives)) return [];
+
+        foreach($directives as $directive) {
+
+            $directive->load();
+        }
+    }
+
+    /**
+     * Retorna o caminho do diretório onde são armazenados
+     * os arquivos de diretivas (include/component)
+     *
+     * @return string
+     */
+    public function filePath() : string
+    {
+        return $this->dir()->files($this->name);
+    }
+
+    /**
+     * Retorna o caminho do diretório onde são armazenados
+     * os arquivos de assets (js/css/imgs)
+     *
+     * @return string
+     */
+    public function assetPath() : string
+    {
+        return $this->dir()->assets($this->name);
+    }
+
+    /**
+     * Retorna se existe o diretório do tema
+     * na base de temas
+     *
+     * @param string $name   Nome do tema
      * @return boolean
      */
-    public function exists(string $name) : bool
+    public function exists() : bool
     {
-        $theme = $this->dir->theme($name);
+        $theme = $this->dir()->theme($this->name);
 
         return (is_dir($theme));
     }
 
     /**
-     * Undocumented function
+     * Retorna se é nome específicado é válido para criação
+     * de um tema
      *
      * @param string $name
      * @return boolean
      */
     public function isValidName(string $name) : bool
     {
-        return $this->valid->themeName($name);
+        return $this->valid()->theme($name);
+    }
+
+    /* {Private Function} */
+
+    /**
+     * Identifica o nome e o tipo da diretiva através
+     * de seu caminho absoluto
+     *
+     * @param string $file
+     * @return object|null
+     */
+    private function parse(string $file) : ?object
+    {
+        if ($this->parser == null) {
+            $this->parser = new FilenameParser();
+        }
+
+        $path = $this->filePath();
+
+        return $this->parser->file($path, $file);
     }
 
     /**
-     * Define o nome do tema
+     * Varre todos os arquivos de um tema para encontrar suas
+     * diretivas
+     *
+     * @return void
+     */
+    private function scan() : array
+    {
+        if (! $this->exists()) {
+            throw new ThemeNotFoundException($this->name);
+        }
+
+        if ($this->finder == null) {
+            $this->finder = new DirectiveFinder();
+        }
+
+        return $this->finder->scan($this->path);
+    }
+
+    /**
+     * Define o nome do tema que será criado/manipulado
      *
      * @param string $name
      * @return $this
@@ -146,26 +303,72 @@ class Theme extends Structure
     }
 
     /**
-     * Define o "apelido" para ser chamado no projeto
+     * Define o "apelido" do tema para ser chamado no projeto
      *
      * @param string $name
      * @return void
      */
     private function setNamespace(string $name)
     {
-        $this->namespace = $this->nominator->namespace($name);
+        $this->namespace = $this->nominator()->namespace($name);
         return $this;
     }
 
     /**
-     * Define o caminho do tema
+     * Define o caminho-base do tema
      *
      * @param string $name
      * @return void
      */
     private function setPath(string $name)
     {
-        $this->path = $this->dir->theme($name);
+        $this->path = $this->dir()->theme($name);
         return $this;
+    }
+
+    /**
+     * Retorna uma instância de uma diretiva de acordo
+     * com os dados do nome, do tipo e do tema a qual pertence
+     *
+     * @param string $name  Nome da diretiva
+     * @param string $type  Tipo que pertence
+     * @return Directive
+     */
+    private function directivefy(string $name, string $type) : Directive
+    {
+        return new Directive($name, $type, $this);
+    }
+
+    /**
+     * Registra o tema no arquivo de ambiente do projeto
+     *
+     * @return boolean
+     */
+    private function setCurrent() : bool
+    {
+        if (! $this->env) {
+            $this->env = new EnvHandler();
+        }
+
+        $key = Config::get('Samurai.env_key');
+
+        $this->env->set($key, $this->name);
+
+        $current = $this->env->get($key);
+
+        return ($current == $this->name) ? true : false;
+    }
+
+    /**
+     * Limpa o cache do projeto
+     *
+     * @return void
+     */
+    private function clearCache()
+    {
+        Artisan::call('view:clear');
+        Artisan::call('cache:clear');
+
+        return true;
     }
 }

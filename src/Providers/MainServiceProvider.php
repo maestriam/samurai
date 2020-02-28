@@ -3,7 +3,7 @@
 namespace Maestriam\Samurai\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Maestriam\Samurai\Traits\ThemeHandling;
+use Maestriam\Samurai\Traits\Themeable;
 // use Maestriam\Samurai\Console\UseThemeCommand;
 // use Maestriam\Samurai\Console\MakeThemeCommand;
 // use Maestriam\Samurai\Console\MakeIncludeCommand;
@@ -15,7 +15,7 @@ class MainServiceProvider extends ServiceProvider
     /**
      * Trait com as funções gerais de tema
      */
-    use ThemeHandling;
+    use Themeable;
 
     /**
      * Ao iniciar o service provider...

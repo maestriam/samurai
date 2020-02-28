@@ -1,10 +1,10 @@
 <?php
 
-namespace Maestriam\Samurai\Handlers;
+namespace Maestriam\Samurai\Foundation;
 
 use Maestriam\Samurai\Exceptions\EnvNotFoundException;
 
-class EnvFileHandler
+class EnvHandler
 {
     protected $file;
 

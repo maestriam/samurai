@@ -4,11 +4,11 @@ namespace Maestriam\Samurai\Providers;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
-use Maestriam\Samurai\Traits\ThemeHandling;
+use Maestriam\Samurai\Traits\Themeable;
 
 class RegistersThemesServiceProvider extends ServiceProvider
 {
-    use ThemeHandling;
+    use Themeable;
 
     public function boot()
     {

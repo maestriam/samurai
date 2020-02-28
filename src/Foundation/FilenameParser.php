@@ -4,8 +4,35 @@ namespace Maestriam\Samurai\Foundation;
 
 class FilenameParser
 {
+    /**
+     * Undocumented function
+     *
+     * @param string $themepath
+     * @param string $filepath
+     * @return object
+     */
+    public function file(string $themepath, string $filepath) : object
+    {
+        $type = $this->parseType($filepath);
+        $name = $this->parseName($themepath, $filepath);
 
-    private function getTypeName($path)
+        if (! $name || ! $type) return null;
+
+        $request = [
+            'name' => $name,
+            'type' => $type
+        ];
+
+        return (object) $request;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param string $path
+     * @return array
+     */
+    private function parseType(string $path) : string
     {
         $pieces = explode(DS, $path);
 
@@ -13,48 +40,27 @@ class FilenameParser
         $filename = str_replace('.blade.php', '', $filename);
 
         $name = explode('-', $filename);
+        $type = $name[1] ?? null;
 
-        return [
-            'name' => $name[0],
-            'type' => $name[1],
-        ];
+        return $type;
     }
 
-
-    public function getFolder($path)
+    /**
+     * Undocumented function
+     *
+     * @param string $theme
+     * @param string $path
+     * @return string|null
+     */
+    public function parseName(string $theme, string $path) : ?string
     {
-        $base = $this->getFileFolder();
+        $theme  = str_replace($theme . DS, '', $path);
+        $pieces = explode(DS, $theme);
 
-        $path = str_replace($base, '', $path);
-        $path = explode(DS, $path);
+        array_pop($pieces);
 
-        array_splice($path, -2);
+        $name = implode(DS, $pieces);
 
-        return implode(DS, $path);
-    }
-
-    public function getThemeName($path)
-    {
-        $base = base_path('themes') . DS;
-
-        $path = str_replace($base, '', $path);
-
-        $pieces = explode(DS, $path);
-
-        return array_shift($pieces);
-    }
-
-    public function getFileFolder()
-    {
-        return base_path('themes/witcher/src');
-    }
-
-    public function getPath($path)
-    {
-        $pieces = explode(DS, $path);
-
-        array_splice($pieces, -1);
-
-        return implode(DS, $pieces);
+        return (! strlen($name)) ? null : $name;
     }
 }

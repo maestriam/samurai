@@ -7,10 +7,8 @@ use Maestriam\Samurai\Models\Theme;
 /**
  * Funções compartilhadas para manipulação de temas
  */
-trait ThemeHandling
+trait Themeable
 {
-    protected static $themeHanlder;
-
     /**
      * Retorna uma instancia do serviço com todas as funções básicas
      * para manipular tema

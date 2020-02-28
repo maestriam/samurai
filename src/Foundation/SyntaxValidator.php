@@ -4,7 +4,7 @@ namespace Maestriam\Samurai\Foundation;
 
 use Illuminate\Support\Facades\Config;
 
-class Validator
+class SyntaxValidator
 {
     /**
      *
@@ -12,7 +12,7 @@ class Validator
      * @param string $name
      * @return boolean
      */
-    public function themeName(string $name) : bool
+    public function theme(string $name) : bool
     {
         $startNumbers   = "/^[\d]/";
         $onlyValidChars = "/^[\w&.\-]+$/";
@@ -50,7 +50,13 @@ class Validator
         return true;
     }
 
-    public function type(string $type)
+    /**
+     * Undocumented function
+     *
+     * @param string $type
+     * @return boolean
+     */
+    public function type(string $type) : bool
     {
         $types = Config::get('Samurai.species');
 

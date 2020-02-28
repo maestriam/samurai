@@ -38,11 +38,16 @@ class StructureDirectory
      * @param string $name
      * @return void
      */
-    public function assets(string $name)
+    public function assets(string $name) : string
     {
         $assets = Config::get('Samurai.themes.assets');
 
         return $this->theme($name) . DS . $assets;
+    }
+
+    public function public(string $name) : string
+    {
+        return  public_path('themes/'. $name);
     }
 
     /**
@@ -51,9 +56,9 @@ class StructureDirectory
      * @param string $name
      * @return void
      */
-    public function files(string $name)
+    public function files(string $name) : string
     {
-        $files = Config::get('Samurai.themes.assets');
+        $files = Config::get('Samurai.themes.files');
 
         return $this->theme($name) . DS . $files;
     }
