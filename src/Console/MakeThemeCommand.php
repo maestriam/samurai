@@ -45,9 +45,9 @@ class MakeThemeCommand extends Command
      */
     public function handle()
     {
-        $name  = $this->argument('name');
-
         try {
+
+            $name  = $this->argument('name');
 
             $this->theme($name)->build();
 

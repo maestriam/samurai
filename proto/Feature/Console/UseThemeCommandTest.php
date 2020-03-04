@@ -14,7 +14,7 @@ class UseThemeCommandTest extends TestCase
     /**
      * Verifica se o comando para publicação de temas está OK
      *
-     * @return void
+     * @return voidUnit
      */
     public function testPublishTheme()
     {

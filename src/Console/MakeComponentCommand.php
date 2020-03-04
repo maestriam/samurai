@@ -42,10 +42,10 @@ class MakeComponentCommand extends Command
      */
     public function handle()
     {
-        $theme = (string) $this->argument('theme');
-        $name  = (string) $this->argument('name');
-
         try {
+
+            $theme = (string) $this->argument('theme');
+            $name  = (string) $this->argument('name');
 
             $this->theme($theme)->component($name)->create();
 

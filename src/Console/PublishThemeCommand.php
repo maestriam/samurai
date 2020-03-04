@@ -30,9 +30,9 @@ class PublishThemeCommand extends Command
      */
     public function handle()
     {
-        $name = (string) $this->argument('theme');
-
         try {
+
+            $name = (string) $this->argument('theme');
 
             $this->theme($name)->publish();
 

@@ -1,11 +1,10 @@
 <?php
 
-namespace Maestriam\Samurai\Tests;
+namespace Maestriam\Samurai\Tests\Unit;
 
 use Tests\TestCase;
 use Maestriam\Samurai\Models\Theme;
 use Maestriam\Samurai\Traits\Themeable;
-use Maestriam\Samurai\Models\Directive;
 use Illuminate\Foundation\Testing\WithFaker;
 
 /**

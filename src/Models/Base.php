@@ -24,7 +24,11 @@ class Base
         }
 
         foreach($folders as $folder) {
+
             $theme = $this->themefy($folder);
+
+            if ($theme == null) continue;
+
             $themes[] = $theme;
         }
 
@@ -78,9 +82,11 @@ class Base
      * @param string $name
      * @return Theme
      */
-    private function themefy(string $name) : Theme
+    private function themefy(string $name) : ?Theme
     {
-        return new Theme($name);
+        $theme = new Theme($name);
+
+        return $theme->get();
     }
 
     /**

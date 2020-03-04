@@ -1,6 +1,6 @@
 <?php
 
-namespace Maestriam\Samurai\Tests;
+namespace Maestriam\Samurai\Tests\Unit;
 
 use Tests\TestCase;
 use Maestriam\Samurai\Models\Theme;

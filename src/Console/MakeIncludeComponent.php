@@ -42,12 +42,12 @@ class MakeIncludeCommand extends Command
      */
     public function handle()
     {
-        $theme = (string) $this->argument('theme');
-        $name  = (string) $this->argument('name');
-
         try {
 
-            $this->directive($theme)->include($name)->create();
+            $theme = (string) $this->argument('theme');
+            $name  = (string) $this->argument('name');
+
+            $this->theme($theme)->include($name)->create();
 
             return $this->success('include.created');
 
