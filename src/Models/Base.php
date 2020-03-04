@@ -2,13 +2,11 @@
 
 namespace Maestriam\Samurai\Models;
 
-use Maestriam\Samurai\Traits\FoundationScope;
 use Maestriam\Samurai\Models\Theme;
+use Maestriam\Samurai\Models\Foundation;
 
-class Base
+class Base extends Foundation
 {
-    use FoundationScope;
-
     /**
      * Retorna todos os temas cadastrados no projeto
      *

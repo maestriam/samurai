@@ -11,10 +11,11 @@ class FilenameParser
      * @param string $filepath
      * @return object
      */
-    public function file(string $themepath, string $filepath) : object
+    public function file(string $themepath, string $filepath) : ?object
     {
-        $type = $this->parseType($filepath);
-        $name = $this->parseName($themepath, $filepath);
+        $file = $this->parserFilename($themepath, $filepath);
+        $type = $this->parseType($file);
+        $name = $this->parseFullName($file);
 
         if (! $name || ! $type) return null;
 
@@ -30,10 +31,44 @@ class FilenameParser
      * Undocumented function
      *
      * @param string $path
+     * @return object|null
+     */
+    public function filename(string $file) : ?object
+    {        
+        $name   = $this->parseOnlyName($file);
+        $folder = $this->parseFolder($file);
+
+        if (! $name) return null;
+
+        $request = [
+            'name'   => $name,
+            'folder' => $folder
+        ];
+
+        return (object) $request;
+    }
+
+    /**
+     * Retorna apenas o nome do arquivo da diretiva
+     * Sem o caminho do tema a qual pertence
+     *
+     * @param string $theme
+     * @param string $path
+     * @return string
+     */
+    private function parserFilename(string $theme, string $path) : string
+    {
+        return str_replace($theme . DS, '', $path);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param string $path
      * @return array
      */
     private function parseType(string $path) : string
-    {
+    {   
         $pieces = explode(DS, $path);
 
         $filename = array_pop($pieces);
@@ -52,15 +87,30 @@ class FilenameParser
      * @param string $path
      * @return string|null
      */
-    public function parseName(string $theme, string $path) : ?string
-    {
-        $theme  = str_replace($theme . DS, '', $path);
-        $pieces = explode(DS, $theme);
+    private function parseFullName(string $path) : ?string
+    {        
+        $pieces = explode(DS, $path);
 
-        array_pop($pieces);
+        $name = array_pop($pieces);
 
-        $name = implode(DS, $pieces);
+        $name = (count($pieces) > 1) ? implode('/', $pieces) : $pieces[0];
 
         return (! strlen($name)) ? null : $name;
+    }
+
+    private function parseFolder(string $name)
+    {
+        $pieces = explode('/', $name);
+        
+        array_pop($pieces);
+
+        return implode(DS, $pieces);
+    }
+
+    private function parseOnlyName(string $name)
+    {
+        $pieces = explode('/', $name);
+
+        return array_pop($pieces);
     }
 }

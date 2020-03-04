@@ -6,18 +6,14 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Artisan;
 use Maestriam\Samurai\Models\Directive;
-use Maestriam\Samurai\Foundation\EnvHandler;
-use Maestriam\Samurai\Traits\FoundationScope;
-use Maestriam\Samurai\Foundation\FilenameParser;
+use Maestriam\Samurai\Models\Foundation;
 use Maestriam\Samurai\Foundation\DirectiveFinder;
 use Maestriam\Samurai\Exceptions\ThemeExistsException;
 use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
 use Maestriam\Samurai\Exceptions\InvalidThemeNameException;
 
-class Theme
+class Theme extends Foundation
 {
-    use FoundationScope;
-
     /**
      * Nome do tema para ser criado/manipulado
      *
@@ -46,13 +42,6 @@ class Theme
      * @var DirectiveFinder
      */
     private $finder;
-
-    /**
-     * Instância do parser de filepath para objeto
-     *
-     * @var FilenameParser
-     */
-    private $parser;
 
     /**
      * Undocumented function
@@ -205,7 +194,7 @@ class Theme
 
         foreach($files as $path) {
 
-            $request = $this->parse($path);
+            $request = $this->parseFilePath($path);
 
             if ($request == null) continue;
 
@@ -293,15 +282,11 @@ class Theme
      * @param string $file
      * @return object|null
      */
-    private function parse(string $file) : ?object
+    private function parseFilePath(string $file) : ?object
     {
-        if ($this->parser == null) {
-            $this->parser = new FilenameParser();
-        }
-
         $path = $this->filePath();
 
-        return $this->parser->file($path, $file);
+        return $this->parser()->file($path, $file);
     }
 
     /**

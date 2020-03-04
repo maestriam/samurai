@@ -37,7 +37,7 @@ class SyntaxValidator
     public function directive(string $name) : bool
     {
         $startNumbers   = "/^[\d]/";
-        $onlyValidChars = "/^[a-zA-Z0-9\/]+$/";
+        $onlyValidChars = "/^[a-zA-Z0-9\/\-]+$/";
 
         if (preg_match($startNumbers, $name)) {
             return false;

@@ -4,15 +4,13 @@ namespace Maestriam\Samurai\Models;
 
 use Illuminate\Support\Facades\Blade;
 use Maestriam\Samurai\Models\Theme;
-use Maestriam\Samurai\Traits\FoundationScope;
+use Maestriam\Samurai\Models\Foundation;
 use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
 use Maestriam\Samurai\Exceptions\InvalidDirectiveNameException;
 use Maestriam\Samurai\Exceptions\InvalidTypeDirectiveException;
 
-class Directive
+class Directive extends Foundation
 {
-    use FoundationScope;
-
     /**
      * Nome da diretiva
      *
@@ -41,6 +39,13 @@ class Directive
      */
     private $path = '';
 
+   /**
+    * Apelido pelo qual é chamado dentro do projeto
+    *
+    * @var string
+    */ 
+    private $alias = '';
+
     /**
      * Undocumented function
      *
@@ -54,7 +59,8 @@ class Directive
         $this->setTheme($theme);
         $this->setType($type);
         $this->setName($name);
-        $this->setFilename($name);
+        $this->setAlias($name);
+        $this->setFilename();
         $this->setFolder($name);
         $this->setPath($name);
     }
@@ -88,10 +94,10 @@ class Directive
         $path = $this->nominator()->blade($theme, $file);
 
         if ($this->type == 'include') {
-            return Blade::include($path, $this->name);
+            return Blade::include($path, $this->alias);
         }
 
-        return Blade::component($path, $this->name);
+        return Blade::component($path, $this->alias);
     }
 
     public function findOrCreate()
@@ -134,6 +140,14 @@ class Directive
         return $this;
     }
 
+    private function setAlias(string $name)
+    {
+        $request = $this->parser()->filename($name);
+
+        $this->alias = $request->name;
+        return $this;
+    }
+
     /**
      *
      *
@@ -142,13 +156,9 @@ class Directive
      */
     private function setFolder(string $name)
     {
-        $pieces = explode('/', $name);
+        $request = $this->parser()->filename($name);
 
-        array_pop($pieces);
-
-        $folder = implode(DS, $pieces);
-
-        $this->folder = (! strlen($folder)) ? null : $folder;
+        $this->folder = $request->folder;
         return $this;
     }
 
@@ -174,9 +184,10 @@ class Directive
      * @param string $name
      * @return void
      */
-    private function setFilename(string $name)
+    private function setFilename()
     {
-        $file = $this->nominator()->filename($name, $this->type);
+        $file = $this->nominator()
+                     ->filename($this->alias, $this->type);
 
         $this->filename = $file;
         return $this;
@@ -205,10 +216,11 @@ class Directive
      */
     private function setPath() : Directive
     {
-        $name  = $this->name . DS;
-        $theme = $this->theme->filepath();
+        $folder = null; 
+        $name   = $this->alias . DS;
+        $theme  = $this->theme->filepath() . DS;
 
-        if ($this->folder == null) {
+        if ($this->folder != null) {
             $folder = $this->folder . DS;
         }
 
