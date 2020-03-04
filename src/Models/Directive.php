@@ -89,9 +89,9 @@ class Directive extends Foundation
      */
     public function load()
     {
-        $theme = $this->theme->name;
-        $file  = $this->absolute();
-        $path = $this->nominator()->blade($theme, $file);
+        $file  = $this->relative();
+        $theme = $this->theme->namespace;
+        $path  = $this->nominator()->blade($theme, $file);
 
         if ($this->type == 'include') {
             return Blade::include($path, $this->alias);
@@ -122,6 +122,14 @@ class Directive extends Foundation
     public function absolute()
     {
         return $this->path . $this->filename;
+    }
+
+    public function relative()
+    {
+        $file = $this->absolute();
+        $path = $this->theme->path . DS;
+
+        return str_replace($path, '', $file);
     }
 
     /**

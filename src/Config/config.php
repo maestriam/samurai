@@ -12,7 +12,7 @@ return [
     | as required, but they're a perfect start for most applications.
     |
     */
-    'prefix' => 'samurai-theme-',
+    'prefix' => 'samurai-theme',
 
 
     /*

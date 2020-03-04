@@ -12,11 +12,13 @@ class RegistersThemesServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $themes = $this->base()->all();
+        $theme = $this->base()->current();
 
-        foreach($themes as $theme) {
-            $this->registerView($theme->path, $theme->namespace);
+        if ($theme == null) {
+            return false;
         }
+
+        $this->registerView($theme->path, $theme->namespace);
     }
 
     /**
@@ -30,7 +32,7 @@ class RegistersThemesServiceProvider extends ServiceProvider
     protected function registerView($source, $namespace)
     {
         $views = array_merge([$source], Config::get('view.paths'));
-
+        
         $this->loadViewsFrom($views, $namespace);
     }
 }

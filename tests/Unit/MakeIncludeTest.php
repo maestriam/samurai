@@ -42,9 +42,6 @@ class MakeIncludeTest extends TestCase
     {
         $theme = $this->faker->word();
         $name  = 'dashboard/' . $this->faker->word(); 
-
-        dump($theme);
-        dump($name);
         
         $this->createInclude($theme, $name);
     }

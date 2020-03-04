@@ -54,7 +54,12 @@ class FileNominator
     public function blade(string $theme, string $path)
     {
         $pattern = "%s::%s";
+        $ext = '.blade.php';
 
-        return sprintf($pattern, $theme, $path);
+        $file = sprintf($pattern, $theme, $path);
+        $file = str_replace(DS, '.', $file);
+        $file = str_replace($ext, '', $file);
+
+        return $file;
     }
 }
