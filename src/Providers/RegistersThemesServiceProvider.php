@@ -12,10 +12,9 @@ class RegistersThemesServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $themes = $this->theme()->all();
+        $themes = $this->base()->all();
 
         foreach($themes as $theme) {
-
             $this->registerView($theme->path, $theme->namespace);
         }
     }

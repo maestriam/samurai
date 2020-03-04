@@ -5,14 +5,14 @@ namespace Maestriam\Samurai\Console;
 use Exception;
 use Illuminate\Console\Command;
 use Maestriam\Samurai\Traits\ConsoleLog;
-use Maestriam\Samurai\Traits\ThemeHandling;
+use Maestriam\Samurai\Traits\Themeable;
 
 class MakeThemeCommand extends Command
 {
     /**
      * Propriedades e funções básicas do sistema
      */
-    use ThemeHandling, ConsoleLog;
+    use Themeable, ConsoleLog;
 
     /**
      * The name and signature of the console command.
@@ -48,14 +48,14 @@ class MakeThemeCommand extends Command
         $name  = $this->argument('name');
 
         try {
-            
-            $theme = $this->theme()->create($name);
+
+            $this->theme($name)->build();
 
             return $this->success('theme.created');
-        
+
         } catch (Exception $e) {
-            
+
             return $this->failed($e->getMessage(), $e->getCode());
-        }   
+        }
     }
 }

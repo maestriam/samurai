@@ -4,13 +4,12 @@ namespace Maestriam\Samurai\Console;
 
 use Exception;
 use Illuminate\Console\Command;
-use Maestriam\Samurai\Traits\ThemeHandling;
 use Maestriam\Samurai\Traits\ConsoleLog;
-use Maestriam\Samurai\Traits\DirectiveHandling;
+use Maestriam\Samurai\Traits\Themeable;
 
 class MakeComponentCommand extends Command
 {
-    use DirectiveHandling, ThemeHandling, ConsoleLog;
+    use Themeable, ConsoleLog;
 
     /**
      * Assinatura Artisan
@@ -47,8 +46,8 @@ class MakeComponentCommand extends Command
         $name  = (string) $this->argument('name');
 
         try {
-        
-            $directive = $this->directive()->component($theme, $name);
+
+            $this->theme($theme)->component($name)->create();
 
             return $this->success('component.created');
 

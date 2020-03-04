@@ -4,13 +4,12 @@ namespace Maestriam\Samurai\Console;
 
 use Exception;
 use Illuminate\Console\Command;
-use Maestriam\Samurai\Traits\ThemeHandling;
 use Maestriam\Samurai\Traits\ConsoleLog;
-use Maestriam\Samurai\Traits\DirectiveHandling;
+use Maestriam\Samurai\Traits\Themeable;
 
 class MakeIncludeCommand extends Command
 {
-    use ThemeHandling, DirectiveHandling, ConsoleLog;
+    use Themeable, ConsoleLog;
 
     /**
      * Assinatura Artisan
@@ -47,8 +46,8 @@ class MakeIncludeCommand extends Command
         $name  = (string) $this->argument('name');
 
         try {
-        
-            $directive = $this->directive()->include($theme, $name);
+
+            $this->directive($theme)->include($name)->create();
 
             return $this->success('include.created');
 

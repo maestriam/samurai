@@ -4,7 +4,6 @@ namespace Maestriam\Samurai\Handlers;
 
 use Exception;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Config;
 use Maestriam\Samurai\Models\Directive;
 use Maestriam\Samurai\Traits\HandlerFunctions;
 use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
@@ -82,7 +81,7 @@ class DirectiveHandler
     {
         return $this->isValidDirectiveType($type);
     }
-    
+
     /**
      * Verifica se o nome informado para a diretiva
      * segue os padrões corretos
@@ -112,7 +111,7 @@ class DirectiveHandler
      * @param string $theme
      * @param string $name
      * @param string $type
-     * @param string $sub   
+     * @param string $sub
      * @return boolean
      */
     public function exists(string $theme, string $name, $sub = null) : bool
@@ -152,21 +151,21 @@ class DirectiveHandler
      * @return Directive
      */
     private function create($theme, $filename) : ?Directive
-    {        
+    {
         if (! $this->themeExists($theme)) {
             throw new ThemeNotFoundException($theme);
         }
-        
+
         list($sub, $name) = $this->separate($filename);
 
         if (! $this->isValidName($name)) {
             throw new InvalidDirectiveNameException($name);
         }
-        
+
         if ($this->exists($theme, $name, $sub)) {
             throw new DirectiveExistsException($theme, $name);
         }
-        
+
         $path = $this->path($theme, $name, $sub);
 
         mkdir($path, $this->permission(), true);
@@ -188,7 +187,7 @@ class DirectiveHandler
 
         $name  = array_pop($pieces);
         $place = implode(DS, $pieces);
-        
+
         return [$place, $name];
     }
 

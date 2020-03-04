@@ -6,16 +6,18 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Artisan;
 use Maestriam\Samurai\Models\Directive;
-use Maestriam\Samurai\Models\Structure;
 use Maestriam\Samurai\Foundation\EnvHandler;
+use Maestriam\Samurai\Traits\FoundationScope;
 use Maestriam\Samurai\Foundation\FilenameParser;
 use Maestriam\Samurai\Foundation\DirectiveFinder;
 use Maestriam\Samurai\Exceptions\ThemeExistsException;
 use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
 use Maestriam\Samurai\Exceptions\InvalidThemeNameException;
 
-class Theme extends Structure
+class Theme
 {
+    use FoundationScope;
+
     /**
      * Nome do tema para ser criado/manipulado
      *
@@ -51,9 +53,6 @@ class Theme extends Structure
      * @var FilenameParser
      */
     private $parser;
-
-
-    private $env;
 
     /**
      * Undocumented function
@@ -91,6 +90,36 @@ class Theme extends Structure
     }
 
     /**
+     * Tenta encontrar um tema questão
+     * Caso não encontre, constua-o
+     *
+     * @return Theme
+     */
+    public function findOrBuild() : Theme
+    {
+        if (! $this->exists()) {
+            return $this->build();
+        }
+
+        return $this->get();
+    }
+
+    /**
+     * Retorna a instância de um tema
+     * se caso o tema existir
+     *
+     * @return Theme|null
+     */
+    public function get() : ?Theme
+    {
+        if (! $this->exists()) {
+            return null;
+        }
+
+        return $this;
+    }
+
+    /**
      * Retorna a instância de uma include para
      * um determinado tema
      *
@@ -114,9 +143,11 @@ class Theme extends Structure
      */
     public function component(string $name) : Directive
     {
-        $type = 'component';
+        if (! $this->exists()) {
+            throw new ThemeNotFoundException($this->name);
+        }
 
-        return new Directive($name, $type, $this);
+        return $this->directivefy($name, 'component');
     }
 
     /**
@@ -132,7 +163,6 @@ class Theme extends Structure
 
         $from = $this->assetPath();
         $to   = $this->dir()->public($this->name);
-
 
         File::copyDirectory($from, $to);
 
@@ -159,7 +189,13 @@ class Theme extends Structure
         return (in_array(false, $steps)) ? false : true;
     }
 
-    public function directives()
+    /**
+     * Retorna TODAS as diretivas cadastradas
+     * dentro de um tema
+     *
+     * @return array
+     */
+    public function directives() : array
     {
         $files = $this->scan();
 
@@ -191,12 +227,13 @@ class Theme extends Structure
     {
         $directives = $this->directives();
 
-        if (empty($directives)) return [];
+        if (empty($directives)) return true;
 
         foreach($directives as $directive) {
-
             $directive->load();
         }
+
+        return true;
     }
 
     /**
@@ -346,15 +383,11 @@ class Theme extends Structure
      */
     private function setCurrent() : bool
     {
-        if (! $this->env) {
-            $this->env = new EnvHandler();
-        }
+        $key = $this->config()->env();
 
-        $key = Config::get('Samurai.env_key');
+        $this->env()->set($key, $this->name);
 
-        $this->env->set($key, $this->name);
-
-        $current = $this->env->get($key);
+        $current = $this->env()->get($key);
 
         return ($current == $this->name) ? true : false;
     }

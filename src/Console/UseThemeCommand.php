@@ -4,12 +4,12 @@ namespace Maestriam\Samurai\Console;
 
 use Exception;
 use Illuminate\Console\Command;
-use Maestriam\Samurai\Traits\ThemeHandling;
+use Maestriam\Samurai\Traits\Themeable;
 use Maestriam\Samurai\Traits\ConsoleLog;
 
 class UseThemeCommand extends Command
 {
-    use ThemeHandling, ConsoleLog;
+    use Themeable, ConsoleLog;
 
     /**
      * The name and signature of the console command.
@@ -30,16 +30,16 @@ class UseThemeCommand extends Command
      */
     public function handle()
     {
+        $name = (string) $this->argument('theme');
+
         try {
-            
-            $theme = $this->argument('theme');
-            
-            $this->theme()->use($theme);
+
+            $this->theme($name)->use();
 
             return $this->success('theme.used');
 
         } catch (Exception $e) {
-       
+
             return $this->failed($e->getMessage(), $e->getCode());
         }
     }

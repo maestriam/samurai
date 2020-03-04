@@ -15,7 +15,14 @@ class GettingStartTest extends TestCase
 {
     use Themeable, WithFaker;
 
-    protected $themeName = 'samurai';
+    protected $name;
+
+    protected function setUp() : void
+    {
+        parent::setUp();
+
+        $this->name = $this->faker->word();
+    }
 
     /**
      * Verifica se é possível criar um tema com um nome correto
@@ -24,7 +31,7 @@ class GettingStartTest extends TestCase
      */
     public function testCreateTheme()
     {
-        $theme = $this->theme($this->themeName)->build();
+        $theme = $this->theme($this->name)->build();
 
         $this->assertInstanceOf(Theme::class, $theme);
     }
@@ -36,9 +43,11 @@ class GettingStartTest extends TestCase
      */
     public function testCreateInclude()
     {
-        $name = $this->faker->word();
+        $this->theme($this->name)->findOrBuild();
 
-        $include = $this->theme($this->themeName)
+        $name  = $this->faker->word();
+
+        $include = $this->theme($this->name)
                         ->include($name)
                         ->create();
 
@@ -52,9 +61,11 @@ class GettingStartTest extends TestCase
      */
     public function testeCreateComponent()
     {
-        $name = $this->faker->word();
+        $this->theme($this->name)->findOrBuild();
 
-        $component = $this->theme($this->themeName)
+        $name  = $this->faker->word();
+
+        $component = $this->theme($this->name)
                           ->component($name)
                           ->create();
 
@@ -69,8 +80,11 @@ class GettingStartTest extends TestCase
      */
     public function testPublishTheme()
     {
-        $published = $this->theme($this->themeName)
-                          ->publish();
+        $this->theme($this->name)->findOrBuild();
+
+        $theme = $this->faker->word();
+
+        $published = $this->theme($this->name)->publish();
 
         $this->assertTrue($published);
     }
@@ -82,7 +96,9 @@ class GettingStartTest extends TestCase
      */
     public function testUseTheme()
     {
-        $current = $this->theme($this->themeName)->use();
+        $this->theme($this->name)->findOrBuild();
+
+        $current = $this->theme($this->name)->use();
 
         $this->assertTrue($current);
     }

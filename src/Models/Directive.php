@@ -4,13 +4,15 @@ namespace Maestriam\Samurai\Models;
 
 use Illuminate\Support\Facades\Blade;
 use Maestriam\Samurai\Models\Theme;
-use Maestriam\Samurai\Models\Structure;
+use Maestriam\Samurai\Traits\FoundationScope;
 use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
 use Maestriam\Samurai\Exceptions\InvalidDirectiveNameException;
 use Maestriam\Samurai\Exceptions\InvalidTypeDirectiveException;
 
-class Directive extends Structure
+class Directive
 {
+    use FoundationScope;
+
     /**
      * Nome da diretiva
      *
