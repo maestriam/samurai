@@ -41,19 +41,4 @@ class UseThemeCommandTest extends TestCase
         $this->assertIsInt($code);
         $this->assertEquals($expected, $code);
     }
-
-    /**
-     * Verifica se o comando de publicar consegue validar
-     * temas inexistentes
-     *
-     * @return void
-     */
-    // public function testInvalidTheme()
-    // {
-    //     $theme = $this->faker->word() . '-invalid-theme' . time();
-    //     $code  = Artisan::call("samurai:publish {$theme}");
-
-    //     $this->assertIsInt($code);
-    //     $this->assertEquals(103, $code);
-    // }
 }

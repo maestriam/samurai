@@ -305,7 +305,7 @@ class Theme extends Foundation
             $this->finder = new DirectiveFinder();
         }
 
-        return $this->finder->scan($this->path);
+        return $this->finder->scan($this->filePath());
     }
 
     /**
@@ -320,7 +320,7 @@ class Theme extends Foundation
             throw new InvalidThemeNameException($name);
         }
 
-        $this->name = $name;
+        $this->name = strtolower($name);
         return $this;
     }
 

@@ -2,6 +2,7 @@
 
 namespace Maestriam\Samurai\Providers;
 
+use Blade;
 use Illuminate\Support\ServiceProvider;
 use Maestriam\Samurai\Console\UseThemeCommand;
 use Maestriam\Samurai\Console\MakeThemeCommand;
@@ -23,6 +24,7 @@ class MainServiceProvider extends ServiceProvider
         $this->registerConfigs();
         $this->registerCommands();
         $this->registerServices();
+
     }
 
     /**

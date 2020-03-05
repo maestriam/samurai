@@ -1,1 +1,4 @@
 The {{name}} component was created! Let's rock!
+
+
+{{ $slot }}
