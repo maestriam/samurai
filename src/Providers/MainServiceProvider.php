@@ -103,5 +103,6 @@ class MainServiceProvider extends ServiceProvider
     {
         $this->app->register(RegistersThemesServiceProvider::class);
         $this->app->register(LoadThemesServiceProvider::class);
+        $this->app->register(RegistersCustomDirectiveProvider::class);
     }
 }
