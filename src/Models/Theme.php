@@ -123,6 +123,30 @@ class Theme extends Foundation
 
         return $this->directivefy($name, 'include');
     }
+    
+    /**
+     * Retorna a URL de assets do tema dentro 
+     * do projeto Laravel
+     *
+     * @return string
+     */
+    public function public() : string
+    {
+        $url = 'themes/' . $this->name;
+
+        return asset($url);
+    }
+
+    /**
+     * Retorna o caminho público do projeto
+     * onde os asses do projeto são armazenados
+     *
+     * @return string
+     */
+    public function publicPath() : string
+    {
+        return $this->dir()->public($this->name);
+    }
 
     /**
      * Undocumented function

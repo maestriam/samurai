@@ -45,6 +45,13 @@ class StructureDirectory
         return $this->theme($name) . DS . $assets;
     }
 
+    /**
+     * Retorna o caminho público onde os assets
+     * do tema são armazenados
+     *
+     * @param string $name
+     * @return string
+     */
     public function public(string $name) : string
     {
         return  public_path('themes/'. $name);
