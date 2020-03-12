@@ -4,7 +4,6 @@ namespace Maestriam\Samurai\Models;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Artisan;
 use Maestriam\Samurai\Models\Directive;
 use Maestriam\Samurai\Models\Foundation;
 use Maestriam\Samurai\Foundation\DirectiveFinder;
@@ -193,7 +192,7 @@ class Theme extends Foundation
             throw new ThemeNotFoundException($this->name);
         }
 
-        $steps[] = $this->clearCache();
+        $steps[] = $this->file()->clearCache();
         $steps[] = $this->publish();
         $steps[] = $this->setCurrent();
 
@@ -399,18 +398,5 @@ class Theme extends Foundation
         $current = $this->env()->get($key);
 
         return ($current == $this->name) ? true : false;
-    }
-
-    /**
-     * Limpa o cache do projeto
-     *
-     * @return void
-     */
-    private function clearCache()
-    {
-        Artisan::call('view:clear');
-        Artisan::call('cache:clear');
-
-        return true;
     }
 }

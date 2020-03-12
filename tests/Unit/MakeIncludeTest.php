@@ -177,6 +177,8 @@ class MakeIncludeTest extends TestCase
         $this->theme($theme)->findOrBuild();
         
         $include = $this->theme($theme)->include($name)->create();
+        
+        if ($debug) dd($include);
     }
 
     /**

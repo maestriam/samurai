@@ -73,6 +73,16 @@ class Base extends Foundation
 
         return null;
     }
+    
+    /**
+     * Limpa o cache dos arquivos de view do projeto
+     *
+     * @return void
+     */
+    public function clearCache()
+    {
+        return $this->file()->clearCache();
+    }
 
     /**
      * Retorna o objeto de um tema de acordo com um nome específico

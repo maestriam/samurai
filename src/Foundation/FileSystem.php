@@ -2,6 +2,7 @@
 
 namespace Maestriam\Samurai\Foundation;
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 
 class FileSystem
@@ -43,5 +44,19 @@ class FileSystem
         fwrite($handle, $content);
 
         return fclose($handle);
+    }
+
+    
+    /**
+     * Limpa o cache do projeto
+     *
+     * @return void
+     */
+    public function clearCache()
+    {
+        Artisan::call('view:clear');
+        Artisan::call('cache:clear');
+
+        return true;
     }
 }
