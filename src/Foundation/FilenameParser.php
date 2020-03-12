@@ -75,7 +75,7 @@ class FilenameParser
         $filename = str_replace('.blade.php', '', $filename);
 
         $name = explode('-', $filename);
-        $type = $name[1] ?? null;
+        $type = end($name) ?? null;
 
         return $type;
     }

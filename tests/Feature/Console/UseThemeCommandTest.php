@@ -2,14 +2,16 @@
 
 namespace Maestriam\Samurai\Feature\Console;
 
+use Str;
 use Tests\TestCase;
 use Maestriam\Samurai\Traits\Themeable;
 use Illuminate\Support\Facades\Artisan;
+use Maestriam\Samurai\Traits\ThemeTesting;
 use Illuminate\Foundation\Testing\WithFaker;
 
 class UseThemeCommandTest extends TestCase
 {
-    use Themeable, WithFaker;
+    use Themeable, ThemeTesting, WithFaker;
 
     /**
      * Verifica se o comando para publicação de temas está OK
@@ -18,7 +20,7 @@ class UseThemeCommandTest extends TestCase
      */
     public function testPublishTheme()
     {
-        $theme = $this->faker->word();
+        $theme = $this->themeName();
 
         $this->executeCommand($theme, 0);
     }

@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Maestriam\Samurai\Models\Theme;
 use Illuminate\Support\Facades\Config;
 use Maestriam\Samurai\Traits\Themeable;
+use Maestriam\Samurai\Traits\ThemeTesting;
 use Illuminate\Foundation\Testing\WithFaker;
 use Maestriam\Samurai\Exceptions\InvalidThemeNameException;
 
@@ -15,48 +16,54 @@ use Maestriam\Samurai\Exceptions\InvalidThemeNameException;
  */
 class MakeThemeTest extends TestCase
 {
-    use Themeable, WithFaker;
+    use Themeable, ThemeTesting, WithFaker;
 
     protected $name;
 
+    public function setUp() : void
+    {   
+        $this->setConsts();
+    }
+
     /**
-     * Undocumented function
+     * Verifica se há sucesso ao criar um tema com um nome correto
      *
      * @return void
      */
     public function testHappyPath()
     {
-        $name  = Str::random(50);
+        $name  = $this->themeName();
 
-        $this->contestSuccess($name);
+        $this->success($name);
     }
 
     /**
-     * Undocumented function
+     * Verifica se há falha ao criar um tema começando com números
      *
      * @return void
      */
     public function testNameStartNumbers()
     {
-        $name = time() . Str::random(50);
+        $name = time() . $this->themeName();
 
-        $this->contestInvalidName($name);
+        $this->failure($name, INVALID_THEME_NAME);
     }
 
     /**
-     * Undocumented function
+     * Verifica se há sucesso ao criar um tema com letra
+     * maiuscula ou minuscula
      *
      * @return void
      */
     public function testUpperCaseName()
     {
-        $name = strtoupper(Str::random(40));
+        $name = strtoupper($this->themeName());
 
-        $this->contestSuccess($name);
+        $this->success($name);
     }
 
     /**
-     * Undocumented function
+     * Verifica se há erro ao criar um tema com caracteres especiais
      *
      * @return void
      */
@@ -64,16 +71,17 @@ class MakeThemeTest extends TestCase
     {
         $name = "sp&c/al-ch@r$-t()&m&";
 
-        $this->contestInvalidName($name);
+        $this->failure($name, INVALID_THEME_NAME);
     }
 
     /**
-     * Undocumented function
+     * Testa se o tema foi criado corretamente e todos os seus 
+     * atributos estão retornando de forma correta
      *
-     * @param [type] $name
+     * @param mixed $name
      * @return void
      */
-    private function contestSuccess($name)
+    private function success($name)
     {
         $theme = $this->theme($name)->build();
 
@@ -84,9 +92,25 @@ class MakeThemeTest extends TestCase
     }
 
     /**
-     * Undocumented function
+     * Testa se há uma exception por erro de nome inválido
      *
-     * @param [type] $theme
+     * @param mixed $name
+     * @return void
+     */
+    private function failure($name, int $index)
+    {
+        $class = $this->getErrorClass($index);
+
+        $this->expectException($class);
+
+        $this->theme($name)->build();
+    }   
+
+    /**
+     * Testa se o objeto do tema tem todos os atributos definidos
+     * corretamente
+     *
+     * @param mixed $theme
      * @return void
      */
     private function contestObject($theme)
@@ -98,9 +122,9 @@ class MakeThemeTest extends TestCase
     }
 
     /**
-     * Undocumented function
+     * Testa se o nome do tema foi definido corretamente
      *
-     * @param [type] $name
+     * @param mixed $name
      * @return void
      */
     private function contestName($name)
@@ -111,9 +135,10 @@ class MakeThemeTest extends TestCase
     }
 
     /**
-     * Undocumented function
+     * Testa se o caminho do tema foi criado corretamente e
+     * se está acessível para leitra/escrita
      *
-     * @param [type] $path
+     * @param mixed $path
      * @return void
      */
     private function contestPath($path)
@@ -125,9 +150,10 @@ class MakeThemeTest extends TestCase
     }
 
     /**
-     * Undocumented function
+     * Testa se o namespace do tema, para chamada no Laravel, 
+     * está criado de maneira correta
      *
-     * @param [type] $namespace
+     * @param mixed $namespace
      * @return void
      */
     private function contestNamespace($namespace)
@@ -136,18 +162,5 @@ class MakeThemeTest extends TestCase
         $pattern = "/$prefix/";
 
         $this->assertRegExp($pattern, $namespace);
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @param [type] $name
-     * @return void
-     */
-    private function contestInvalidName($name)
-    {
-        $this->expectException(InvalidThemeNameException::class);
-
-        $this->theme($name)->build();
     }
 }

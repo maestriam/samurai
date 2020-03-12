@@ -2,10 +2,12 @@
 
 namespace Maestriam\Samurai\Tests\Unit;
 
+use Str;
 use Tests\TestCase;
 use Maestriam\Samurai\Models\Theme;
 use Maestriam\Samurai\Traits\Themeable;
 use Maestriam\Samurai\Models\Directive;
+use Maestriam\Samurai\Traits\ThemeTesting;
 use Illuminate\Foundation\Testing\WithFaker;
 
 /**
@@ -13,7 +15,7 @@ use Illuminate\Foundation\Testing\WithFaker;
  */
 class GettingStartTest extends TestCase
 {
-    use Themeable, WithFaker;
+    use Themeable, ThemeTesting, WithFaker;
 
     protected $name;
 
@@ -21,7 +23,7 @@ class GettingStartTest extends TestCase
     {
         parent::setUp();
 
-        $this->name = $this->faker->word();
+        $this->name = $this->themeName();
     }
 
     /**

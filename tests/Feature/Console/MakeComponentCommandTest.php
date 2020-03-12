@@ -5,11 +5,12 @@ namespace Maestriam\Samurai\Feature\Console;
 use Tests\TestCase;
 use Maestriam\Samurai\Traits\Themeable;
 use Illuminate\Support\Facades\Artisan;
+use Maestriam\Samurai\Traits\ThemeTesting;
 use Illuminate\Foundation\Testing\WithFaker;
 
 class MakeComponentCommandTest extends TestCase
 {
-    use WithFaker, Themeable;
+    use WithFaker, ThemeTesting, Themeable;
 
     /**
      * Verifica se o comando Artisan para criação de componentes
@@ -19,10 +20,10 @@ class MakeComponentCommandTest extends TestCase
      */
     public function testMakeComponent()
     {
-        $theme  = $this->faker->word();
-        $direct = $this->faker->word();
+        $theme     = $this->themeName();
+        $component = $this->componentName();
 
-        $this->executeCommand($theme, $direct, 0);
+        $this->executeCommand($theme, $component, 0);
     }
 
     /**

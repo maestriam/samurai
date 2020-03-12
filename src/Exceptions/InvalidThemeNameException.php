@@ -28,7 +28,7 @@ class InvalidThemeNameException extends Exception
     {
         $key = 'Samurai::exceptions.theme.invalid-name';
 
-        $this->message = Lang::get($key, ['name' => $name]);
+        //$this->message = Lang::get($key, ['name' => $name]);
     }
 
     /**

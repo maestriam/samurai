@@ -2,6 +2,7 @@
 
 namespace Maestriam\Samurai\Foundation;
 
+use Str;
 use Illuminate\Support\Facades\Config;
 
 class FileNominator
@@ -62,4 +63,15 @@ class FileNominator
 
         return $file;
     }
+
+    /**
+     * Retorna o nome para ser chamado dentro do arquivo Blade
+     *
+     * @param string $name
+     * @return string
+     */
+    public function alias(string $name) : string
+    {
+        return Str::camel($name);
+    } 
 }

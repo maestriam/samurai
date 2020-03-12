@@ -28,7 +28,7 @@ class InvalidDirectiveNameException extends Exception
     {
         $key = 'Samurai::exceptions.directive.invalid-name';
 
-        $this->message = Lang::get($key, ['name' => $name]);
+        //$this->message = Lang::get($key, ['name' => $name]);
     }
 
     /**

@@ -5,6 +5,7 @@ namespace Maestriam\Samurai\Tests\Unit;
 use Tests\TestCase;
 use Maestriam\Samurai\Models\Theme;
 use Maestriam\Samurai\Traits\Themeable;
+use Maestriam\Samurai\Traits\ThemeTesting;
 use Illuminate\Foundation\Testing\WithFaker;
 
 /**
@@ -12,11 +13,11 @@ use Illuminate\Foundation\Testing\WithFaker;
  */
 class BaseTest extends TestCase
 {
-    use Themeable, WithFaker;
+    use Themeable, ThemeTesting, WithFaker;
 
     public function testAllThemes()
     {
-        $name = $this->faker->word();
+        $name = $this->themeName();
         $this->theme($name)->findOrBuild();
 
         $themes = $this->base()->all();

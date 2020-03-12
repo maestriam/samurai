@@ -2,8 +2,9 @@
 
 namespace Maestriam\Samurai\Models;
 
-use Illuminate\Support\Facades\Blade;
+use Str;
 use Maestriam\Samurai\Models\Theme;
+use Illuminate\Support\Facades\Blade;
 use Maestriam\Samurai\Models\Foundation;
 use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
 use Maestriam\Samurai\Exceptions\InvalidDirectiveNameException;
@@ -12,11 +13,19 @@ use Maestriam\Samurai\Exceptions\InvalidTypeDirectiveException;
 class Directive extends Foundation
 {
     /**
-     * Nome da diretiva
+     * Nome da diretiva 
      *
      * @var string
      */
     private $name = '';
+
+    /**
+     * Sentença que foi inserida pelo usuário, 
+     * que irá fornecer o nome/sub-diretório
+     *
+     * @var string
+     */
+    private $sentence = '';
 
     /**
      * Tipo da diretiva
@@ -54,15 +63,16 @@ class Directive extends Foundation
      * @param Theme $theme
      * @return void
      */
-    public function __construct(string $name, string $type, Theme $theme)
+    public function __construct(string $sentence, string $type, Theme $theme)
     {
+        $this->setSentence($sentence);
         $this->setTheme($theme);
         $this->setType($type);
-        $this->setName($name);
-        $this->setAlias($name);
+        $this->setName($sentence);
+        $this->setAlias($sentence);
         $this->setFilename();
-        $this->setFolder($name);
-        $this->setPath($name);
+        $this->setFolder($sentence);
+        $this->setPath($sentence);
     }
 
     /**
@@ -100,16 +110,11 @@ class Directive extends Foundation
         return Blade::component($path, $this->alias);
     }
 
-    public function findOrCreate()
-    {
-
-    }
-
-    public function get()
-    {
-
-    }
-
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     private function stub()
     {
         $path = __DIR__ . DS .  "../Stubs/{$this->type}.stub";
@@ -118,18 +123,49 @@ class Directive extends Foundation
         return str_replace('{{name}}', $this->name, $stub);
     }
 
-
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function absolute()
     {
         return $this->path . $this->filename;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function relative()
     {
         $file = $this->absolute();
         $path = $this->theme->path . DS;
 
         return str_replace($path, '', $file);
+    }
+    
+    /**
+     * Undocumented function
+     *
+     * @param Theme $theme
+     * @return void
+     */
+    private function setSentence(string $sentence) : self
+    {
+        $parsed = $this->parser()->filename($sentence);
+
+        if (! property_exists($parsed, 'name')) {
+            throw new InvalidDirectiveNameException($sentence);
+        }
+
+        if (! $this->valid()->directive($parsed->name)) {
+            throw new InvalidDirectiveNameException($sentence);
+        }
+
+        $this->sentence = strtolower($sentence);
+        return $this;
     }
 
     /**
@@ -138,7 +174,7 @@ class Directive extends Foundation
      * @param Theme $theme
      * @return void
      */
-    private function setTheme(Theme $theme)
+    private function setTheme(Theme $theme) : self
     {
         if (! $theme instanceof Theme) {
             throw new ThemeNotFoundException($theme);
@@ -148,11 +184,31 @@ class Directive extends Foundation
         return $this;
     }
 
-    private function setAlias(string $name)
+    /**
+     * Undocumented function
+     *
+     * @param string $name
+     * @return Directive
+     */
+    private function setName(string $name) : self
     {
         $request = $this->parser()->filename($name);
 
-        $this->alias = $request->name;
+        $this->name = Str::slug($request->name);
+        return $this;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param string $name
+     * @return Directive
+     */
+    private function setAlias(string $name) : self
+    {
+        $name = $this->name;
+
+        $this->alias = $this->nominator()->alias($name);
         return $this;
     }
 
@@ -162,27 +218,11 @@ class Directive extends Foundation
      * @param string $folder
      * @return void
      */
-    private function setFolder(string $name)
+    private function setFolder(string $name) : self
     {
         $request = $this->parser()->filename($name);
 
-        $this->folder = $request->folder;
-        return $this;
-    }
-
-    /**
-     *
-     *
-     * @param string $name
-     * @return void
-     */
-    private function setName(string $name)
-    {
-        if (! $this->valid()->directive($name)) {
-            throw new InvalidDirectiveNameException($name);
-        }
-
-        $this->name = strtolower($name);
+        $this->folder = Str::slug($request->folder);
         return $this;
     }
 
@@ -192,10 +232,9 @@ class Directive extends Foundation
      * @param string $name
      * @return void
      */
-    private function setFilename()
+    private function setFilename() : self
     {
-        $file = $this->nominator()
-                     ->filename($this->alias, $this->type);
+        $file = $this->nominator()->filename($this->name, $this->type);
 
         $this->filename = $file;
         return $this;
@@ -207,7 +246,7 @@ class Directive extends Foundation
      * @param string $type
      * @return Directive
      */
-    private function setType(string $type) : Directive
+    private function setType(string $type) : self
     {
         if (! $this->valid()->type($type)) {
             throw new InvalidTypeDirectiveException($type);
@@ -222,10 +261,10 @@ class Directive extends Foundation
      *
      * @return Directive
      */
-    private function setPath() : Directive
+    private function setPath() : self
     {
         $folder = null; 
-        $name   = $this->alias . DS;
+        $name   = $this->name . DS;
         $theme  = $this->theme->filepath() . DS;
 
         if ($this->folder != null) {
@@ -233,7 +272,6 @@ class Directive extends Foundation
         }
 
         $this->path = $theme . $folder . $name;
-
         return $this;
     }
 }

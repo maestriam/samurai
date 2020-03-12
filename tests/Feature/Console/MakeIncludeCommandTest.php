@@ -5,11 +5,12 @@ namespace Maestriam\Samurai\Feature\Console;
 use Tests\TestCase;
 use Maestriam\Samurai\Traits\Themeable;
 use Illuminate\Support\Facades\Artisan;
+use Maestriam\Samurai\Traits\ThemeTesting;
 use Illuminate\Foundation\Testing\WithFaker;
 
 class MakeIncludeCommandTest extends TestCase
 {
-    use WithFaker, Themeable;
+    use WithFaker, ThemeTesting, Themeable;
 
     /**
      * Verifica se o comando Artisan para criação de includes
@@ -19,8 +20,8 @@ class MakeIncludeCommandTest extends TestCase
      */
     public function testMakeInclude()
     {
-        $theme   = $this->faker->word();
-        $include = $this->faker->word();
+        $theme   = $this->themeName();
+        $include = $this->includeName();
 
         return $this->executeCommand($theme, $include, 0);
     }
