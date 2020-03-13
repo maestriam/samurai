@@ -41,13 +41,13 @@ php artisan samurai:make-component my-theme my-component
 
 To edit your include file, go to themes/my-theme/src/my-component/my-component-component.blade.php
 
-**Using theme in your project**
+**Using theme in your project**  
 To publish your assets and define your theme as current:
 ``` bash
 php artisan samurai:use my-theme
 ```
 
-**Using components into blade files**
+**Using components into blade files**  
 To use component in your view.blade.php, use:
 ``` bash
 @myComponent()
@@ -64,7 +64,8 @@ To use include in your view.blade.php, use:
 ```
 
 **Load assets into theme files**  
-To import any file into your theme(like css, js, imgs), use:
+To import any file into your theme(like css, js, imgs), use directive @public.  
+E.g:
 ``` bash
 <script src="@public('js/index.js')" />
 ```
