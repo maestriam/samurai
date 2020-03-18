@@ -1,0 +1,14 @@
+{
+    "name": "{{vendor}}/{{theme}}",
+    "description": "Blade-based theme manager for Laravel apps",
+    "type": "blade-theme",
+    "authors": [
+        {
+            "name": "{{name}}",
+            "email": "{{email}}"
+        }
+    ],
+    "require": {
+        "maestriam/samurai": "dev-master"
+    }
+}

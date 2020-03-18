@@ -46,6 +46,24 @@ class FileSystem
         return fclose($handle);
     }
 
+    /**
+     * Retorna o conteúdo de um arquivo de rascunho
+     *
+     * @param string $filename
+     * @return string
+     */
+    public function stub(string $filename) : string
+    {
+        $pattern = __DIR__ . DS .  "../Stubs/%s.stub";
+        $file    = sprintf($pattern, $filename);
+
+        if (! is_file($file)) {
+            throw new StubNotFoundException($file);
+        }
+
+        return file_get_contents($file);
+    }
+
     
     /**
      * Limpa o cache do projeto

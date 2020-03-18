@@ -17,7 +17,7 @@ class RegistersThemesServiceProvider extends ServiceProvider
         if ($theme == null) {
             return false;
         }
-
+        
         $this->registerView($theme->path, $theme->namespace);
     }
 

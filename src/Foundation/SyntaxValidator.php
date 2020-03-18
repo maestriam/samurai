@@ -6,6 +6,25 @@ use Illuminate\Support\Facades\Config;
 
 class SyntaxValidator
 {
+
+    /**
+     * 
+     *
+     * @param string $sentence
+     * @return boolean
+     */
+    public function vendor(string $sentence) : bool
+    {
+        $pattern = "/^[a-z0-9_.-]+\/[a-z0-9_.-]\w+/"; 
+
+        return (preg_match($pattern, $sentence)) ? true : false;
+    }
+
+    public function author(string $sentence) : bool
+    {
+        $pattern = "/^[a-zA-Z0-9_.-]+ <[a-z0-9]>\w+/";
+    }
+
     /**
      *
      *
@@ -14,18 +33,9 @@ class SyntaxValidator
      */
     public function theme(string $name) : bool
     {
-        $startNumbers   = "/^[\d]/";
-        $onlyValidChars = "/^[\w&.\-]+$/";
+        $onlyValidChars = "/^[a-z0-9_.-]+$/";
 
-        if (preg_match($startNumbers, $name)) {
-            return false;
-        }
-
-        if (! preg_match($onlyValidChars, $name)) {
-            return false;
-        }
-
-        return true;
+        return (preg_match($onlyValidChars, $name)) ? true : false;
     }
 
     /**

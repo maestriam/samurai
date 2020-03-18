@@ -109,8 +109,8 @@ class Foundation
     }
 
     /**
-     * Retorna uma instância de RN
-     * sobre estrutura de pasta do tema
+     * Retorna uma instância de RN sobre 
+     * estrutura de pasta do tema
      *
      * @return StructureDirectory
      */
@@ -142,7 +142,7 @@ class Foundation
      *
      * @return void
      */
-    protected function config()
+    protected function config() : ConfigKeeper
     {
         if (! $this->config) {
             $this->config = new ConfigKeeper();

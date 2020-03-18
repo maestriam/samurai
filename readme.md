@@ -1,11 +1,13 @@
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
+<p align="center"><b>One view, a lot themes</b></p>
 
-# Maestriam\Samurai 🔴
+
+# 🔴 Maestriam/Samurai
 
 ## About 
 
-**Maestriam\Samurai** is a simple package for creating and managing themes for Laravel applications, using [component](https://laravel.com/docs/5.8/blade#components-and-slots) and [include](https://laravel.com/docs/5.8/blade#including-sub-views) functions of Laravel Blade.  
+**Maestriam/Samurai** is a simple package for creating and managing themes for Laravel applications, using [component](https://laravel.com/docs/5.8/blade#components-and-slots) and [include](https://laravel.com/docs/5.8/blade#including-sub-views) functions of Laravel Blade.  
 You can publishing your themes and install-it in other projects using composer.  
 **Under construction!**
 

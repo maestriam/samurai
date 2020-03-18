@@ -30,7 +30,7 @@ class UseThemeCommand extends Command
      */
     public function handle()
     {
-        // try {
+        try {
 
             $name = (string) $this->argument('theme');
 
@@ -38,9 +38,9 @@ class UseThemeCommand extends Command
 
             return $this->success('theme.used');
 
-        // } catch (Exception $e) {
+        } catch (Exception $e) {
 
-        //     return $this->failed($e->getMessage(), $e->getCode());
-        // }
+            return $this->failed($e->getMessage(), $e->getCode());
+        }
     }
 }

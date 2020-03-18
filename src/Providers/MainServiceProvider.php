@@ -10,6 +10,7 @@ use Maestriam\Samurai\Console\MakeIncludeCommand;
 use Maestriam\Samurai\Console\PublishThemeCommand;
 use Maestriam\Samurai\Console\MakeComponentCommand;
 use Maestriam\Samurai\Console\RefreshThemeCommand;
+use Maestriam\Samurai\Console\InitThemeCommand;
 
 class MainServiceProvider extends ServiceProvider
 {
@@ -84,6 +85,7 @@ class MainServiceProvider extends ServiceProvider
     protected function registerCommands()
     {
         $cmds = [
+            InitThemeCommand::class,
             MakeThemeCommand::class,
             MakeComponentCommand::class,
             MakeIncludeCommand::class,

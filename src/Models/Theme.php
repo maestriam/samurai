@@ -21,6 +21,13 @@ class Theme extends Foundation
     public $name = '';
 
     /**
+     * Nome do distribuidor do tema
+     *
+     * @var string
+     */
+    public $vendor = '';
+
+    /**
      * Caminho-base do tema
      *
      * @var string
@@ -66,15 +73,53 @@ class Theme extends Foundation
             throw new ThemeExistsException($this->name);
         }
 
-        $theme  = $this->path;
-        $assets = $this->assetPath();
-        $files  = $this->filePath();
+        $paths = [
+            $this->path,
+            $this->assetPath(),
+            $this->filePath(),
+        ];
 
-        $this->file()->mkFolder($theme);
-        $this->file()->mkFolder($assets);
-        $this->file()->mkFolder($files);
+        foreach ($paths as $path) {
+            $this->file()->mkFolder($path);
+        }
+
+        $this->composerJson();
 
         return (is_dir($theme)) ? $this : null;
+    }
+
+    /**
+     * Cria o arquivo composer.json dentro do projeto
+     *
+     * @return void
+     */
+    public function composerJson()
+    {
+        $content = $this->stub();
+        $name    = 'composer.json';
+        $file    = $this->path . DS . $name;
+        
+        $this->file()->mkFile($file, $content);
+    }
+
+    /**
+     * Retorna o conteúdo do arquivo composer.json 
+     * com as configurações de nome do tema, autor
+     * de acordo com as definições padrão do projeto
+     *
+     * @return string
+     */
+    private function stub() : string
+    {
+        $stub   = $this->file()->stub('composer');
+        $author = $this->config()->author();
+
+        $stub = str_replace('{{vendor}}', $author->vendor, $stub);
+        $stub = str_replace('{{theme}}',  $this->name, $stub);
+        $stub = str_replace('{{email}}',  $author->email, $stub);
+        $stub = str_replace('{{name}}',   $author->name, $stub);
+
+        return $stub;
     }
 
     /**
@@ -281,7 +326,7 @@ class Theme extends Foundation
     {
         $theme = $this->dir()->theme($this->name);
 
-        return (is_dir($theme));
+        return ($theme != null) ? true : false;
     }
 
     /**
@@ -344,6 +389,18 @@ class Theme extends Foundation
         }
 
         $this->name = strtolower($name);
+        return $this;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param string $vendor
+     * @return Theme
+     */
+    private function setVendor(string $vendor) : Theme
+    {
+        $this->vendor = $vendor;
         return $this;
     }
 

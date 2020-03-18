@@ -111,14 +111,14 @@ class Directive extends Foundation
     }
 
     /**
-     * Undocumented function
+     * Retorna o conteúdo para criação da diretiva de acordo
+     * com o tipo que será criado (include/component)
      *
      * @return void
      */
     private function stub()
     {
-        $path = __DIR__ . DS .  "../Stubs/{$this->type}.stub";
-        $stub = file_get_contents($path);
+        $stub = $this->file()->stub($this->type);
 
         return str_replace('{{name}}', $this->name, $stub);
     }

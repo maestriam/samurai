@@ -17,7 +17,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Authentication Defaults
+    | Tipos de diretivas permitidos
     |--------------------------------------------------------------------------
     |
     | This option controls the default authentication "guard" and password
@@ -31,7 +31,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Authentication Defaults
+    | Estrutura de criação de diretórios
     |--------------------------------------------------------------------------
     |
     | This option controls the default authentication "guard" and password
@@ -43,19 +43,27 @@ return [
         'files'     => 'src',
         'assets'    => 'assets',
         'folder'    => base_path('themes'),
-        'structure' => [
-            'js'        => 'assets/js/',
-            'css'       => 'assets/css/',
-            'imgs'      => 'assets/imgs/',
-            'component' => 'src/components/',
-            'include'   => 'src/includes/',
-            'page'      => 'src/pages/',
-        ]
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | Authentication Defaults
+    | Estrutura de criação de diretórios
+    |--------------------------------------------------------------------------
+    |
+    | This option controls the default authentication "guard" and password
+    | reset options for your application. You may change these defaults
+    | as required, but they're a perfect start for most applications.
+    |
+    */
+    'author' => [
+        'name'   => 'Giuliano Sampaio',
+        'vendor' => 'maestriam', 
+        'email'  => 'giuguitar@gmail.com',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Diretório publicável
     |--------------------------------------------------------------------------
     |
     | This option controls the default authentication "guard" and password
@@ -65,5 +73,16 @@ return [
     */
 
     'publishable' => 'assets',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Configurações no arquivo .env
+    |--------------------------------------------------------------------------
+    |
+    | This option controls the default authentication "guard" and password
+    | reset options for your application. You may change these defaults
+    | as required, but they're a perfect start for most applications.
+    |
+    */
     'env_key'     => 'THEME_CURRENT'
 ];

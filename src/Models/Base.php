@@ -85,6 +85,31 @@ class Base extends Foundation
     }
 
     /**
+     * Retorna o nome do vendor/nome do tema sugerido
+     * de acordo com as configurações do projeto
+     *
+     * @return void
+     */
+    public function suggestName() : string
+    {
+        $author = $this->config()->author();
+        $vendor = $author->vendor;
+        $theme  = $this->dir()->project();
+        
+        return $vendor .'/'. $theme . '-theme';
+    }
+
+    /**
+     * Retorna o e-mail do autor de acordo com as
+     *
+     * @return void
+     */
+    public function author() : object
+    {
+        return $this->config()->author();
+    }
+
+    /**
      * Retorna o objeto de um tema de acordo com um nome específico
      *
      * @param string $name
