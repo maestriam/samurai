@@ -56,9 +56,9 @@ return [
     |
     */
     'author' => [
-        'name'   => 'Giuliano Sampaio',
-        'vendor' => 'maestriam', 
-        'email'  => 'giuguitar@gmail.com',
+        'name'        => 'Giuliano Sampaio',
+        'vendor'      => 'maestriam', 
+        'email'       => 'giuguitar@gmail.com',
     ],
 
     /*
@@ -71,7 +71,6 @@ return [
     | as required, but they're a perfect start for most applications.
     |
     */
-
     'publishable' => 'assets',
 
     /*

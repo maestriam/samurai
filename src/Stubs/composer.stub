@@ -1,6 +1,6 @@
 {
-    "name": "{{vendor}}/{{theme}}",
-    "description": "Blade-based theme manager for Laravel apps",
+    "name": "{{theme}}",
+    "description": "{{description}}",
     "type": "blade-theme",
     "authors": [
         {

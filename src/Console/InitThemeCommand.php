@@ -1,6 +1,7 @@
 <?php
 
 namespace Maestriam\Samurai\Console;
+
 use Exception;
 use Illuminate\Console\Command;
 use Maestriam\Samurai\Traits\Themeable;
@@ -44,11 +45,11 @@ class InitThemeCommand extends Command
         $answers = [];
         
         $questions = [
-            $this->getNameAsk(), 
+            $this->getThemeAsk(), 
             $this->getDescriptionAsk(), 
             $this->getAuthorAsk()
         ];
-
+        
         foreach ($questions as $question) {
             
             $answer = $this->ask($question->ask);
@@ -57,10 +58,11 @@ class InitThemeCommand extends Command
                 $answer = $question->default;
             }
 
-            $answers[] = $answer;
+            $k = $question->key;
+            $answers[$k] = $answer;
         }
 
-        // $this->preview($answers);
+        $this->preview($answers);
     }
     
     /**
@@ -70,45 +72,45 @@ class InitThemeCommand extends Command
      *
      * @return object
      */
-    private function getNameAsk() : object
+    private function getThemeAsk() : object
     {
-        $theme    = $this->base()->suggestName();
-        $question = sprintf('Theme name (<vendor/name>) [%s]', $theme);
+        $theme    = $this->default()->name();
+        $question = sprintf('Name (<vendor/name>) [%s]', $theme);
         
         return (object) [
+            'key'     => 'theme',
             'ask'     => $question,
             'default' => $theme
         ];
     }
 
     /**
-     * Retorna a mensagem da pergunta, junto com os 
-     * dados de nome do distribuidor com uma sugestão 
-     * de nome para o tema, junto com configurações do projeto
+     * Retorna a pergunta de quem será o autor do projeto,
+     * junto com os dados padrão em caso nulo
      *
      * @return object
      */
     private function getDescriptionAsk() : object
     {
-        $desc     = "";
+        $desc     = $this->default()->description();
         $question = sprintf("Description [%s]", $desc); 
 
         return (object) [
+            'key'     => 'description',
             'ask'     => $question,
             'default' => $desc
         ];
     }
 
     /**
-     * Retorna a mensagem da pergunta, junto com os 
-     * dados do autor de acordo com os  arquivos de 
-     * configurações do projeto
+     * Retorna a pergunta de quem será o autor do projeto,
+     * junto com os dados padrão em caso nulo
      *
      * @return string
      */
     public function getAuthorAsk() : object
     {
-        $author  = $this->base()->author();
+        $author  = $this->default()->author();
         $name    = $author->name;
         $email   = $author->email;
         $suggest = sprintf("%s <%s>", $name, $email);
@@ -116,11 +118,31 @@ class InitThemeCommand extends Command
         $ask = sprintf('Author [%s]', $suggest);
 
         return (object) [
+            'key'     => 'author',
             'ask'     => $ask,
             'default' => $suggest
         ];
     }
 
+    /**
+     * Interpreta a resposta do usuário para pegar 
+     * o e-mail e nome do autor
+     *
+     * @param string $author
+     * @return void
+     */
+    protected function parseAuthor(string $author)
+    {
+        $pieces = explode(' <', $author);
+
+        $json = [
+            'name'  => $pieces[0], 
+            'email' => str_replace('>', '', $pieces[1]), 
+        ];
+
+        return $json;
+    }
+    
     /**
      * Retorna a preview de como ficará o arquivo composer.json
      * do tema que será criado
@@ -128,17 +150,42 @@ class InitThemeCommand extends Command
      * @param array $answers
      * @return string
      */
-    public function preview(array $answers) : string
+    public function preview(array $answers)
     {
-        if (count($answers) == 2 ) {
-            throw new Exception("Error Processing Request", 1);
+        $authors =  $this->parseAuthor($answers['author']); 
+                
+        $content = $this->stub('composer');
+
+        $content = str_replace('{{theme}}', $answers['theme'], $content);
+        $content = str_replace('{{description}}', $answers['description'], $content);
+        $content = str_replace('{{name}}', $authors['name'], $content);
+        $content = str_replace('{{email}}', $authors['email'], $content);
+        $content = str_replace('\r\n', PHP_EOL, $content);
+        
+        if ($this->confirm('Confirm? '.PHP_EOL . $content)) {
+            $this->composerFile($content);
+        }
+    }
+
+    public function composerFile($content)
+    {
+        $handle = fopen('composer.x.json', 'w');
+
+        fwrite($handle, $content);
+
+        return fclose($handle);
+    }
+
+    public function stub(string $filename) : string
+    {
+        $pattern = __DIR__ . DS .  "../Stubs/%s.stub";
+        $file    = sprintf($pattern, $filename);
+
+        if (! is_file($file)) {
+            throw new StubNotFoundException($file);
         }
 
-        $name   = $answers[0];
-        $author = $answers[1];
-
-        $content = $this->theme($name, $author)->preview();
-
-        return $content;
+        return file_get_contents($file);
     }
+
 }

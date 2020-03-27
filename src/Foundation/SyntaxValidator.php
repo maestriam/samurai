@@ -20,9 +20,18 @@ class SyntaxValidator
         return (preg_match($pattern, $sentence)) ? true : false;
     }
 
+    /**
+     * Verifica se o padrão "Nome do author <email@domain>
+     * foi preenchido
+     *
+     * @param string $sentence
+     * @return boolean
+     */
     public function author(string $sentence) : bool
     {
-        $pattern = "/^[a-zA-Z0-9_.-]+ <[a-z0-9]>\w+/";
+        $pattern = "/^[a-zA-Z0-9_.-]+ <[\w-_]+@+[\w-]+.*(\.[a-z]{2,3})+>$/";
+
+        return (preg_match($pattern, $sentence)) ? true : false;
     }
 
     /**
