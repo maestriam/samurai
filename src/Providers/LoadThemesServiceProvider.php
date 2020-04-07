@@ -2,8 +2,6 @@
 
 namespace Maestriam\Samurai\Providers;
 
-use Config;
-use Exception;
 use Illuminate\Support\ServiceProvider;
 use Maestriam\Samurai\Traits\Themeable;
 

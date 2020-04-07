@@ -34,7 +34,7 @@ class FilenameParser
      * @return object|null
      */
     public function filename(string $file) : ?object
-    {        
+    {
         $name   = $this->parseOnlyName($file);
         $folder = $this->parseFolder($file);
 
@@ -46,6 +46,41 @@ class FilenameParser
         ];
 
         return (object) $request;
+    }
+
+    /**
+     * Interpreta a resposta do usuário para pegar
+     * o e-mail e nome do autor
+     *
+     * @param string $author
+     * @return void
+     */
+    public function author(string $author) : object
+    {
+        $pieces = explode(' <', $author);
+
+        $obj = [
+            'name'  => $pieces[0],
+            'email' => str_replace('>', '', $pieces[1]),
+        ];
+
+        return (object) $obj;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param string $vendor
+     * @return object
+     */
+    public function vendor(string $vendor) : object
+    {
+        $pieces = explode('/', $vendor);
+
+        return (object) [
+            'distributor' => $pieces[0],
+            'name'        => $pieces[1]
+        ];
     }
 
     /**
@@ -68,7 +103,7 @@ class FilenameParser
      * @return array
      */
     private function parseType(string $path) : string
-    {   
+    {
         $pieces = explode(DS, $path);
 
         $filename = array_pop($pieces);
@@ -88,7 +123,7 @@ class FilenameParser
      * @return string|null
      */
     private function parseFullName(string $path) : ?string
-    {        
+    {
         $pieces = explode(DS, $path);
 
         $name = array_pop($pieces);
@@ -101,7 +136,7 @@ class FilenameParser
     private function parseFolder(string $name)
     {
         $pieces = explode('/', $name);
-        
+
         array_pop($pieces);
 
         return implode(DS, $pieces);

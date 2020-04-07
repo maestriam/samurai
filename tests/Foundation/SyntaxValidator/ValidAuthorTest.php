@@ -24,43 +24,43 @@ class ValidAuthorTest extends TestCase
         $this->valid = new SyntaxValidator();
     }
 
-    public function testHappyPath() 
+    public function testHappyPath()
     {
         $author = "Giu <giuguitar@gmail.com>";
 
         $this->success($author);
     }
-    
-    public function testInvalidEmail() 
+
+    public function testInvalidEmail()
     {
         $author = "Giu <!this-invalid-email@error.com>";
 
         $this->failure($author);
     }
-    
-    public function testNameWithAccentures() 
+
+    public function testNameWithAccentures()
     {
         $author = "João Mädchen <foo@domain.com>";
 
         $this->failure($author);
     }
 
-    public function testSpacesBetweenInfos() 
+    public function testSpacesBetweenInfos()
     {
         $author = "Giu           <alot@spaces.com>";
 
         $this->failure($author);
     }
-    
-    public function testEmailWithExtension() 
+
+    public function testEmailWithExtension()
     {
         $author = "Giu <brasil@domain.com.br>";
 
         $this->success($author);
     }
 
-    
-    public function testEmailStartsWithNumber() 
+
+    public function testEmailStartsWithNumber()
     {
         $author = "Giu <123brasil@domain.com>";
 
@@ -76,7 +76,7 @@ class ValidAuthorTest extends TestCase
     private function success($vendor)
     {
         $result = $this->valid->author($vendor);
-        
+
         $this->assertIsBool($result);
         $this->assertTrue($result);
     }
@@ -90,7 +90,7 @@ class ValidAuthorTest extends TestCase
     private function failure($vendor)
     {
         $result = $this->valid->author($vendor);
-        
+
         $this->assertIsBool($result);
         $this->assertFalse($result);
     }

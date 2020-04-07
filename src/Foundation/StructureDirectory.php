@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Config;
 class StructureDirectory
 {
     /**
-     * Retorna o caminho 
+     * Retorna o caminho
      *
      * @return void
      */
-    public function base()
+    public function base() : string
     {
         $samurai = Config::get('Samurai.themes.folder');
 
@@ -19,33 +19,30 @@ class StructureDirectory
     }
 
     /**
-     * Undocumented function
+     * Retorna o nome do diretório do
      *
      * @return void
      */
-    public function vendor()
+    public function vendor() : string
     {
-        $path = 'vendor'. DS .'maestriam';
-
-        return base_path($path);
+        return base_path('vendor');
     }
 
     /**
-     * Undocumented function
+     * Retorna o caminho do diretório dentro do diretório-base
+     * de temas ou dentro do diretório do composer
      *
      * @param string $name
      * @return string
      */
-    public function theme(string $name) : ?string
+    public function theme(string $vendor, string $name) : ?string
     {
-        $vendor = $this->vendor();
         $base   = $this->base();
+        $finded = $this->findVendor($vendor, $name);
 
-        if ($this->findTheme($base, $name)) {
-            return $this->findTheme($base, $name);
-        }
+        if ($finded) return $finded;
 
-        return $this->findTheme($vendor, $name); 
+        return $this->findTheme($base, $vendor, $name);
     }
 
     /**
@@ -54,11 +51,11 @@ class StructureDirectory
      * @param string $name
      * @return void
      */
-    public function assets(string $name) : string
+    public function assets(string $vendor, string $name) : string
     {
         $assets = Config::get('Samurai.themes.assets');
 
-        return $this->theme($name) . DS . $assets;
+        return $this->theme($vendor, $name) . DS . $assets;
     }
 
     /**
@@ -95,25 +92,41 @@ class StructureDirectory
      * @param string $name
      * @return void
      */
-    public function files(string $name) : string
+    public function files(string $vendor, string $name) : string
     {
         $files = Config::get('Samurai.themes.files');
 
-        return $this->theme($name) . DS . $files;
+        return $this->theme($vendor, $name) . DS . $files;
     }
 
     /**
-     * Retorna o caminho do diretório de um tema dado o nome 
+     * Undocumented function
+     *
+     * @param string $vendor
+     * @param string $name
+     * @return string|null
+     */
+    private final function findVendor(string $vendor, string $name) : ?string
+    {
+        $base = $this->vendor();
+
+        $path = $this->findTheme($base, $vendor, $name);
+
+        return (is_dir($path)) ? $path : null;
+    }
+
+    /**
+     * Retorna o caminho do diretório de um tema dado o nome
      *
      * @param string $base
      * @param string $name
      * @return string|null
      */
-    private function findTheme(string $base, string $name) : ?string
+    private function findTheme(string $base, string $vendor, string $name) : string
     {
         $name = strtolower($name);
-        $path = $base . DS . $name;
+        $path = $base . DS . $vendor . DS . $name;
 
-        return (is_dir($path)) ? $path : null;
+        return $path;
     }
 }

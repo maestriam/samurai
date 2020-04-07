@@ -2,8 +2,7 @@
 
 namespace Maestriam\Samurai\Providers;
 
-use Blade;
-use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Maestriam\Samurai\Traits\Themeable;
 
@@ -25,7 +24,7 @@ class RegistersCustomDirectiveProvider extends ServiceProvider
     protected function registerPublic()
     {
         Blade::directive('public', function ($file) {
-            $file   = str_replace("'", "", $file); 
+            $file   = str_replace("'", "", $file);
             $domain = $this->base()->current()->public();
             return "$domain/$file";
         });

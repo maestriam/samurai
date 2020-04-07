@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Config;
 
 class FileNominator
 {
+
     /**
      * Retorna o nome da diretiva para ser usado
      * como nome de arquivo
@@ -21,12 +22,13 @@ class FileNominator
     }
 
     /**
-     * Retorna
+     * Retorna o nome do namespace para ser usado
+     * para chamar o tema no projeto
      *
-     * @param [type] $theme
+     * @param string $theme
      * @return string
      */
-    public function namespace($theme) : string
+    public function namespace(string $theme) : string
     {
         $prefix = Config::get('Samurai.prefix');
 
@@ -47,6 +49,7 @@ class FileNominator
 
     /**
      * Retorna o nome para o ser chamado dentro do
+     * projeto Blade
      *
      * @param string $theme
      * @param string $path
@@ -73,5 +76,5 @@ class FileNominator
     public function alias(string $name) : string
     {
         return Str::camel($name);
-    } 
+    }
 }

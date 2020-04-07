@@ -2,30 +2,100 @@
 
 namespace Maestriam\Samurai\Models;
 
-use Exception;
-use Illuminate\Console\Command;
-use Maestriam\Samurai\Traits\Themeable;
-use Maestriam\Samurai\Traits\ConsoleLog;
+use Maestriam\Samurai\Models\Foundation;
 
-class Wizard 
+class Wizard extends Foundation
 {
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function theme()
+    {
+        $theme    = $this->defaultVendor();
+        $question = sprintf('Name (<vendor/name>) [%s]', $theme);
+
+        return (object) [
+            'key'     => 'theme',
+            'ask'     => $question,
+            'default' => $theme
+        ];
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function description()
     {
+        $desc     = $this->defaultDesc();
+        $question = sprintf("Description [%s]", $desc);
 
+        return (object) [
+            'key'     => 'description',
+            'ask'     => $question,
+            'default' => $desc
+        ];
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function author()
     {
+        $author = $this->defaultAuthor();
+        $ask    = sprintf('Author [%s]', $author);
 
+        return (object) [
+            'key'     => 'author',
+            'ask'     => $ask,
+            'default' => $author
+        ];
     }
 
-    public function name()
+    /**
+     * Retorna um vendor padrão para a criação
+     * do tema
+     *
+     * @return string
+     */
+    private function defaultVendor() : string
     {
+        $author = $this->config()->author();
+        $vendor = $author->vendor;
+        $theme  = $this->dir()->project();
 
+        return $vendor .'/'. $theme . '-theme';
     }
 
-    private function parse()
+    /**
+     * Retorna uma descrição padrão para o tema
+     *
+     * @return string
+     */
+    private function defaultDesc() : string
     {
-        
+        $project = $this->dir()->project();
+
+        return sprintf("Theme for project '%s'", $project);
+    }
+
+    /**
+     * Retorna um autor padrão para a criação
+     * do tema
+     *
+     * @return string
+     */
+    private function defaultAuthor() : string
+    {
+        $author  = $this->config()->author();
+        $name    = $author->name;
+        $email   = $author->email;
+
+        return sprintf("%s <%s>", $name, $email);
     }
 }

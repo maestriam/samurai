@@ -2,10 +2,10 @@
 
 namespace Maestriam\Samurai\Console;
 
-use Exception;
 use Illuminate\Console\Command;
 use Maestriam\Samurai\Traits\Themeable;
 use Maestriam\Samurai\Traits\ConsoleLog;
+use Maestriam\Samurai\Exceptions\StubNotFoundException;
 
 class InitThemeCommand extends Command
 {
@@ -42,32 +42,39 @@ class InitThemeCommand extends Command
      */
     public function handle()
     {
-        $answers = [];
-        
-        $questions = [
-            $this->getThemeAsk(), 
-            $this->getDescriptionAsk(), 
-            $this->getAuthorAsk()
-        ];
-        
-        foreach ($questions as $question) {
-            
-            $answer = $this->ask($question->ask);
-            
-            if (! $answer) {
-                $answer = $question->default;
-            }
 
-            $k = $question->key;
-            $answers[$k] = $answer;
-        }
 
-        $this->preview($answers);
+        // $this->theme('maestriam/theme-concept')
+        //      ->description('Theme for maestriam Katana')
+        //      ->author('Giuliano Sampaio <giuguitar@gmail.com>')
+        //      ->preview();
+
+        // $answers = [];
+
+        // $questions = [
+        //     $this->getThemeAsk(),
+        //     $this->getDescriptionAsk(),
+        //     $this->getAuthorAsk()
+        // ];
+
+        // foreach ($questions as $question) {
+
+        //     $answer = $this->ask($question->ask);
+
+        //     if (! $answer) {
+        //         $answer = $question->default;
+        //     }
+
+        //     $k = $question->key;
+        //     $answers[$k] = $answer;
+        // }
+
+        // $this->preview($answers);
     }
-    
+
     /**
-     * Retorna a mensagem da pergunta, junto com os 
-     * dados de nome do distribuidor com uma sugestão 
+     * Retorna a mensagem da pergunta, junto com os
+     * dados de nome do distribuidor com uma sugestão
      * de nome para o tema, junto com configurações do projeto
      *
      * @return object
@@ -76,7 +83,7 @@ class InitThemeCommand extends Command
     {
         $theme    = $this->default()->name();
         $question = sprintf('Name (<vendor/name>) [%s]', $theme);
-        
+
         return (object) [
             'key'     => 'theme',
             'ask'     => $question,
@@ -93,7 +100,7 @@ class InitThemeCommand extends Command
     private function getDescriptionAsk() : object
     {
         $desc     = $this->default()->description();
-        $question = sprintf("Description [%s]", $desc); 
+        $question = sprintf("Description [%s]", $desc);
 
         return (object) [
             'key'     => 'description',
@@ -124,25 +131,8 @@ class InitThemeCommand extends Command
         ];
     }
 
-    /**
-     * Interpreta a resposta do usuário para pegar 
-     * o e-mail e nome do autor
-     *
-     * @param string $author
-     * @return void
-     */
-    protected function parseAuthor(string $author)
-    {
-        $pieces = explode(' <', $author);
 
-        $json = [
-            'name'  => $pieces[0], 
-            'email' => str_replace('>', '', $pieces[1]), 
-        ];
 
-        return $json;
-    }
-    
     /**
      * Retorna a preview de como ficará o arquivo composer.json
      * do tema que será criado
@@ -152,8 +142,8 @@ class InitThemeCommand extends Command
      */
     public function preview(array $answers)
     {
-        $authors =  $this->parseAuthor($answers['author']); 
-                
+        $authors =  $this->parseAuthor($answers['author']);
+
         $content = $this->stub('composer');
 
         $content = str_replace('{{theme}}', $answers['theme'], $content);
@@ -161,7 +151,7 @@ class InitThemeCommand extends Command
         $content = str_replace('{{name}}', $authors['name'], $content);
         $content = str_replace('{{email}}', $authors['email'], $content);
         $content = str_replace('\r\n', PHP_EOL, $content);
-        
+
         if ($this->confirm('Confirm? '.PHP_EOL . $content)) {
             $this->composerFile($content);
         }
