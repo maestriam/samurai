@@ -2,22 +2,26 @@
 
 namespace Maestriam\Samurai\Models;
 
+use stdClass;
 use Maestriam\Samurai\Models\Foundation;
+use Maestriam\Samurai\Traits\Shared\Composer;
+use Maestriam\Samurai\Traits\Shared\BasicAccessors;
 
 class Wizard extends Foundation
 {
+    use BasicAccessors, Composer;
+
     /**
      * Undocumented function
      *
      * @return void
      */
-    public function theme()
+    public function theme() : stdClass
     {
         $theme    = $this->defaultVendor();
         $question = sprintf('Name (<vendor/name>) [%s]', $theme);
 
         return (object) [
-            'key'     => 'theme',
             'ask'     => $question,
             'default' => $theme
         ];
@@ -28,13 +32,12 @@ class Wizard extends Foundation
      *
      * @return void
      */
-    public function description()
+    public function description() : stdClass
     {
         $desc     = $this->defaultDesc();
         $question = sprintf("Description [%s]", $desc);
 
         return (object) [
-            'key'     => 'description',
             'ask'     => $question,
             'default' => $desc
         ];
@@ -45,15 +48,37 @@ class Wizard extends Foundation
      *
      * @return void
      */
-    public function author()
+    public function author() : stdClass
     {
         $author = $this->defaultAuthor();
         $ask    = sprintf('Author [%s]', $author);
 
         return (object) [
-            'key'     => 'author',
             'ask'     => $ask,
             'default' => $author
+        ];
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param string $vendor
+     * @param string $author
+     * @param string $desc
+     * @return stdClass
+     */
+    public function confirm($vendor, $author, $desc) : stdClass
+    {
+        $this->setVendor($vendor)
+             ->setAuthor($author)
+             ->setDescription($desc);
+
+        $preview = $this->getComposer();
+        $ask     = 'Confirm? '. PHP_EOL . $preview;
+
+        return (object) [
+            'ask'     => $ask,
+            'default' => false
         ];
     }
 

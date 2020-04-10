@@ -3,21 +3,23 @@
 namespace Maestriam\Samurai\Models;
 
 use Maestriam\Samurai\Models\Foundation;
-use Maestriam\Samurai\Foundation\DirectiveFinder;
-use Maestriam\Samurai\Traits\Theme\Accessors;
-use Maestriam\Samurai\Traits\Theme\Composer;
 use Maestriam\Samurai\Traits\Theme\Search;
+use Maestriam\Samurai\Traits\Shared\Composer;
 use Maestriam\Samurai\Traits\Theme\Validation;
 use Maestriam\Samurai\Traits\Theme\Construction;
+use Maestriam\Samurai\Foundation\DirectiveFinder;
 use Maestriam\Samurai\Traits\Theme\DirectiveHandling;
+use Maestriam\Samurai\Traits\Shared\BasicAccessors;
+use Maestriam\Samurai\Traits\Theme\Accessors as ThemeAccessors;
 
 class Theme extends Foundation
 {
     use Validation,
         Search,
-        Accessors,
         Composer,
         Construction,
+        ThemeAccessors,
+        BasicAccessors,
         DirectiveHandling;
 
     /**
@@ -40,14 +42,14 @@ class Theme extends Foundation
      *
      * @var string
      */
-    private $path = '';
+    public $path = '';
 
     /**
      * Apelido para ser chamado pelo Laravel Blade
      *
      * @var string
      */
-    private $namespace = '';
+    public $namespace = '';
 
     /**
      *
@@ -94,4 +96,27 @@ class Theme extends Foundation
         return new Directive($name, $type, $this);
     }
 
+    /**
+     * Define a descrição do tema
+     * Usado no arquivo composer.json
+     *
+     * @param string $author
+     * @return void
+     */
+    public function author(string $author)
+    {
+        return $this->setAuthor($author);
+    }
+
+    /**
+     * Define a descrição do tema
+     * Usado no arquivo composer.json
+     *
+     * @param string $author
+     * @return void
+     */
+    public function description(string $description)
+    {
+        return $this->setDescription($description);
+    }
 }

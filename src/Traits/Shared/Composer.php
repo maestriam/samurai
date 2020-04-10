@@ -1,6 +1,6 @@
 <?php
 
-namespace Maestriam\Samurai\Traits\Theme;
+namespace Maestriam\Samurai\Traits\Shared;
 
 /**
  *
@@ -9,7 +9,7 @@ trait Composer
 {
     private final function getComposer() : string
     {
-        $vendor = $this->vendor;
+        $vendor = $this->getVendor();
         $author = $this->getAuthor();
         $desc   = $this->getDescription();
 

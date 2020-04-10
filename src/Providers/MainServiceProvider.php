@@ -21,11 +21,11 @@ class MainServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // $this->registerTranslations();
+        $this->registerTranslations();
         $this->registerConstants();
         $this->registerConfigs();
-        // $this->registerCommands();
-        // $this->registerServices();
+        $this->registerCommands();
+        $this->registerServices();
 
     }
 

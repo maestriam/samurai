@@ -2,6 +2,7 @@
 
 namespace Maestriam\Samurai\Console;
 
+use Exception;
 use Illuminate\Console\Command;
 use Maestriam\Samurai\Traits\Themeable;
 use Maestriam\Samurai\Traits\ConsoleLog;
@@ -42,140 +43,89 @@ class InitThemeCommand extends Command
      */
     public function handle()
     {
+        try {
 
+            $theme  = $this->askTheme();
+            $author = $this->askAuthor();
+            $desc   = $this->askDescription();   
+            
+            if (! $this->beSure($theme, $author, $desc)) {
+                return false;
+            }
 
-        // $this->theme('maestriam/theme-concept')
-        //      ->description('Theme for maestriam Katana')
-        //      ->author('Giuliano Sampaio <giuguitar@gmail.com>')
-        //      ->preview();
+            $this->theme($theme)
+                 ->author($author)
+                 ->description($desc)
+                 ->build();
 
-        // $answers = [];
+            return $this->success('theme.created');
 
-        // $questions = [
-        //     $this->getThemeAsk(),
-        //     $this->getDescriptionAsk(),
-        //     $this->getAuthorAsk()
-        // ];
-
-        // foreach ($questions as $question) {
-
-        //     $answer = $this->ask($question->ask);
-
-        //     if (! $answer) {
-        //         $answer = $question->default;
-        //     }
-
-        //     $k = $question->key;
-        //     $answers[$k] = $answer;
-        // }
-
-        // $this->preview($answers);
+        } catch (Exception $e) {
+            return $this->failed($e->getMessage(), $e->getCode());
+        }
     }
-
+    
     /**
-     * Retorna a mensagem da pergunta, junto com os
-     * dados de nome do distribuidor com uma sugestão
-     * de nome para o tema, junto com configurações do projeto
-     *
-     * @return object
-     */
-    private function getThemeAsk() : object
-    {
-        $theme    = $this->default()->name();
-        $question = sprintf('Name (<vendor/name>) [%s]', $theme);
-
-        return (object) [
-            'key'     => 'theme',
-            'ask'     => $question,
-            'default' => $theme
-        ];
-    }
-
-    /**
-     * Retorna a pergunta de quem será o autor do projeto,
-     * junto com os dados padrão em caso nulo
-     *
-     * @return object
-     */
-    private function getDescriptionAsk() : object
-    {
-        $desc     = $this->default()->description();
-        $question = sprintf("Description [%s]", $desc);
-
-        return (object) [
-            'key'     => 'description',
-            'ask'     => $question,
-            'default' => $desc
-        ];
-    }
-
-    /**
-     * Retorna a pergunta de quem será o autor do projeto,
-     * junto com os dados padrão em caso nulo
+     * Retorna o nome do vendor/tema escolhido pelo usuário
      *
      * @return string
      */
-    public function getAuthorAsk() : object
+    private function askTheme() : string 
     {
-        $author  = $this->default()->author();
-        $name    = $author->name;
-        $email   = $author->email;
-        $suggest = sprintf("%s <%s>", $name, $email);
-
-        $ask = sprintf('Author [%s]', $suggest);
-
-        return (object) [
-            'key'     => 'author',
-            'ask'     => $ask,
-            'default' => $suggest
-        ];
+        $question = $this->wizard()->theme();
+        
+        return $this->askFor($question);
     }
-
-
 
     /**
-     * Retorna a preview de como ficará o arquivo composer.json
-     * do tema que será criado
+     * Retorna a descrição do tema informado pelo usuário
      *
-     * @param array $answers
      * @return string
      */
-    public function preview(array $answers)
+    private function askDescription() : string
     {
-        $authors =  $this->parseAuthor($answers['author']);
+        $question = $this->wizard()->description();
 
-        $content = $this->stub('composer');
+        return $this->askFor($question);        
+    } 
 
-        $content = str_replace('{{theme}}', $answers['theme'], $content);
-        $content = str_replace('{{description}}', $answers['description'], $content);
-        $content = str_replace('{{name}}', $authors['name'], $content);
-        $content = str_replace('{{email}}', $authors['email'], $content);
-        $content = str_replace('\r\n', PHP_EOL, $content);
-
-        if ($this->confirm('Confirm? '.PHP_EOL . $content)) {
-            $this->composerFile($content);
-        }
-    }
-
-    public function composerFile($content)
+    /**
+     * Retorna o autor do tema informado pelo usuário
+     *
+     * @return string
+     */
+    private function askAuthor() : string
     {
-        $handle = fopen('composer.x.json', 'w');
+        $question = $this->wizard()->author();
 
-        fwrite($handle, $content);
+        return $this->askFor($question);        
+    } 
 
-        return fclose($handle);
-    }
-
-    public function stub(string $filename) : string
+    /**
+     * Retorna a resposta de uma pergunta feita para o usuário
+     *
+     * @param object $question
+     * @return string
+     */
+    private function askFor(object $question) : string
     {
-        $pattern = __DIR__ . DS .  "../Stubs/%s.stub";
-        $file    = sprintf($pattern, $filename);
+        $answer = $this->ask($question->ask);
 
-        if (! is_file($file)) {
-            throw new StubNotFoundException($file);
-        }
+        return (! $answer) ? $question->default : $answer;
+    } 
 
-        return file_get_contents($file);
+    /**
+     * Retorna se está de acordo para a criação do tema 
+     *
+     * @param string $theme
+     * @param string $author
+     * @param string $desc
+     * @return boolean
+     */
+    private function beSure($theme, $author, $desc) : bool
+    {
+        $question = $this->wizard()->confirm($theme, $author, $desc); 
+
+        return $this->confirm($question->ask);
     }
-
 }

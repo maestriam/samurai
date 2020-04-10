@@ -3,6 +3,7 @@
 namespace Maestriam\Samurai\Traits\Theme;
 
 use Maestriam\Samurai\Models\Directive;
+use Maestriam\Samurai\Foundation\DirectiveFinder;
 use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
 
 trait DirectiveHandling
@@ -99,4 +100,22 @@ trait DirectiveHandling
         return true;
     }
 
+    /**
+     * Varre todos os arquivos de um tema para encontrar suas
+     * diretivas
+     *
+     * @return void
+     */
+    private function scan() : array
+    {
+        if (! $this->exists()) {
+            throw new ThemeNotFoundException($this->name);
+        }
+
+        if ($this->finder == null) {
+            $this->finder = new DirectiveFinder();
+        }
+
+        return $this->finder->scan($this->filePath());
+    }
 }

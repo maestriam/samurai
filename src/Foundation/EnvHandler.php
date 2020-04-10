@@ -43,7 +43,8 @@ class EnvHandler
 
         if ($no === null) return null;
 
-        $lines  = $this->lines();
+        $lines = $this->lines();
+
         $pieces = explode('=', $lines[$no]);
 
         return $pieces[1];
@@ -84,7 +85,7 @@ class EnvHandler
     {
         $content = $this->content();
 
-        return explode(PHP_EOL, $content);
+        return explode("\n", $content);
     }
 
     /**

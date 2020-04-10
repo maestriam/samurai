@@ -12,28 +12,12 @@ use Maestriam\Samurai\Exceptions\InvalidThemeNameException;
 trait Accessors
 {
     /**
-     * Define o vendor que servirá para criação
-     * do arquivo composer.json, como para o nome do tema
-     *
-     * @return Theme
-     */
-    public final function setVendor(string $vendor)
-    {
-        if (! $this->valid()->vendor($vendor)) {
-            throw new InvalidThemeNameException($vendor);
-        }
-
-        $this->vendor = $vendor;
-        return $this;
-    }
-
-    /**
      * Interpreta as informações vindas do vendor e
      * define o nome, caminho, namespace e distribuidor do tema
      *
      * @return void
      */
-    public final function parseVendor()
+    private final function parseVendor()
     {
         if (! $this->vendor) {
             throw new InvalidThemeNameException($this->vendor);
@@ -45,38 +29,6 @@ trait Accessors
              ->setDistributor($vendor->distributor)
              ->setNamespace($vendor->name)
              ->setPath($vendor->distributor, $vendor->name);
-    }
-
-    /**
-     * Define o nome do autor do tema
-     * Usado no arquivo composer.json
-     *
-     * @param string $author
-     * @return void
-     */
-    public function author(string $author)
-    {
-        if (! $this->valid()->author($author)) {
-            dump($this->valid()->author($author));
-            dump($author);
-            throw new InvalidThemeNameException($author);
-        }
-
-        $this->author = $author;
-        return $this;
-    }
-
-    /**
-     * Define a descrição do tema
-     * Usado no arquivo composer.json
-     *
-     * @param string $author
-     * @return void
-     */
-    public function description(string $description)
-    {
-        $this->description = $description;
-        return $this;
     }
 
     /**
@@ -180,37 +132,5 @@ trait Accessors
     {
         $this->namespace = $this->nominator()->namespace($name);
         return $this;
-    }
-
-    /**
-     * Retorna o nome e e-mail do autor definido para o tema.
-     * Se não for encontrado um valor específico, retorna o valor
-     * padrão definido no arquivo de configuração
-     *
-     * @return object
-     */
-    private final function getAuthor() : object
-    {
-        if (! $this->author) {
-            return $this->config()->author();
-        }
-
-        return $this->parser()->author($this->author);
-    }
-
-    /**
-     * Retorna a descrição definido para o tema.
-     * Se não for encontrado um autor específico, retorna o autor
-     * padrão definido no arquivo de configuração
-     *
-     * @return object
-     */
-    private final function getDescription() : string
-    {
-        if (! $this->description) {
-            return $this->config()->description();
-        }
-
-        return $this->description;
     }
 }

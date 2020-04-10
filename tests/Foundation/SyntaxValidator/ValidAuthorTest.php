@@ -24,6 +24,11 @@ class ValidAuthorTest extends TestCase
         $this->valid = new SyntaxValidator();
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function testHappyPath()
     {
         $author = "Giu <giuguitar@gmail.com>";
@@ -31,6 +36,23 @@ class ValidAuthorTest extends TestCase
         $this->success($author);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function testSurname()
+    {
+        $author = "Giu <giuguitar@gmail.com>";
+
+        $this->success($author);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function testInvalidEmail()
     {
         $author = "Giu <!this-invalid-email@error.com>";
@@ -38,6 +60,11 @@ class ValidAuthorTest extends TestCase
         $this->failure($author);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function testNameWithAccentures()
     {
         $author = "João Mädchen <foo@domain.com>";
@@ -45,13 +72,23 @@ class ValidAuthorTest extends TestCase
         $this->failure($author);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function testSpacesBetweenInfos()
     {
         $author = "Giu           <alot@spaces.com>";
 
-        $this->failure($author);
+        $this->success($author);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function testEmailWithExtension()
     {
         $author = "Giu <brasil@domain.com.br>";
@@ -59,7 +96,11 @@ class ValidAuthorTest extends TestCase
         $this->success($author);
     }
 
-
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function testEmailStartsWithNumber()
     {
         $author = "Giu <123brasil@domain.com>";

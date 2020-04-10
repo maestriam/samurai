@@ -104,10 +104,38 @@ class Directive extends Foundation
         $path  = $this->nominator()->blade($theme, $file);
 
         if ($this->type == 'include') {
-            return Blade::include($path, $this->alias);
+            return $this->loadInclude($path, $this->alias);
+        }
+        
+        return $this->loadComponent($path, $this->alias);
+    }
+    
+    /**
+     * Undocumented function
+     *
+     * @param string $path
+     * @param string $alias
+     * @return void
+     */
+    private function loadInclude(string $path, string $alias)
+    {
+        return Blade::include();
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param string $path
+     * @param string $alias
+     * @return void
+     */
+    private function loadComponent(string $path, string $alias)
+    {
+        if (method_exists(Blade::class, 'component')) {
+            return Blade::component($path, $alias);
         }
 
-        return Blade::component($path, $this->alias);
+        return Blade::aliasComponent($path, $alias);
     }
 
     /**

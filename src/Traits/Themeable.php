@@ -4,6 +4,7 @@ namespace Maestriam\Samurai\Traits;
 
 use Maestriam\Samurai\Models\Base;
 use Maestriam\Samurai\Models\Theme;
+use Maestriam\Samurai\Models\Wizard;
 use Maestriam\Samurai\Models\DefaultSetting;
 
 /**
@@ -40,5 +41,10 @@ trait Themeable
     public final function default() : DefaultSetting
     {
         return new DefaultSetting();
+    }
+
+    public final function wizard() : Wizard
+    {
+        return new Wizard();
     }
 }
