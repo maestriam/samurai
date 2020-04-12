@@ -32,7 +32,7 @@ class MakeThemeTest extends TestCase
      */
     public function testHappyPath()
     {
-        $name  = $this->themeName();
+        $name = $this->themeName();
 
         $this->success($name);
     }
@@ -74,93 +74,5 @@ class MakeThemeTest extends TestCase
         $this->failure($name, INVALID_THEME_NAME);
     }
 
-    /**
-     * Testa se o tema foi criado corretamente e todos os seus 
-     * atributos estão retornando de forma correta
-     *
-     * @param mixed $name
-     * @return void
-     */
-    private function success($name)
-    {
-        $theme = $this->theme($name)->build();
-
-        $this->contestObject($theme);
-        $this->contestPath($theme->path);
-        $this->contestName($theme->name);
-        $this->contestNamespace($theme->namespace);
-    }
-
-    /**
-     * Testa se há uma exception por erro de nome inválido
-     *
-     * @param mixed $name
-     * @return void
-     */
-    private function failure($name, int $index)
-    {
-        $class = $this->getErrorClass($index);
-
-        $this->expectException($class);
-
-        $this->theme($name)->build();
-    }   
-
-    /**
-     * Testa se o objeto do tema tem todos os atributos definidos
-     * corretamente
-     *
-     * @param mixed $theme
-     * @return void
-     */
-    private function contestObject($theme)
-    {
-        $this->assertInstanceOf(Theme::class, $theme);
-        $this->assertObjectHasAttribute('path', $theme);
-        $this->assertObjectHasAttribute('name', $theme);
-        $this->assertObjectHasAttribute('namespace', $theme);
-    }
-
-    /**
-     * Testa se o nome do tema foi definido corretamente
-     *
-     * @param mixed $name
-     * @return void
-     */
-    private function contestName($name)
-    {
-        $lower = strtolower($name);
-
-        $this->assertStringContainsString($lower, $name, '', true);
-    }
-
-    /**
-     * Testa se o caminho do tema foi criado corretamente e
-     * se está acessível para leitra/escrita
-     *
-     * @param mixed $path
-     * @return void
-     */
-    private function contestPath($path)
-    {
-        $this->assertIsString($path);
-        $this->assertDirectoryExists($path);
-        $this->assertDirectoryIsReadable($path);
-        $this->assertDirectoryIsWritable($path);
-    }
-
-    /**
-     * Testa se o namespace do tema, para chamada no Laravel, 
-     * está criado de maneira correta
-     *
-     * @param mixed $namespace
-     * @return void
-     */
-    private function contestNamespace($namespace)
-    {
-        $prefix  = Config::get('Samurai::prefix');
-        $pattern = "/$prefix/";
-
-        $this->assertRegExp($pattern, $namespace);
-    }
+    
 }

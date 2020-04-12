@@ -15,7 +15,7 @@ class InvalidDirectiveNameException extends Exception
     public function __construct(string $name)
     {
         $this->setMessage($name);
-        $this->setCode('0201');
+        $this->setCode();
     }
 
     /**

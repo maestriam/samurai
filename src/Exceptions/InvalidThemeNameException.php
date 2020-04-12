@@ -2,10 +2,10 @@
 
 namespace Maestriam\Samurai\Exceptions;
 
-use Exception;
 use Illuminate\Support\Facades\Lang;
+use Maestriam\Samurai\Exceptions\BaseException;
 
-class InvalidThemeNameException extends Exception
+class InvalidThemeNameException extends BaseException
 {
     /**
      * Define as configuração para enviar o exception
@@ -14,31 +14,6 @@ class InvalidThemeNameException extends Exception
      */
     public function __construct(string $name)
     {
-        $this->setMessage($name);
-        $this->setCode('0101');
-    }
-
-    /**
-     * Define a mensagem de texto que será enviado para o cliente
-     *
-     * @param string $name
-     * @return void
-     */
-    public function setMessage(string $name)
-    {
-        $key = 'Samurai::exceptions.theme.invalid-name';
-
-        //$this->message = Lang::get($key, ['name' => $name]);
-    }
-
-    /**
-     * Define qual será o número do código de retorno
-     *
-     * @param integer $code
-     * @return void
-     */
-    public function setCode(string $code)
-    {
-        $this->code = $code;
+        $this->initialize(INVALID_THEME_NAME_CODE);
     }
 }

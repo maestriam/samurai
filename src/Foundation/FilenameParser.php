@@ -37,7 +37,7 @@ class FilenameParser
     {
         $name   = $this->parseOnlyName($file);
         $folder = $this->parseFolder($file);
-
+        
         if (! $name) return null;
 
         $request = [
@@ -133,6 +133,12 @@ class FilenameParser
         return (! strlen($name)) ? null : $name;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param string $name
+     * @return void
+     */
     private function parseFolder(string $name)
     {
         $pieces = explode('/', $name);
@@ -142,6 +148,12 @@ class FilenameParser
         return implode(DS, $pieces);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param string $name
+     * @return void
+     */
     private function parseOnlyName(string $name)
     {
         $pieces = explode('/', $name);

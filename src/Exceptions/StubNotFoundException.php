@@ -15,7 +15,7 @@ class StubNotFoundException extends Exception
     public function __construct(string $type)
     {
         $this->setMessage($type);
-        $this->setCode('0301');
+        $this->setCode(STUB_NOT_FOUND_CODE);
     }
 
     /**

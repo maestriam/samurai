@@ -15,7 +15,7 @@ class ThemeExistsException extends Exception
     public function __construct(string $name)
     {
         $this->setMessage($name);
-        $this->setCode('0104');
+        $this->setCode(THEME_EXISTS_CODE);
     }
 
     /**

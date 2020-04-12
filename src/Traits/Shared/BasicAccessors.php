@@ -4,6 +4,7 @@ namespace Maestriam\Samurai\Traits\Shared;
 
 use stdClass;
 use Maestriam\Samurai\Exceptions\InvalidThemeNameException;
+use Maestriam\Samurai\Exceptions\InvalidAuthorException;
 
 /**
  * 
@@ -36,7 +37,7 @@ trait BasicAccessors
     private final function setAuthor(string $author)
     {
         if (! $this->valid()->author($author)) {
-            throw new InvalidThemeNameException($author);
+            throw new InvalidAuthorException($author);
         }
 
         $this->author = $author;

@@ -6,6 +6,7 @@ return [
         'used'       => 'Tema padrão definido com sucesso',
         'refresh'    => 'Tema atualizado com sucesso',
         'invalid'    => 'Não é possível criar um tema com este nome. Nome inválido.',
+        'author'     => 'Nome do autor <mail-do-autor@mail> inválido.',
         'exists'     => 'O tema com este nome já existe. Remova-o ou escolha outro nome de sua preferência.',
         'subdir'     => 'Criando sub-diretório: :folder',
         'published'  => 'Tema publicado com sucesso',

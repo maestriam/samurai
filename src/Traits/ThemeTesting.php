@@ -19,32 +19,23 @@ trait ThemeTesting
      */
     private final function getErrorClass(int $index) : string
     {
-        $errors[INVALID_THEME_NAME]     = InvalidThemeNameException::class;
-        $errors[INVALID_DIRECTIVE_NAME] = InvalidDirectiveNameException::class;
+        $errors[INVALID_THEME_NAME_CODE]     = InvalidThemeNameException::class;
+        $errors[INVALID_DIRECTIVE_NAME_CODE] = InvalidDirectiveNameException::class;
 
         return $errors[$index];
     }    
 
     /**
-     * Definem as constantes que serão utilizdas durante os  testes
+     * Undocumented function
      *
-     * @return void
+     * @return string
      */
-    private final function setConsts()
+    private final function themeName() : string
     {
-        $consts = [
-            'INVALID_THEME_NAME'     => 4,
-            'INVALID_DIRECTIVE_NAME' => 5,
-        ];
+        $vendor = $this->generateVendor();
+        $theme  = $this->generateTheme();
 
-        foreach($consts as $const => $value) {
-
-            if (defined($const)) {
-                continue;
-            }
-            
-            define($const, $value);
-        }
+        return $vendor . '/' . $theme;
     }
 
     /**
@@ -52,11 +43,21 @@ trait ThemeTesting
      *
      * @return string
      */
-    private final function themeName() : string
+    private final function generateTheme() : string
     {
         return 'theme-' . Str::random(50);
     }
     
+    /**
+     * Undocumented function
+     *
+     * @return string
+     */
+    private final function generateVendor() : string
+    {
+        return 'vendor-' . Str::random(50);
+    }
+
     /**
      * Retorna um nome aleatório para criação de um componente
      *

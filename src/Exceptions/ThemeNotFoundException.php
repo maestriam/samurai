@@ -15,7 +15,7 @@ class ThemeNotFoundException extends Exception
     public function __construct(string $name)
     {
         $this->setMessage($name);
-        $this->setCode('0103');
+        $this->setCode(THEME_NOT_FOUND_CODE);
     }
 
     /**

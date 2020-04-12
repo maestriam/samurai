@@ -27,7 +27,7 @@ class Theme extends Foundation
      *
      * @var string
      */
-    private $name = '';
+    public $name = '';
 
     /**
      * Nome do distribuidor do tema/Nome do tema
@@ -35,7 +35,7 @@ class Theme extends Foundation
      *
      * @var string
      */
-    private $vendor = '';
+    public $vendor = '';
 
     /**
      * Caminho-base do tema
@@ -56,14 +56,14 @@ class Theme extends Foundation
      *
      * @var string
      */
-    private $author = null;
+    public $author = null;
 
     /**
      * Undocumented variable
      *
      * @var string
      */
-    private $description = null;
+    public $description = null;
 
     /**
      * Instância do classe que encontra todos as diretivas

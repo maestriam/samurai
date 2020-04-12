@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Config;
 
 class SyntaxValidator
 {
-
     /**
      * 
      *
@@ -29,7 +28,7 @@ class SyntaxValidator
      */
     public function author(string $sentence) : bool
     {
-        $pattern = "/^[a-zA-Z0-9\s_.-]+ <[\w-_]+@+[\w-]+.*(\.[a-z]{2,3})+>$/";
+        $pattern = "/^[a-zA-Z0-9\s_.-]+ <[\w.-_]+@+[\w-]+.*(\.[a-z]{2,3})+>$/";
 
         return (preg_match($pattern, $sentence)) ? true : false;
     }

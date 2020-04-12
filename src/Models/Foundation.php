@@ -85,7 +85,7 @@ class Foundation
      *
      * @return SyntaxValidator
      */
-    protected function valid() : SyntaxValidator
+    public function valid() : SyntaxValidator
     {
         if ($this->valid == null) {
             $this->valid = new SyntaxValidator();

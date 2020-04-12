@@ -45,9 +45,14 @@ class InitThemeCommand extends Command
     {
         try {
 
-            $theme  = $this->askTheme();
+            $theme = $this->askTheme();
+            $cmd   = $this->theme($theme);
+
             $author = $this->askAuthor();
-            $desc   = $this->askDescription();   
+            $cmd->author($author);
+
+            $desc = $this->askDescription();   
+            $cmd->description($desc);
             
             if (! $this->beSure($theme, $author, $desc)) {
                 return false;
@@ -61,7 +66,7 @@ class InitThemeCommand extends Command
             return $this->success('theme.created');
 
         } catch (Exception $e) {
-            return $this->failed($e->getMessage(), $e->getCode());
+            return $this->failed($e->getMessage(), $e->getCode(), true);
         }
     }
     
@@ -73,9 +78,24 @@ class InitThemeCommand extends Command
     private function askTheme() : string 
     {
         $question = $this->wizard()->theme();
-        
-        return $this->askFor($question);
+        $answer   = $this->askFor($question);
+
+        return $answer;
     }
+
+    
+    /**
+     * Retorna o autor do tema informado pelo usuário
+     *
+     * @return string
+     */
+    private function askAuthor() : string
+    {
+        $question = $this->wizard()->author();
+        $answer   = $this->askFor($question); 
+
+        return $answer;      
+    } 
 
     /**
      * Retorna a descrição do tema informado pelo usuário
@@ -90,18 +110,6 @@ class InitThemeCommand extends Command
     } 
 
     /**
-     * Retorna o autor do tema informado pelo usuário
-     *
-     * @return string
-     */
-    private function askAuthor() : string
-    {
-        $question = $this->wizard()->author();
-
-        return $this->askFor($question);        
-    } 
-
-    /**
      * Retorna a resposta de uma pergunta feita para o usuário
      *
      * @param object $question
@@ -111,7 +119,7 @@ class InitThemeCommand extends Command
     {
         $answer = $this->ask($question->ask);
 
-        return (! $answer) ? $question->default : $answer;
+        return (! $answer || empty($answer)) ? $question->default : $answer;
     } 
 
     /**
@@ -122,7 +130,7 @@ class InitThemeCommand extends Command
      * @param string $desc
      * @return boolean
      */
-    private function beSure($theme, $author, $desc) : bool
+    private function beSure(string $theme, string $author, string $desc) : bool
     {
         $question = $this->wizard()->confirm($theme, $author, $desc); 
 

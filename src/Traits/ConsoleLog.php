@@ -19,7 +19,7 @@ trait ConsoleLog
      */
     public final function failed(string $message, int $code, bool $verbose = false)
     {
-        if ($verbose) {
+        if (! $verbose) {
             $message = Lang::get('Samurai::console.' .$message);
         }
 

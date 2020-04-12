@@ -3,6 +3,7 @@
 namespace Maestriam\Samurai\Providers;
 
 use Blade;
+use Config;
 use Illuminate\Support\ServiceProvider;
 use Maestriam\Samurai\Console\UseThemeCommand;
 use Maestriam\Samurai\Console\MakeThemeCommand;
@@ -21,9 +22,10 @@ class MainServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerTranslations();
-        $this->registerConstants();
+        $this->registerErrors();
         $this->registerConfigs();
+        $this->registerConstants();
+        $this->registerTranslations();
         $this->registerCommands();
         $this->registerServices();
 
@@ -57,9 +59,12 @@ class MainServiceProvider extends ServiceProvider
      */
     protected function registerConfigs()
     {
-        $dir = __DIR__.'/../Config/config.php';
+        $file = __DIR__.'/../Config/config.php';
+        $this->mergeConfigFrom($file, 'Samurai');
 
-        $this->mergeConfigFrom($dir, 'Samurai');
+        $file = __DIR__.'/../Config/consts.php';
+        $this->mergeConfigFrom($file, 'Samurai.consts');
+
     }
 
     /**
@@ -70,11 +75,36 @@ class MainServiceProvider extends ServiceProvider
      */
     protected function registerConstants()
     {
-        if ( defined('DS')) {
-            return false;
-        }
+        $consts = Config::get('Samurai.consts');
 
-        define('DS', DIRECTORY_SEPARATOR);
+        foreach ($consts as $k => $v) {
+    
+            if (defined($k)) {
+                return false;
+            }
+        
+            define($k, $v);
+        }
+    }
+
+
+    protected function registerErrors()
+    {
+        $file = __DIR__.'/../Config/errors.php';
+        $this->mergeConfigFrom($file, 'Samurai.errors');
+
+        $consts = Config::get('Samurai.errors');
+
+        foreach ($consts as $code => $prop) {
+
+            $const = $prop['const'];
+
+            if (defined($const)) {
+                return false;
+            }
+
+            define($const, $code);
+        }
     }
 
     /**

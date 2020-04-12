@@ -65,14 +65,14 @@ class Directive extends Foundation
      */
     public function __construct(string $sentence, string $type, Theme $theme)
     {
-        $this->setSentence($sentence);
-        $this->setTheme($theme);
-        $this->setType($type);
-        $this->setName($sentence);
-        $this->setAlias($sentence);
-        $this->setFilename();
-        $this->setFolder($sentence);
-        $this->setPath($sentence);
+        $this->setSentence($sentence)
+             ->setTheme($theme)
+             ->setType($type)
+             ->setName($sentence)
+             ->setAlias($sentence)
+             ->setFilename()
+             ->setFolder($sentence)
+             ->setPath($sentence);
     }
 
     /**
@@ -250,7 +250,7 @@ class Directive extends Foundation
     {
         $request = $this->parser()->filename($name);
 
-        $this->folder = Str::slug($request->folder);
+        $this->folder = strtolower($request->folder);
         return $this;
     }
 

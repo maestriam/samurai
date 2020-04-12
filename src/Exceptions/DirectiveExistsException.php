@@ -2,10 +2,10 @@
 
 namespace Maestriam\Samurai\Exceptions;
 
-use Exception;
 use Illuminate\Support\Facades\Lang;
+use Maestriam\Samurai\Exceptions\BaseException;
 
-class DirectiveExistsException extends Exception
+class DirectiveExistsException extends BaseException
 {
     /**
      * Define as configuração para enviar o exception
@@ -15,7 +15,7 @@ class DirectiveExistsException extends Exception
     public function __construct(string $theme, string $name)
     {
         $this->setMessage($theme, $name);
-        $this->setCode('0203');
+        $this->setCode(DIRECTIVE_EXISTS_CODE);
     }
 
     /**
@@ -32,16 +32,5 @@ class DirectiveExistsException extends Exception
         $placeholders = ['name' => $name, 'theme' => $theme];
 
         $this->message = Lang::get($key, $placeholders);
-    }
-
-    /**
-     * Define qual será o número do código de retorno
-     *
-     * @param integer $code
-     * @return void
-     */
-    public function setCode(string $code)
-    {
-        $this->code = $code;
     }
 }

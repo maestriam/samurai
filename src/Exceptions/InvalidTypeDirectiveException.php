@@ -15,7 +15,7 @@ class InvalidTypeDirectiveException extends Exception
     public function __construct(string $type)
     {
         $this->setMessage($type);
-        $this->setCode('0105');
+        $this->setCode(INVALID_TYPE_DIRECTIVE_CODE);
     }
 
     /**

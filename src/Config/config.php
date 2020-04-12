@@ -60,6 +60,7 @@ return [
         'vendor' => 'maestriam',
         'email'  => 'giuguitar@gmail.com',
     ],
+
     /*
     |--------------------------------------------------------------------------
     | Diretório publicável
@@ -95,5 +96,4 @@ return [
     |
     */
     'description'   => 'A new awsome theme is comming!',
-
 ];
