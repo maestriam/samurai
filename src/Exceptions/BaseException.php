@@ -37,10 +37,16 @@ class BaseException extends Exception
      * @param string $name
      * @return void
      */
-    protected function setMessage(string $code)
+    protected function setMessage(string $code, string ...$placeholders)
     {
-        $consts = Config::get('Samurai.errors');
+        $consts  = Config::get('Samurai.errors');
+        $text    = $consts[$code]['msg'];
+        $message = $text;
 
-        $this->message = $consts[$code]['msg'];    
+        foreach ($placeholders as $placeholder) {
+            $message = sprintf($message, $placeholder);
+        }
+
+        $this->message = $message;    
     }
 }

@@ -104,4 +104,20 @@ trait Construction
 
         return true;
     }
+
+    /**
+     * Registra o tema no arquivo de ambiente do projeto
+     *
+     * @return boolean
+     */
+    private function setCurrent() : bool
+    {
+        $key = $this->config()->env();
+
+        $this->env()->set($key, $this->vendor);
+
+        $current = $this->env()->get($key);
+
+        return ($current == $this->vendor) ? true : false;
+    }
 }

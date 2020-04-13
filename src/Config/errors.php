@@ -24,12 +24,12 @@ return [
     ],
     '0103' => [
         'const' => 'THEME_EXISTS_CODE',
-        'msg'   => 'The :name theme alredy exists on project.',
+        'msg'   => 'The theme "%s" alredy exists on project.',
         'class' => Maestriam\Samurai\Exceptions\ThemeExistsException::class
     ],
     '0104' => [
         'const' => 'INVALID_AUTHOR_CODE',
-        'msg'   => 'The name passed is an invalid author name.',
+        'msg'   => 'The author name "%s" is an invalid author name.',
         'class' => Maestriam\Samurai\Exceptions\InvalidAuthorException::class
     ],
     '0201' => [
@@ -45,13 +45,16 @@ return [
     '0203' => [
         'const' => 'INVALID_TYPE_DIRECTIVE_CODE',
         'msg'   => 'The :type is a invalid type.',
+        'class' => Maestriam\Samurai\Exceptions\InvalidTypeDirectiveException::class
     ],
     '0301' => [
         'const' => 'ENV_NOT_FOUND_CODE',
-        'msg'    => 'File .env not found.'
+        'msg'    => 'File .env not found.',
+        'class' => Maestriam\Samurai\Exceptions\EnvNotFoundException::class
     ],
     '0401' => [
         'const' => 'STUB_NOT_FOUND_CODE',
-        'msg'    => 'The stub file required is not found.'
+        'msg'    => 'The stub file required is not found.',
+        'class' => Maestriam\Samurai\Exceptions\StubNotFoundException::class
     ],
 ];

@@ -23,7 +23,7 @@ class InitThemeCommandTest extends TestCase
         $author = $this->fakeAuthor();    
         $desc   = $this->fakeDescription();    
 
-        $this->initTheme($theme, $author, $desc);
+        $this->success($theme, $author, $desc);
     }
 
     /**
@@ -32,14 +32,20 @@ class InitThemeCommandTest extends TestCase
      *
      * @return void
      */
-    public function testInvalidTheme()
+    public function testInvalidThemeName()
     {
-        $theme = 'vendor invalid';
-        $quest = $this->wizard()->theme();
+        $themes = [
+            'vendor',
+            '/invalid',
+            'vëndor/madchen',
+            'vendor/mädchen',
+            'vendor name/theme-name',
+            'vendor-name/theme name',
+        ];
 
-        $this->artisan('samurai:init')
-             ->expectsQuestion($quest->ask, $theme)
-             ->assertExitCode(INVALID_THEME_NAME_CODE);
+        foreach ($themes as $case) {
+            $this->failedTheme($case);
+        }
     }
 
     /**
@@ -50,16 +56,20 @@ class InitThemeCommandTest extends TestCase
      */
     public function testInvalidAuthor()
     {
-        $wizTheme  = $this->wizard()->theme();
-        $wizAuthor = $this->wizard()->author();
-
         $theme  = $this->fakeTheme();
-        $author = 'wrong author';
 
-        $this->artisan('samurai:init')
-             ->expectsQuestion($wizTheme->ask, $theme)
-             ->expectsQuestion($wizAuthor->ask, $author)
-             ->assertExitCode(INVALID_AUTHOR_CODE);
+        $authors = [
+            'Wrong author',  
+            'wrong author<mail@mail.com>',
+            'wrong author mail@mail.com',
+            'wrong author <m!ail@mail.com>',
+            'wrong authör <mail@mail.com>',
+            'mail@mail.com',
+        ];
+        
+        foreach ($authors as $case) {
+            $this->failedAuthor($theme, $case);
+        }
     }
 
     /**
@@ -70,7 +80,7 @@ class InitThemeCommandTest extends TestCase
      * @param string $desc
      * @return void
      */
-    private function initTheme($theme, $author, $desc)
+    private function success($theme, $author, $desc)
     {
         $wizTheme  = $this->wizard()->theme();
         $wizAuthor = $this->wizard()->author();
@@ -84,5 +94,38 @@ class InitThemeCommandTest extends TestCase
              ->expectsQuestion($wizDesc->ask, $desc)
              ->expectsConfirmation($confirm->ask, true)
              ->assertExitCode(0);
+    }
+
+    /**
+     * Verifica se há erro na pergunta do nome do tema
+     *
+     * @param string $theme
+     * @return void
+     */
+    private function failedTheme($theme)
+    {
+        $quest = $this->wizard()->theme();
+
+        $this->artisan('samurai:init')
+             ->expectsQuestion($quest->ask, $theme)
+             ->assertExitCode(INVALID_THEME_NAME_CODE);
+    }
+
+    /**
+     * Verifica se há erro na pergunta do autor
+     *
+     * @param string $theme
+     * @param string $author
+     * @return void
+     */
+    public function failedAuthor($theme, $author)
+    {
+        $wizTheme  = $this->wizard()->theme();
+        $wizAuthor = $this->wizard()->author();
+
+        $this->artisan('samurai:init')
+             ->expectsQuestion($wizTheme->ask, $theme)
+             ->expectsQuestion($wizAuthor->ask, $author)
+             ->assertExitCode(INVALID_AUTHOR_CODE);
     }
 }

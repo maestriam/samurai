@@ -155,7 +155,7 @@ class EnvHandler
      */
     private function store(array $lines)
     {
-        $content = implode(PHP_EOL, $lines);
+        $content = implode("\n", $lines);
 
         return file_put_contents($this->file, $content);
     }

@@ -28,7 +28,6 @@ class MainServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerCommands();
         $this->registerServices();
-
     }
 
     /**

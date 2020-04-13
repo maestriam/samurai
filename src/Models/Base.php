@@ -40,13 +40,21 @@ class Base extends Foundation
      */
     public function first() : ?Theme
     {
-        $folders = $this->readBase();
+        $vendors = $this->readBase();
 
-        if (empty($folders)) {
+        if (empty($vendors)) {
             return null;
         }
 
-        $name = array_shift($folders);
+        $vendor = array_shift($vendors);
+        $themes = $this->readVendor($vendor);
+        
+        if (empty($themes)) {
+            return null;
+        }
+
+        $theme = array_shift($themes);
+        $name  = $vendor . '/' . $theme;
 
         return $this->themefy($name);
     }
@@ -106,12 +114,21 @@ class Base extends Foundation
     private function readBase() : array
     {
         $base = $this->dir()->base();
+        
+        return $this->file()->readDir($base);
+    }
+    
+    /**
+     * Retorna a lista de todos as pastas criadas dentro
+     * da base de temas do projeto
+     *
+     * @param string $vendor
+     * @return void
+     */
+    private function readVendor(string $vendor) : array
+    {
+        $base = $this->dir()->base() . $vendor;
 
-        if (! is_dir($base)) return [];
-
-        $themes = scandir($base);
-        $themes = array_splice($themes, 2);
-
-        return empty($themes) ? [] : $themes;
+        return $this->file()->readDir($base);
     }
 }

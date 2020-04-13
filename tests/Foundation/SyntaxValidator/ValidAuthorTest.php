@@ -60,6 +60,17 @@ class ValidAuthorTest extends TestCase
         $this->failure($author);
     }
 
+    public function testInvalidAuthorNames()
+    {
+        $authors = [
+            'MYXOMc <petra.wintheiser@gusikowski.info>'
+        ];
+
+        foreach ($authors as $author) {
+            $this->failure($author);
+        }
+    }
+
     /**
      * Undocumented function
      *

@@ -51,7 +51,7 @@ trait FakeValues
     private final function fakeInclude() : string
     {
         $prefix = 'include-';
-        $name   = $this->faker-word();
+        $name   = $this->faker->word();
         $suffix = Str::random(3);
 
         $include = $prefix . $name . $suffix;

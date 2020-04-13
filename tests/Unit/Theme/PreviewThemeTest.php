@@ -4,82 +4,94 @@ namespace Maestriam\Samurai\Tests\Unit\Theme;
 
 use Tests\TestCase;
 use Maestriam\Samurai\Traits\Themeable;
+use Illuminate\Foundation\Testing\WithFaker;
+use Maestriam\Samurai\Traits\Testing\FakeValues;
 
 /**
  * Testes de funcionalidades básicas apresentadas no README.md
  */
 class PreviewThemeTest extends TestCase
-{
-    use Themeable;
+{ 
+    use WithFaker, FakeValues, Themeable;
 
     /**
-     * 
+     * Verifica se consegue exibir a prévia do Json 
+     * com sucesso
      *
      * @return void
      */
     public function testPreview()
     {
-        $vendor = 'maestriam/veq-theme';
-        $author = 'Giu <giuguitar@gmail.com>';
-        $desc   = 'A new happy theme! :)';
+        $vendor = $this->fakeTheme();
+        $author = $this->fakeAuthor();
+        $desc   = $this->fakeDescription();
 
         $preview = $this->theme($vendor)
                         ->author($author)
                         ->description($desc)
                         ->preview();
 
-        $this->assertIsString($preview);
-        $this->assertJson($preview);
+        $this->success($preview);
     }
 
     /**
-     * Undocumented function
+     * Verifica se consegue exibir a prévia do Json 
+     * passando apenas o nome do tema
      *
      * @return void
      */
     public function testPreviewAllDefault()
     {
-        $vendor = 'maestriam/xasdw-theme';
-
-        $preview = $this->theme($vendor)
-                        ->preview();
-
-        $this->assertIsString($preview);
-        $this->assertJson($preview);
+        $theme   = $this->fakeTheme();
+        $preview = $this->theme($theme)->preview();
+        
+        $this->success($preview);
     }
 
     /**
-     * Undocumented function
+     * Verifica se consegue exibir a prévia do Json 
+     * passando o nome do tema e o autor
      *
      * @return void
      */
     public function testPreviewWithDefaultDescription()
     {
-        $vendor = 'maestriam/xasdw-theme';
-        $author = 'Giu <giuguitar@gmail.com>';
+        $theme  = $this->fakeTheme();
+        $author = $this->fakeAuthor();
 
-        $preview = $this->theme($vendor)
+        $preview = $this->theme($theme)
                         ->author($author)
                         ->preview();
-
-        $this->assertIsString($preview);
-        $this->assertJson($preview);
+    
+        $this->success($preview);
     }
 
     /**
-     * Undocumented function
+     * Verifica se consegue exibir a prévia do Json 
+     * passando o nome do tema e a descrição
      *
      * @return void
      */
     public function testPreviewWithDefaultAuthor()
     {
-        $vendor = 'maestriam/xasdw-theme';
-        $desc   = 'Description';
+        $theme = $this->fakeTheme();
+        $desc  = $this->fakeDescription();
 
-        $preview = $this->theme($vendor)
+        $preview = $this->theme($theme)
                         ->description($desc)
                         ->preview();
 
+        $this->success($preview);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $preview
+     * @return void
+     */
+    private function success($preview)
+    {
         $this->assertIsString($preview);
         $this->assertJson($preview);
     }

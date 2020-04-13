@@ -119,7 +119,7 @@ class Directive extends Foundation
      */
     private function loadInclude(string $path, string $alias)
     {
-        return Blade::include();
+        return Blade::include($path, $alias);
     }
 
     /**

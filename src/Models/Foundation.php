@@ -66,7 +66,7 @@ class Foundation
     private $parser;
 
     /**
-     * Retorna uma instância de um auxiliar para 
+     * Retorna uma instância auxiliar para 
      * tarefas de sistema de arquivos
      *
      * @return void

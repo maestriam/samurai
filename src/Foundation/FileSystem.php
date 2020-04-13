@@ -64,7 +64,17 @@ class FileSystem
         return file_get_contents($file);
     }
 
-    
+
+    public function readDir($path) : array
+    {
+        if (! is_dir($path)) return [];
+
+        $content = scandir($path);
+        $content = array_splice($content, 2);
+
+        return empty($content) ? [] : $content;
+    }
+
     /**
      * Limpa o cache do projeto
      *
