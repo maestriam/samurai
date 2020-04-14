@@ -6,6 +6,7 @@ use Str;
 use Maestriam\Samurai\Models\Theme;
 use Illuminate\Support\Facades\Blade;
 use Maestriam\Samurai\Models\Foundation;
+use Illuminate\View\Compilers\BladeCompiler;
 use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
 use Maestriam\Samurai\Exceptions\InvalidDirectiveNameException;
 use Maestriam\Samurai\Exceptions\InvalidTypeDirectiveException;
@@ -13,14 +14,14 @@ use Maestriam\Samurai\Exceptions\InvalidTypeDirectiveException;
 class Directive extends Foundation
 {
     /**
-     * Nome da diretiva 
+     * Nome da diretiva
      *
      * @var string
      */
     private $name = '';
 
     /**
-     * Sentença que foi inserida pelo usuário, 
+     * Sentença que foi inserida pelo usuário,
      * que irá fornecer o nome/sub-diretório
      *
      * @var string
@@ -52,7 +53,7 @@ class Directive extends Foundation
     * Apelido pelo qual é chamado dentro do projeto
     *
     * @var string
-    */ 
+    */
     private $alias = '';
 
     /**
@@ -106,10 +107,10 @@ class Directive extends Foundation
         if ($this->type == 'include') {
             return $this->loadInclude($path, $this->alias);
         }
-        
+
         return $this->loadComponent($path, $this->alias);
     }
-    
+
     /**
      * Undocumented function
      *
@@ -131,7 +132,7 @@ class Directive extends Foundation
      */
     private function loadComponent(string $path, string $alias)
     {
-        if (method_exists(Blade::class, 'component')) {
+        if (method_exists(BladeCompiler::class, 'component')) {
             return Blade::component($path, $alias);
         }
 
@@ -166,14 +167,14 @@ class Directive extends Foundation
      *
      * @return void
      */
-    public function relative()
+    public function relative() : string
     {
         $file = $this->absolute();
         $path = $this->theme->path . DS;
 
         return str_replace($path, '', $file);
     }
-    
+
     /**
      * Undocumented function
      *
@@ -291,7 +292,7 @@ class Directive extends Foundation
      */
     private function setPath() : self
     {
-        $folder = null; 
+        $folder = null;
         $name   = $this->name . DS;
         $theme  = $this->theme->filepath() . DS;
 
