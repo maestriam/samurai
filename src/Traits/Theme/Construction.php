@@ -60,7 +60,7 @@ trait Construction
         }
 
         $from = $this->assetPath();
-        $to   = $this->dir()->public($this->name);
+        $to   = $this->publicPath();
 
         File::copyDirectory($from, $to);
 

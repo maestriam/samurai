@@ -65,9 +65,9 @@ class StructureDirectory
      * @param string $name
      * @return string
      */
-    public function public(string $name) : string
+    public function public(string $vendor, string $name) : string
     {
-        return  public_path('themes'. DS . $name);
+        return  public_path('themes'. DS . $vendor . DS . $name);
     }
 
     /**

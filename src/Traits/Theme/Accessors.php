@@ -63,7 +63,8 @@ trait Accessors
      */
     public function publicPath() : string
     {
-        return $this->dir()->public($this->name);
+        $dist = $this->distributor;
+        return $this->dir()->public($dist, $this->name);
     }
 
     /**
