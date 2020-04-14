@@ -62,7 +62,7 @@ class MakeThemeTest extends TestCase
      */
     public function testOnlyThemeName()
     {
-        $theme  = $this->fakeTheme();
+        $theme = $this->fakeTheme();
 
         $this->success($theme);
     }

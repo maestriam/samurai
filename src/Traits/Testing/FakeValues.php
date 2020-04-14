@@ -67,7 +67,7 @@ trait FakeValues
     private final function fakeComponent() : string
     {
         $prefix = 'component-';
-        $name   = $this->faker-word();
+        $name   = $this->faker->word();
         $suffix = Str::random(3);
         
         $component = $prefix . $name . $suffix;

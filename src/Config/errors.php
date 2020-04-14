@@ -14,7 +14,7 @@ return [
     */
     '0101' => [
         'const' => 'INVALID_THEME_NAME_CODE',
-        'msg'   => 'The name passed is an invalid name. Its not possible to create an theme with special characters and start number.',
+        'msg'   => 'The name "%s" is an invalid. Its not possible to create an theme with special characters and start number.',
         'class' => Maestriam\Samurai\Exceptions\InvalidThemeNameException::class
     ],
     '0102' => [

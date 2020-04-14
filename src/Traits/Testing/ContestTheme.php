@@ -24,6 +24,11 @@ trait ContestTheme
         $exec  = $this->mount($name, $author, $desc);
         $theme = $exec->build();
 
+        $this->contestTheme($theme);
+    }
+    
+    private final function contestTheme($theme)
+    {
         $this->contestObject($theme);
         $this->contestPath($theme->path);
         $this->contestName($theme->name);
