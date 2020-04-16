@@ -3,7 +3,8 @@
     "description": "Blade-based theme manager for Laravel apps",
     "type": "library",
     "require-dev": {
-        "phpunit/phpunit": "^8.5"
+        "phpunit/phpunit": "^8.5",
+        "laravel/framework": "^6.0"
     },
     "authors": [
         {
