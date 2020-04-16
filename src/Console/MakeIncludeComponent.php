@@ -53,9 +53,6 @@ class MakeIncludeCommand extends Command
             return $this->success('include.created');
 
         } catch (Exception $e) {
-
-            dd($e);
-
             return $this->failed($e->getCode());
         }
     }

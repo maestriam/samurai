@@ -25,9 +25,9 @@ class MakeIncludeTest extends TestCase
     
     public function testThemeNotFoundInclude()
     {
-        $theme   = $this->fakeTheme();
+        $theme   = $this->fakeTheme() . time(); 
         $include = $this->fakeInclude();
-
+        
         $this->failed(THEME_NOT_FOUND_CODE, $theme, $include);
     }
 
@@ -42,5 +42,20 @@ class MakeIncludeTest extends TestCase
              ->create();
 
         $this->failed(DIRECTIVE_EXISTS_CODE, $theme, $include);
+    }
+
+    public function testInvalidIncludeName()
+    {
+        $theme = $this->fakeTheme();
+        
+        $this->theme($theme)->findOrBuild();
+
+        $includes = [
+            '#invalid-name'
+        ];
+
+        foreach ($includes as $include) {
+            $this->failed(INVALID_DIRECTIVE_NAME_CODE, $theme, $include);
+        }
     }
 }
