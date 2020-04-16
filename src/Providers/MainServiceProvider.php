@@ -58,7 +58,7 @@ class MainServiceProvider extends ServiceProvider
      */
     protected function registerConfigs()
     {
-        $source    = __DIR__.'/../config/config.php';
+        $source    = __DIR__.'/../Config/config.php';
         $published = config_path('samurai.php');
 
         $this->publishes([$source => $published], 'Samurai');
