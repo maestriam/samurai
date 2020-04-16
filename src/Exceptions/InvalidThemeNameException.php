@@ -14,7 +14,6 @@ class InvalidThemeNameException extends BaseException
      */
     public function __construct(string $name)
     {
-        $this->setCode(INVALID_THEME_NAME_CODE);
-        $this->setMessage(INVALID_THEME_NAME_CODE, $name);
+        $this->initialize(INVALID_THEME_NAME_CODE, $name);
     }
 }

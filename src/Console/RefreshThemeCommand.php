@@ -4,15 +4,16 @@ namespace Maestriam\Samurai\Console;
 
 use Exception;
 use Illuminate\Console\Command;
-use Maestriam\Samurai\Traits\ConsoleLog;
 use Maestriam\Samurai\Traits\Themeable;
+use Maestriam\Samurai\Traits\Shared\ConfigAccessors;
+use Maestriam\Samurai\Traits\Console\MessageLogging;
 
 class RefreshThemeCommand extends Command
 {
     /**
      * Propriedades e funções básicas do sistema
      */
-    use Themeable, ConsoleLog;
+    use Themeable, ConfigAccessors, MessageLogging;
 
     /**
      * The name and signature of the console command.
@@ -45,8 +46,14 @@ class RefreshThemeCommand extends Command
      */
     public function handle()
     {
-        $this->base()->clearCache();
-
-        return $this->success('theme.refresh');
+        try {
+            
+            $this->base()->clearCache();
+    
+            return $this->success('theme.refresh');
+        
+        } catch (Exception $e) {
+            return $this->failed($e->getCode());
+        }
     }
 }

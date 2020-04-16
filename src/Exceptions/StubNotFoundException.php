@@ -2,10 +2,10 @@
 
 namespace Maestriam\Samurai\Exceptions;
 
-use Exception;
 use Illuminate\Support\Facades\Lang;
+use Maestriam\Samurai\Exceptions\BaseException;
 
-class StubNotFoundException extends Exception
+class StubNotFoundException extends BaseException
 {
     /**
      * Define as configuração para enviar o exception
@@ -14,31 +14,6 @@ class StubNotFoundException extends Exception
      */
     public function __construct(string $type)
     {
-        $this->setMessage($type);
-        $this->setCode(STUB_NOT_FOUND_CODE);
-    }
-
-    /**
-     * Define a mensagem de texto que será enviado para o cliente
-     *
-     * @param string $type
-     * @return void
-     */
-    public function setMessage(string $type)
-    {
-        $key = 'Samurai::exceptions.theme.invalid-type';
-
-        //$this->message = Lang::get($key, ['name' => $type]);
-    }
-
-    /**
-     * Define qual será o número do código de retorno
-     *
-     * @param integer $code
-     * @return void
-     */
-    public function setCode(string $code)
-    {
-        $this->code = $code;
+        $this->initialize(STUB_NOT_FOUND_CODE, $type);
     }
 }

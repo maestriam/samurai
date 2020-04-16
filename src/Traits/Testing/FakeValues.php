@@ -3,6 +3,7 @@
 namespace Maestriam\Samurai\Traits\Testing;
 
 use Str;
+use Config;
 use Maestriam\Samurai\Exceptions\InvalidThemeNameException;
 use Maestriam\Samurai\Exceptions\InvalidDirectiveNameException;
 
@@ -84,4 +85,19 @@ trait FakeValues
     {
         return $this->faker->text(60);
     }
+
+    /**
+     * Retorna a classe de erro de acordo com o indíce enviado
+     *
+     * @param integer $index
+     * @return string
+     */
+    private final function getErrorClass(string $index) : string
+    {
+        $errors = Config::get('Samurai.errors');
+
+        $class = $errors[$index]['class'];
+
+        return $class;
+    } 
 }

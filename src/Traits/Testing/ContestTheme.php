@@ -131,21 +131,5 @@ trait ContestTheme
         $pattern = "/$prefix/";
 
         $this->assertRegExp($pattern, $namespace);
-    }
-    
-
-    /**
-     * Retorna a classe de erro de acordo com o indíce enviado
-     *
-     * @param integer $index
-     * @return string
-     */
-    private final function getErrorClass(string $index) : string
-    {
-        $errors = Config::get('Samurai.errors');
-
-        $class = $errors[$index]['class'];
-
-        return $class;
-    }    
+    }   
 }

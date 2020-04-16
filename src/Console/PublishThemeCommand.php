@@ -5,11 +5,12 @@ namespace Maestriam\Samurai\Console;
 use Exception;
 use Illuminate\Console\Command;
 use Maestriam\Samurai\Traits\Themeable;
-use Maestriam\Samurai\Traits\ConsoleLog;
+use Maestriam\Samurai\Traits\Shared\ConfigAccessors;
+use Maestriam\Samurai\Traits\Console\MessageLogging;
 
 class PublishThemeCommand extends Command
 {
-    use Themeable, ConsoleLog;
+    use Themeable, ConfigAccessors, MessageLogging;
 
     /**
      * The name and signature of the console command.
@@ -40,7 +41,7 @@ class PublishThemeCommand extends Command
 
         } catch (Exception $e) {
 
-            return $this->failed($e->getMessage(), $e->getCode());
+            return $this->failed($e->getCode());
         }
     }
 }

@@ -66,74 +66,39 @@ class MakeThemeTest extends TestCase
 
         $this->success($theme);
     }
-
-    /**
-     * Verifica se há falha ao criar um tema começando com números
-     *
-     * @return void
-     */
-    public function testNameStartNumbers()
+    
+    public function testValidVendoresNames()
     {
-        $name = time() . $this->fakeTheme();
+        $names = [
+            time() . $this->fakeTheme()
+        ];
 
-        $this->success($name);
+        foreach ($names as $name) {
+            $this->success($name);
+        }
     }
 
     /**
-     * Undocumented function
+     * Verifica uma lista de nomes incompatíveis com o 
+     * formato "vendor/name"
      *
      * @return void
      */
-    public function testInvalidNameWithSpaces()
+    public function testInvalidVendorNames()
     {
-        $theme  = 'vendor/nome errado';
+        $names = [
+            'vendor/nome errado',
+            'vendor/crüe',
+            'VENDOR/THEME',
+            'sp&cal-ch@r$-t()&m&/tuhos-ü'
+        ];
+
         $author = $this->fakeAuthor(); 
-        $desc   = $this->fakeDescription(); 
+        $desc   = $this->fakeDescription();
 
-        $this->failure(INVALID_THEME_NAME_CODE, $theme);
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @return void
-     */
-    public function testInvalidNameWithSpecialChars()
-    {
-        $theme  = 'vendor/crüe';
-        $author = $this->fakeAuthor(); 
-        $desc   = $this->fakeDescription(); 
-
-        $this->failure(INVALID_THEME_NAME_CODE, $theme);
-    }
-
-    /**
-     * Verifica se há sucesso ao criar um tema com letra
-     * maiuscula ou minuscula
-     *
-     * @return void
-     */
-    public function testUpperCaseName()
-    {
-        $name   = strtoupper($this->fakeTheme());
-        $author = $this->fakeAuthor(); 
-        $desc   = $this->fakeDescription(); 
-
-        $this->failure(INVALID_THEME_NAME_CODE, $name, $author, $desc);
-    }
-
-    /**
-     * Verifica se há erro ao criar um tema com caracteres especiais
-     *
-     * @return void
-     */
-    public function testSpecialChars()
-    {
-        $name   = "sp&cal-ch@r$-t()&m&/tuhos-ü";
-        $author = $this->fakeAuthor(); 
-        $desc   = $this->fakeDescription(); 
-
-        $this->failure(INVALID_THEME_NAME_CODE, $name, $author, $desc);
+        foreach ($names as $name) {
+            $this->failure(INVALID_THEME_NAME_CODE, $name, $author, $desc);
+        }
     }
 
     /**

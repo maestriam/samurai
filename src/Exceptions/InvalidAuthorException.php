@@ -8,8 +8,7 @@ class InvalidAuthorException extends BaseException
 {
     public function __construct($author)
     {
-        $this->setCode(INVALID_AUTHOR_CODE);
-        $this->setMessage(INVALID_AUTHOR_CODE, $author);
+        $this->initialize(INVALID_AUTHOR_CODE, $author);
     }
 }
 

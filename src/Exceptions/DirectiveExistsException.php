@@ -14,23 +14,6 @@ class DirectiveExistsException extends BaseException
      */
     public function __construct(string $theme, string $name)
     {
-        $this->setMessage($theme, $name);
-        $this->setCode(DIRECTIVE_EXISTS_CODE);
-    }
-
-    /**
-     * Define a mensagem de texto que será enviado para o cliente
-     *
-     * @param string $theme
-     * @param string $name
-     * @return void
-     */
-    public function setMessage(string $theme, string $name)
-    {
-        $key = 'Samurai::exceptions.directive.exists';
-
-        $placeholders = ['name' => $name, 'theme' => $theme];
-
-        $this->message = Lang::get($key, $placeholders);
+        $this->initialize(DIRECTIVE_EXISTS_CODE, $name, $theme);
     }
 }

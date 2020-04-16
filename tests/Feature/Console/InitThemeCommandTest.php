@@ -110,6 +110,7 @@ class InitThemeCommandTest extends TestCase
              ->expectsQuestion($quest->ask, $theme)
              ->assertExitCode(INVALID_THEME_NAME_CODE);
     }
+        
 
     /**
      * Verifica se há erro na pergunta do autor

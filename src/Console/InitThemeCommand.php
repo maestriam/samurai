@@ -5,12 +5,13 @@ namespace Maestriam\Samurai\Console;
 use Exception;
 use Illuminate\Console\Command;
 use Maestriam\Samurai\Traits\Themeable;
-use Maestriam\Samurai\Traits\ConsoleLog;
+use Maestriam\Samurai\Traits\Shared\ConfigAccessors;
+use Maestriam\Samurai\Traits\Console\MessageLogging;
 use Maestriam\Samurai\Exceptions\StubNotFoundException;
 
 class InitThemeCommand extends Command
 {
-    use Themeable, ConsoleLog;
+    use Themeable, ConfigAccessors, MessageLogging;
 
     /**
      * Assinatura Artisan
@@ -66,7 +67,7 @@ class InitThemeCommand extends Command
             return $this->success('theme.created');
 
         } catch (Exception $e) {
-            return $this->failed($e->getMessage(), $e->getCode(), true);
+            return $this->failed($e->getCode());
         }
     }
     

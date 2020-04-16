@@ -24,4 +24,21 @@ trait ContestDirective
         $this->assertInstanceOf(Directive::class, $include);
     }
 
+    /**
+     * Retorna 
+     *
+     * @param [type] $code
+     * @param [type] $theme
+     * @param [type] $name
+     * @return void
+     */
+    private final function failed($code, $theme, $name)
+    {
+        $class = $this->getErrorClass($code);
+
+        $this->expectException($class);
+
+        $this->theme($theme)->include($name)->create();
+    }
+
 }

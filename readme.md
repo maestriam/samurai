@@ -1,4 +1,6 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+<p align="center">
+    <img width="256" src="http://project.maestriam.com.br/modules/maestro/img/samurai.png">
+</p>
 
 <p align="center"><b>One view, a lot themes</b></p>
 
@@ -22,31 +24,36 @@ You can publishing your themes and install-it in other projects using composer.
 composer require maestriam/samurai
 ```
 
-## Getting Start
+## Getting Started
 
-**Creating a new theme**
+**Creating a new theme with interactive mode**
 ``` bash
-php artisan samurai:make-theme my-theme
+php artisan samurai:make-init
+```
+
+**Creating a new theme with default configs**
+``` bash
+php artisan samurai:make-theme my-vendor/my-theme
 ```
 
 **Creating a new include** 
 ``` bash
-php artisan samurai:make-include my-theme my-include
+php artisan samurai:make-include my-vendor/my-theme my-include
 ```
 
-To edit your include file, go to themes/my-theme/src/my-include/my-include-include.blade.php
+To edit your include file, go to themes/my-vendor/my-theme/src/my-include/my-include-include.blade.php
 
 **Creating a new component**
 ``` bash
-php artisan samurai:make-component my-theme my-component
+php artisan samurai:make-component my-vendor/my-theme my-component
 ```
 
-To edit your include file, go to themes/my-theme/src/my-component/my-component-component.blade.php
+To edit your include file, go to themes/my-vendor/my-theme/src/my-component/my-component-component.blade.php
 
 **Using theme in your project**  
 To publish your assets and define your theme as current:
 ``` bash
-php artisan samurai:use my-theme
+php artisan samurai:use my-vendor/my-theme
 ```
 
 **Using components into blade files**  

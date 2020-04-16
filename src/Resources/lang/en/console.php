@@ -2,24 +2,33 @@
 
 return [
     'theme' => [
-        'created'    => 'Tema criado com sucesso.',
-        'used'       => 'Tema padrão definido com sucesso',
-        'refresh'    => 'Tema atualizado com sucesso',
-        'invalid'    => 'Não é possível criar um tema com este nome. Nome inválido.',
-        'author'     => 'Nome do autor <mail-do-autor@mail> inválido.',
-        'exists'     => 'O tema com este nome já existe. Remova-o ou escolha outro nome de sua preferência.',
-        'subdir'     => 'Criando sub-diretório: :folder',
-        'published'  => 'Tema publicado com sucesso',
-        'not-exists' => 'Este tema não existe. Verifique se o nome foi digitado corretamente e tente novamente.',
+        'created'    => "Theme created successfully.",
+        'used'       => "Default theme defined successfully.",
+        'refresh'    => "Theme refreshed successfully.",
+        'not-found'  => "Theme not found",
+        'invalid'    => "It's not possible to create a theme with this name. Invalid theme name.",
+        'exists'     => "This theme already exists. ",
+        'published'  => "Theme published successfully.",
+        'not-exists' => "Theme not found.",
     ],
-    'component' => [
-        'created' => 'Componente criado com sucesso',
-        'invalid' => 'Não é possível criar um compoonente com este nome. Nome inválido.',
-        'exists'  => 'O componente já existe no tema específicado. Remova-o ou escolha outro nome de sua preferência.'
+    'author' => [
+        'invalid' => "It's not possible to create a theme with this name. Invalid author name.",
     ],
     'include' => [
-        'created' => 'Include criado com sucesso',
-        'invalid' => 'Não é possível criar um include com este nome. Nome inválido.',
-        'exists'  => 'O include já existe no tema específicado. Remova-o ou escolha outro nome de sua preferência.'
+        'created' => "Include created successfully.",
     ],
+    'component' => [
+        'created' => "Component created successfully.",
+    ],
+    'directive' => [
+        'invalid' => "It's not possible to create a directive with this name. Invalid directive name.",
+        'type'    => "It's not possible to create a directive with this type. Invalid directive type.",
+        'exists'  => "This directive already exists on project.",
+    ],
+    'env' => [
+        'not-found' => "The .env file not found."
+    ],
+    'stub' => [
+        'not-found' => "The stub file not found."
+    ]
 ];

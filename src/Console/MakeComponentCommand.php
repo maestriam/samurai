@@ -4,12 +4,13 @@ namespace Maestriam\Samurai\Console;
 
 use Exception;
 use Illuminate\Console\Command;
-use Maestriam\Samurai\Traits\ConsoleLog;
 use Maestriam\Samurai\Traits\Themeable;
+use Maestriam\Samurai\Traits\Shared\ConfigAccessors;
+use Maestriam\Samurai\Traits\Console\MessageLogging;
 
 class MakeComponentCommand extends Command
 {
-    use Themeable, ConsoleLog;
+    use Themeable, ConfigAccessors, MessageLogging;
 
     /**
      * Assinatura Artisan
@@ -52,7 +53,7 @@ class MakeComponentCommand extends Command
             return $this->success('component.created');
 
         } catch (Exception $e) {
-            return $this->failed($e->getMessage(), $e->getCode());
+            return $this->failed($e->getCode());
         }
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Blade;
 use Maestriam\Samurai\Models\Foundation;
 use Illuminate\View\Compilers\BladeCompiler;
 use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
+use Maestriam\Samurai\Exceptions\DirectiveExistsException;
 use Maestriam\Samurai\Exceptions\InvalidDirectiveNameException;
 use Maestriam\Samurai\Exceptions\InvalidTypeDirectiveException;
 
@@ -83,6 +84,10 @@ class Directive extends Foundation
      */
     public function create() : ?Directive
     {
+        if ($this->exists()) {
+            throw new DirectiveExistsException($this->theme->vendor, $this->sentence);
+        }
+
         $this->file()->mkFolder($this->path);
 
         $absolute = $this->absolute();
@@ -91,6 +96,11 @@ class Directive extends Foundation
         $this->file()->mkFile($absolute, $content);
 
         return (is_file($absolute)) ? $this : null;
+    }
+
+    public function exists() : bool
+    {
+        return (is_file($this->absolute())) ? true : false;
     }
 
     /**

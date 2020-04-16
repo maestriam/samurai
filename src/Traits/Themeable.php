@@ -23,7 +23,8 @@ trait Themeable
     }
 
     /**
-     *
+     * Retorna uma instância do serviço com todas as funções básicas
+     * para manipular a base de temas dentro do projeto
      *
      * @return Base
      */
@@ -33,6 +34,12 @@ trait Themeable
     }
 
 
+    /**
+     * Retorna uma instância do serviço com todas os questionários
+     * para guiar o usuário e criar um tema corretamente
+     *
+     * @return Base
+     */
     public final function wizard() : Wizard
     {
         return new Wizard();

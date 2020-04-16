@@ -39,6 +39,10 @@ class FileSystem
      */
     public function mkFile(string $filename, string $content) : bool
     {
+        if (is_file($filename)) {
+            return false;
+        }
+
         $handle = fopen($filename, 'w');
 
         fwrite($handle, $content);
