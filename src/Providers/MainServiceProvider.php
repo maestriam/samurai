@@ -58,8 +58,13 @@ class MainServiceProvider extends ServiceProvider
      */
     protected function registerConfigs()
     {
-        $file = __DIR__.'/../Config/config.php';
-        $this->mergeConfigFrom($file, 'Samurai');
+        $source    = __DIR__.'/../config/config.php';
+        $published = config_path('samurai.php');
+
+        $this->publishes([$source => $published], 'Samurai');
+
+        $config = (is_file($published)) ? $published : $source; 
+        $this->mergeConfigFrom($config, 'Samurai');
 
         $file = __DIR__.'/../Config/consts.php';
         $this->mergeConfigFrom($file, 'Samurai.consts');

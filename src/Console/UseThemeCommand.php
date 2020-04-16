@@ -36,6 +36,8 @@ class UseThemeCommand extends Command
             $name = (string) $this->argument('theme');
 
             $this->theme($name)->use();
+            
+            $this->base()->clearCache();
 
             return $this->success('theme.used');
 

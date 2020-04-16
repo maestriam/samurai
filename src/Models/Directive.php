@@ -142,11 +142,11 @@ class Directive extends Foundation
      */
     private function loadComponent(string $path, string $alias)
     {
-        if (method_exists(BladeCompiler::class, 'component')) {
-            return Blade::component($path, $alias);
+        if (method_exists(BladeCompiler::class, 'aliasComponent')) {
+            return Blade::aliasComponent($path, $alias);
         }
 
-        return Blade::aliasComponent($path, $alias);
+        return Blade::component($path, $alias);
     }
 
     /**

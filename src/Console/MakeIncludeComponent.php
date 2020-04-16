@@ -50,6 +50,8 @@ class MakeIncludeCommand extends Command
 
             $this->theme($theme)->include($name)->create();
 
+            $this->base()->clearCache();
+
             return $this->success('include.created');
 
         } catch (Exception $e) {

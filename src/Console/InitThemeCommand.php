@@ -64,6 +64,8 @@ class InitThemeCommand extends Command
                  ->description($desc)
                  ->build();
 
+            $this->base()->clearCache();
+
             return $this->success('theme.created');
 
         } catch (Exception $e) {

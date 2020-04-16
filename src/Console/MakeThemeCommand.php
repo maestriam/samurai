@@ -51,6 +51,8 @@ class MakeThemeCommand extends Command
             $name = $this->argument('name');
 
             $this->theme($name)->build();
+            
+            $this->base()->clearCache();
 
             return $this->success('theme.created');
 

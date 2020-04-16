@@ -50,6 +50,8 @@ class MakeComponentCommand extends Command
 
             $this->theme($theme)->component($name)->create();
 
+            $this->base()->clearCache();
+
             return $this->success('component.created');
 
         } catch (Exception $e) {

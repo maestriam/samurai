@@ -36,6 +36,8 @@ class PublishThemeCommand extends Command
             $name = (string) $this->argument('theme');
 
             $this->theme($name)->publish();
+            
+            $this->base()->clearCache();
 
             return $this->success('themes.published');
 
