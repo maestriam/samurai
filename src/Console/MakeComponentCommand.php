@@ -2,6 +2,7 @@
 
 namespace Maestriam\Samurai\Console;
 
+use Lang;
 use Exception;
 use Illuminate\Console\Command;
 use Maestriam\Samurai\Traits\Themeable;
@@ -48,11 +49,11 @@ class MakeComponentCommand extends Command
             $theme = (string) $this->argument('theme');
             $name  = (string) $this->argument('name');
 
-            $this->theme($theme)->component($name)->create();
+            $component = $this->theme($theme)->component($name)->create();
 
             $this->base()->clearCache();
 
-            return $this->success('component.created');
+            return $this->created($component, 'component');
 
         } catch (Exception $e) {
             return $this->failed($e->getCode());

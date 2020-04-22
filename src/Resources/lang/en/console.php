@@ -2,7 +2,7 @@
 
 return [
     'theme' => [
-        'created'    => "Theme created successfully.",
+        'created'    => "Theme created successfully in [:path].",
         'used'       => "Default theme defined successfully.",
         'refresh'    => "Theme refreshed successfully.",
         'not-found'  => "Theme not found",
@@ -15,10 +15,10 @@ return [
         'invalid' => "It's not possible to create a theme with this name. Invalid author name.",
     ],
     'include' => [
-        'created' => "Include created successfully.",
+        'created' => "Include created successfully in [:path].",
     ],
     'component' => [
-        'created' => "Component created successfully.",
+        'created' => "Component created successfully in [:path].",
     ],
     'directive' => [
         'invalid' => "It's not possible to create a directive with this name. Invalid directive name.",

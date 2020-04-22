@@ -177,6 +177,18 @@ class Directive extends Foundation
      *
      * @return void
      */
+    public function indicative() : string
+    {
+        $absolute = $this->absolute();
+
+        return $this->dir()->indicative($absolute);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function relative() : string
     {
         $file = $this->absolute();

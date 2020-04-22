@@ -2,6 +2,7 @@
     "name": "{{theme}}",
     "description": "{{description}}",
     "type": "blade-theme",
+    "license": "MIT",
     "authors": [
         {
             "name": "{{name}}",
@@ -9,6 +10,6 @@
         }
     ],
     "require": {
-        "maestriam/samurai": "dev-master"
+        "maestriam/samurai": "^1.0.0"
     }
 }

@@ -52,7 +52,20 @@ trait Accessors
     public function filePath() : string
     {
         $dist = $this->distributor;
+        
         return $this->dir()->files($dist, $this->name);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return string
+     */
+    public function indicative() : string
+    {
+        $theme = $this->dir()->theme($this->distributor, $this->name); 
+
+        return $this->dir()->indicative($theme);
     }
 
     /**

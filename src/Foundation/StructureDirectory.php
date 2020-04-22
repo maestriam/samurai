@@ -29,7 +29,7 @@ class StructureDirectory
     }
 
     /**
-     * Retorna o caminho do diretório dentro do diretório-base
+     * Retorna o caminho do tema dentro do diretório-base
      * de temas ou dentro do diretório do composer
      *
      * @param string $name
@@ -43,6 +43,20 @@ class StructureDirectory
         if ($finded) return $finded;
 
         return $this->findTheme($base, $vendor, $name);
+    }
+
+    
+    /**
+     * Retorna o caminho relativo de um tema/diretiva
+     * dentro do projeto
+     *
+     * @return void
+     */
+    public function indicative(string $path) : string
+    {
+        $base = base_path() . DS; 
+
+        return str_replace($base, '', $path);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Maestriam\Samurai\Console;
 
+use Lang;
 use Exception;
 use Illuminate\Console\Command;
 use Maestriam\Samurai\Traits\Themeable;
@@ -43,16 +44,16 @@ class MakeIncludeCommand extends Command
      */
     public function handle()
     {
-        try {
+        try {   
 
             $theme = (string) $this->argument('theme');
             $name  = (string) $this->argument('name');
-
-            $this->theme($theme)->include($name)->create();
-
+            
+            $include = $this->theme($theme)->include($name)->create();
+            
             $this->base()->clearCache();
 
-            return $this->success('include.created');
+            return $this->created($include, 'include');
 
         } catch (Exception $e) {
             return $this->failed($e->getCode());

@@ -3,6 +3,7 @@
 namespace Maestriam\Samurai\Traits\Console;
 
 use Illuminate\Support\Facades\Lang;
+use Maestriam\Samurai\Models\Foundation;
 
 /**
  * Funções compartilhadas para manipulação de temas
@@ -48,4 +49,25 @@ trait MessageLogging
 
         return $code;
     }    
+
+    
+    /**
+     * Retorna a mensagem que um objeto de fundação (theme/directive)
+     * foi criado com sucesso.
+     * 
+     * @param string $path
+     * @return string
+     */
+    private function created(Foundation $foundation, string $key) 
+    {
+        $key = sprintf('Samurai::console.%s.created', $key);
+
+        $path = $foundation->indicative();
+
+        $info = Lang::get($key, ['path' => $path]);
+
+        $this->info($info);
+        
+        return 0;
+    }
 }

@@ -39,7 +39,7 @@ class PublishThemeCommand extends Command
             
             $this->base()->clearCache();
 
-            return $this->success('themes.published');
+            return $this->success('theme.published');
 
         } catch (Exception $e) {
 
