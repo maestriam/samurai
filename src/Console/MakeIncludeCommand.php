@@ -6,19 +6,20 @@ use Lang;
 use Exception;
 use Illuminate\Console\Command;
 use Maestriam\Samurai\Traits\Themeable;
+use Maestriam\Samurai\Traits\Console\GetArguments;
 use Maestriam\Samurai\Traits\Shared\ConfigAccessors;
 use Maestriam\Samurai\Traits\Console\MessageLogging;
 
 class MakeIncludeCommand extends Command
 {
-    use Themeable, ConfigAccessors, MessageLogging;
+    use Themeable, ConfigAccessors, MessageLogging, GetArguments;
 
     /**
      * Assinatura Artisan
      *
      * @var string
      */
-    protected $signature = 'samurai:make-include {theme} {name}';
+    protected $signature = 'samurai:make-include {theme} {name?}';
 
     /**
      * Descrição do comando Artisan
@@ -46,10 +47,11 @@ class MakeIncludeCommand extends Command
     {
         try {   
 
-            $theme = (string) $this->argument('theme');
-            $name  = (string) $this->argument('name');
+            $args = $this->getArguments();
             
-            $include = $this->theme($theme)->include($name)->create();
+            $include = $this->theme($args->theme)
+                            ->include($args->name)
+                            ->create();
             
             $this->base()->clearCache();
 

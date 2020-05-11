@@ -8,17 +8,18 @@ use Illuminate\Console\Command;
 use Maestriam\Samurai\Traits\Themeable;
 use Maestriam\Samurai\Traits\Shared\ConfigAccessors;
 use Maestriam\Samurai\Traits\Console\MessageLogging;
+use Maestriam\Samurai\Traits\Console\GetArguments;
 
 class MakeComponentCommand extends Command
 {
-    use Themeable, ConfigAccessors, MessageLogging;
+    use Themeable, ConfigAccessors, MessageLogging, GetArguments;
 
     /**
      * Assinatura Artisan
      *
      * @var string
      */
-    protected $signature = 'samurai:make-component {theme} {name}';
+    protected $signature = 'samurai:make-component {theme} {name?}';
 
     /**
      * Descrição do comando Artisan
@@ -46,10 +47,11 @@ class MakeComponentCommand extends Command
     {
         try {
 
-            $theme = (string) $this->argument('theme');
-            $name  = (string) $this->argument('name');
+            $args = $this->getArguments();
 
-            $component = $this->theme($theme)->component($name)->create();
+            $component = $this->theme($args->theme)
+                              ->component($args->name)
+                              ->create();
 
             $this->base()->clearCache();
 

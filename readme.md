@@ -84,11 +84,14 @@ E.g:
   
     
 ## Author Notes
-*Hello, my name is [Giuliano Sampaio](https://github.com/giusampaio). I'm developer since 2006 and `mastriam/samurai` author*  
-*This is my first open source project and I would like to know your opinion, suggestions for improvements and, of course, new committs to help the project grow. Feel free to add on [Linked-in](https://www.linkedin.com/in/giuliano-sampaio-812ba340/) or follow me on [Github](https://github.com/giusampaio).*  
-*I'm still working hard to fix and improve some parts of the code, but I hope to get it as soon as possible.*  
-*I hope this project can help you improve your blade views in your Laravel projects, just as it is helping me.*
+<p style="font-family: Times, serif; font-size: 12px;">
+Hello, my name is <a href="https://github.com/giusampaio">Giuliano Sampaio</a>.  I'm developer since 2006 and mastriam/samurai author. <br/>  
+This is my first open source project and I would like to know your opinion, suggestions for improvements and, of course, new committs to help the project grow. <br/>
+I'm still working hard to fix and improve some parts of the code, but I hope to finish it as soon as possible. <br/> 
+I hope this project can help you improve your blade views in your Laravel projects, just as it is helping me.
+<br/><br/>
+Best regards and good codes.  
+<br/><br/>
+Made with ❤️ and 🍺!
+</p>
 
-*Best regards and good codes.*  
-
-*Made with ❤️ and 🍺!*
