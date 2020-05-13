@@ -45,14 +45,14 @@ class MakeIncludeCommand extends Command
      */
     public function handle()
     {
-        try {   
+        try {
 
             $args = $this->getArguments();
-            
+
             $include = $this->theme($args->theme)
                             ->include($args->name)
                             ->create();
-            
+
             $this->base()->clearCache();
 
             return $this->created($include, 'include');

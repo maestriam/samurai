@@ -19,7 +19,7 @@ trait GetArguments
     {
         $arg1 = (string) $this->argument('theme');
         $arg2 = (string) $this->argument('name');
-        
+
         if (strlen($arg2)) {
             return $this->toObject($arg1, $arg2);
         }
@@ -27,7 +27,7 @@ trait GetArguments
         $theme = $this->base()->current();
 
         if ($theme) {
-            return $this->toObject($theme, $theme->vendor);                      
+            return $this->toObject($theme->vendor, $arg1);
         }
 
         throw new ThemeNotFoundException('');
