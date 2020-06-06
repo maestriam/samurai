@@ -80,18 +80,6 @@ To import any file into your theme(like css, js, imgs), use directive @public.
 E.g:
 ``` bash
 <script src="@public('js/index.js')" />
-```
-  
-    
-## Author Notes
-<p style="font-family: Times, serif; font-size: 12px;">
-Hello, my name is <a href="https://github.com/giusampaio">Giuliano Sampaio</a>.  I'm developer since 2006 and mastriam/samurai author. <br/>  
-This is my first open source project and I would like to know your opinion, suggestions for improvements and, of course, new committs to help the project grow. <br/>
-I'm still working hard to fix and improve some parts of the code, but I hope to finish it as soon as possible. <br/> 
-I hope this project can help you improve your blade views in your Laravel projects, just as it is helping me.
-<br/><br/>
-Best regards and good codes.  
-<br/><br/>
-Made with ❤️ and 🍺!
-</p>
-
+```  
+<br></br>  
+Created by [Giuliano Sampaio](https://github.com/giusampaio) with ❤️ and 🍺!
