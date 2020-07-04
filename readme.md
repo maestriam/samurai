@@ -9,7 +9,6 @@
 
 **Maestriam/Samurai** is a simple package for creating and managing themes for Laravel applications, using [component](https://laravel.com/docs/5.8/blade#components-and-slots) and [include](https://laravel.com/docs/5.8/blade#including-sub-views) functions of Laravel Blade.  
 You can publishing your themes and install-it in another projects using composer.  
-**Under construction!**
 
 ## Requirements
 
