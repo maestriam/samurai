@@ -19,7 +19,7 @@ class MakeComponentCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'samurai:make-component {theme} {name?}';
+    protected $signature = 'samurai:make-component {name} {theme?}';
 
     /**
      * Descrição do comando Artisan

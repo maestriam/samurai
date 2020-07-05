@@ -2,8 +2,7 @@
 
 namespace Maestriam\Samurai\Providers;
 
-use Blade;
-use Config;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use Maestriam\Samurai\Console\UseThemeCommand;
 use Maestriam\Samurai\Console\MakeThemeCommand;

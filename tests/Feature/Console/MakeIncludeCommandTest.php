@@ -11,6 +11,11 @@ class MakeIncludeCommandTest extends TestCase
 {
     use Themeable, WithFaker, FakeValues;
     
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function testHappyPath()
     {
         $theme   = $this->base()->current();
@@ -22,7 +27,7 @@ class MakeIncludeCommandTest extends TestCase
     private function success($theme, $include)
     {
         $cmd = sprintf("samurai:make-include %s %s", $theme, $include);
-        
+
         $this->artisan($cmd)->assertExitCode(0);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Maestriam\Samurai\Traits\Console;
 
+use Maestriam\Samurai\Exceptions\InvalidDirectiveNameException;
 use stdClass;
 use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
 
@@ -17,20 +18,44 @@ trait GetArguments
      */
     protected function getArguments() : stdClass
     {
-        $arg1 = (string) $this->argument('theme');
-        $arg2 = (string) $this->argument('name');
+        $name  = $this->getNameArgument();
+        $theme = $this->getThemeArgument();
 
-        if (strlen($arg2)) {
-            return $this->toObject($arg1, $arg2);
+        return $this->toObject($theme, $name);
+    }
+    
+    /**
+     * Retorna o nome do nome da diretiva
+     *
+     * @return string
+     */
+    protected function getNameArgument() : string
+    {
+        $name = (string) $this->argument('name');
+
+        if (! $name) {
+            throw new InvalidDirectiveNameException($name);
         }
 
-        $theme = $this->base()->current();
+        return $name;
+    }
 
-        if ($theme) {
-            return $this->toObject($theme->vendor, $arg1);
+    /**
+     * Retorna o nome do tema para criação da diretiva
+     *
+     * @return string
+     */
+    protected function getThemeArgument() : string
+    {   
+        $console = (string) $this->argument('theme');
+
+        if (strlen($console)) {
+            return $console;
         }
 
-        throw new ThemeNotFoundException('');
+        $current = $this->base()->current();
+
+        return $current->vendor .'/'. $current->name;
     }
 
     /**

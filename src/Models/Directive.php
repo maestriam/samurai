@@ -2,7 +2,7 @@
 
 namespace Maestriam\Samurai\Models;
 
-use Str;
+use Illuminate\Support\Str;
 use Maestriam\Samurai\Models\Theme;
 use Illuminate\Support\Facades\Blade;
 use Maestriam\Samurai\Models\Foundation;
@@ -167,7 +167,7 @@ class Directive extends Foundation
      *
      * @return void
      */
-    public function absolute()
+    public function absolute() : string
     {
         return $this->path . $this->filename;
     }

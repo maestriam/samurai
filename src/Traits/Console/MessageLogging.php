@@ -50,7 +50,6 @@ trait MessageLogging
         return $code;
     }    
 
-    
     /**
      * Retorna a mensagem que um objeto de fundação (theme/directive)
      * foi criado com sucesso.
@@ -67,7 +66,7 @@ trait MessageLogging
         $info = Lang::get($key, ['path' => $path]);
 
         $this->info($info);
-        
+
         return 0;
     }
 }

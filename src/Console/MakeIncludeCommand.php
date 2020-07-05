@@ -19,14 +19,14 @@ class MakeIncludeCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'samurai:make-include {theme} {name?}';
+    protected $signature = 'samurai:make-include {name} {theme?}';
 
     /**
      * Descrição do comando Artisan
      *
      * @var string
      */
-    protected $description = 'Create a new include for specific theme';
+    protected $description = 'Create a new include for a specific theme';
 
     /**
      * Construção da classe

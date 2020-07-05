@@ -17,7 +17,7 @@ trait Themeable
      *
      * @return void
      */
-    public final function theme(string $name)
+    public final function theme(string $name) : Theme
     {
         return new Theme($name);
     }

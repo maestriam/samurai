@@ -2,8 +2,8 @@
 
 namespace Maestriam\Samurai\Traits\Testing;
 
-use Str;
 use Config;
+use Illuminate\Support\Str;
 use Maestriam\Samurai\Exceptions\InvalidThemeNameException;
 use Maestriam\Samurai\Exceptions\InvalidDirectiveNameException;
 
