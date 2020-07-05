@@ -38,18 +38,18 @@ php artisan samurai:make-init
 php artisan samurai:make-theme my-vendor/my-theme
 ```
 
-**Creating a new include** 
+**Creating a new include**   
 ``` bash
-php artisan samurai:make-include my-vendor/my-theme my-include
+php artisan samurai:make-include my-include my-vendor/my-theme 
 ```
-
+The `theme` param is optional. If not informed, assume the default theme automatically.  
 To edit your include file, go to themes/my-vendor/my-theme/src/my-include/my-include-include.blade.php
 
-**Creating a new component**
+**Creating a new component**  
 ``` bash
-php artisan samurai:make-component my-vendor/my-theme my-component
+php artisan samurai:make-component my-component my-vendor/my-theme
 ```
-
+The `theme` param is optional. If not informed, assume the default theme automatically.   
 To edit your include file, go to themes/my-vendor/my-theme/src/my-component/my-component-component.blade.php
 
 **Using theme in your project**  
