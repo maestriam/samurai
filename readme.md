@@ -1,5 +1,5 @@
 <p align="center">
-    <img width="256" src="http://project.maestriam.com.br/modules/maestro/img/samurai.png">
+    <img width="256" src="imgs/samurai.png">
 </p>
 
 <p align="center"><b>Create awsome themes for your Laravel projects.</b></p>
