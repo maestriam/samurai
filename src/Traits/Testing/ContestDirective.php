@@ -13,7 +13,7 @@ use Maestriam\Samurai\Exceptions\InvalidDirectiveNameException;
 trait ContestDirective
 {
     
-    private final function success($theme, $name)
+    private function success($theme, $name)
     {
         $this->theme($theme)->findOrBuild();
 
@@ -32,7 +32,7 @@ trait ContestDirective
      * @param [type] $name
      * @return void
      */
-    private final function failed($code, $theme, $name)
+    private function failed($code, $theme, $name)
     {
         $class = $this->getErrorClass($code);
 

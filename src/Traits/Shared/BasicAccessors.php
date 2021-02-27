@@ -17,7 +17,7 @@ trait BasicAccessors
      *
      * @return Theme
      */
-    public final function setVendor(string $vendor)
+    public function setVendor(string $vendor)
     {
         if (! $this->valid()->vendor($vendor)) {
             throw new InvalidThemeNameException($vendor);
@@ -34,7 +34,7 @@ trait BasicAccessors
      * @param string $author
      * @return void
      */
-    private final function setAuthor(string $author)
+    private function setAuthor(string $author)
     {
         if (! $this->valid()->author($author)) {
             throw new InvalidAuthorException($author);
@@ -51,7 +51,7 @@ trait BasicAccessors
      * @param string $author
      * @return void
      */
-    private final function setDescription(string $description)
+    private function setDescription(string $description)
     {
         $this->description = $description;
         return $this;
@@ -63,7 +63,7 @@ trait BasicAccessors
      *
      * @return string
      */
-    private final function getVendor() : string
+    private function getVendor() : string
     {
         return $this->vendor;
     }    
@@ -75,7 +75,7 @@ trait BasicAccessors
      *
      * @return object
      */
-    private final function getAuthor() : stdClass
+    private function getAuthor() : stdClass
     {
         if (! $this->author) {
             return $this->config()->author();
@@ -91,7 +91,7 @@ trait BasicAccessors
      *
      * @return object
      */
-    private final function getDescription() : string
+    private function getDescription() : string
     {
         if (! $this->description) {
             return $this->config()->description();

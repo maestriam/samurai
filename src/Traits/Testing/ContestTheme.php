@@ -2,10 +2,8 @@
 
 namespace Maestriam\Samurai\Traits\Testing;
 
-use Config;
 use Maestriam\Samurai\Models\Theme;
-use Maestriam\Samurai\Exceptions\InvalidThemeNameException;
-use Maestriam\Samurai\Exceptions\InvalidDirectiveNameException;
+use Illuminate\Support\Facades\Config;
 
 /**
  * 
@@ -19,7 +17,7 @@ trait ContestTheme
      * @param mixed $name
      * @return void
      */
-    private final function success($name = null, $author = null, $desc = null)
+    private function success($name = null, $author = null, $desc = null)
     {
         $exec  = $this->mount($name, $author, $desc);
         $theme = $exec->build();
@@ -27,7 +25,7 @@ trait ContestTheme
         $this->contestTheme($theme);
     }
     
-    private final function contestTheme($theme)
+    private function contestTheme($theme)
     {
         $this->contestObject($theme);
         $this->contestPath($theme->path);
@@ -43,7 +41,7 @@ trait ContestTheme
      * @param string $desc
      * @return Theme
      */
-    private final function mount($name = null, $author = null, $desc = null) : Theme
+    private function mount($name = null, $author = null, $desc = null) : Theme
     {
         $exec = $this->theme($name);
 
@@ -64,7 +62,7 @@ trait ContestTheme
      * @param mixed $name
      * @return void
      */
-    private final function failure(string $error, $name = null, $author = null, $desc = null)
+    private function failure(string $error, $name = null, $author = null, $desc = null)
     {
         $class = $this->getErrorClass($error);
 
@@ -82,7 +80,7 @@ trait ContestTheme
      * @param mixed $theme
      * @return void
      */
-    private final function contestObject($theme)
+    private function contestObject($theme)
     {
         $this->assertInstanceOf(Theme::class, $theme);
         $this->assertObjectHasAttribute('path', $theme);
@@ -96,7 +94,7 @@ trait ContestTheme
      * @param mixed $name
      * @return void
      */
-    private final function contestName($name)
+    private function contestName($name)
     {
         $lower = strtolower($name);
 
@@ -110,7 +108,7 @@ trait ContestTheme
      * @param mixed $path
      * @return void
      */
-    private final function contestPath($path)
+    private function contestPath($path)
     {
         $this->assertIsString($path);
         $this->assertDirectoryExists($path);
@@ -125,7 +123,7 @@ trait ContestTheme
      * @param mixed $namespace
      * @return void
      */
-    private final function contestNamespace($namespace)
+    private function contestNamespace($namespace)
     {
         $prefix  = Config::get('Samurai::prefix');
         $pattern = "/$prefix/";

@@ -7,7 +7,7 @@ namespace Maestriam\Samurai\Traits\Shared;
  */
 trait Composer
 {
-    private final function getComposer() : string
+    private function getComposer() : string
     {
         $vendor = $this->getVendor();
         $author = $this->getAuthor();
@@ -24,7 +24,7 @@ trait Composer
         return $content;
     }
 
-    private final function mkComposer()
+    private function mkComposer()
     {
         $filename = 'composer.json';
         $content  = $this->getComposer();

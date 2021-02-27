@@ -12,7 +12,7 @@ trait ConfigAccessors
      * @param integer $code
      * @return array
      */
-    private final function getErrorConfig(string $code = null) : array
+    private function getErrorConfig(string $code = null) : array
     {
         $errors = Config::get('Samurai.errors'); 
 

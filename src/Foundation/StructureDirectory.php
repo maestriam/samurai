@@ -120,7 +120,7 @@ class StructureDirectory
      * @param string $name
      * @return string|null
      */
-    private final function findVendor(string $vendor, string $name) : ?string
+    private function findVendor(string $vendor, string $name) : ?string
     {
         $base = $this->vendor();
 

@@ -17,7 +17,7 @@ trait Accessors
      *
      * @return void
      */
-    private final function parseVendor()
+    private function parseVendor()
     {
         if (! $this->vendor) {
             throw new InvalidThemeNameException($this->vendor);
@@ -98,7 +98,7 @@ trait Accessors
      * @param string $name
      * @return $this
      */
-    private final function setName(string $name)
+    private function setName(string $name)
     {
         if (! $this->isValidName($name)) {
             throw new InvalidThemeNameException($name);
@@ -114,7 +114,7 @@ trait Accessors
      * @param string $name
      * @return $this
      */
-    private final function setDistributor(string $dist)
+    private function setDistributor(string $dist)
     {
         if (! $this->isValidName($dist)) {
             throw new InvalidThemeNameException($dist);
@@ -130,7 +130,7 @@ trait Accessors
      * @param string $name
      * @return void
      */
-    private final function setPath(string $dist, string $name)
+    private function setPath(string $dist, string $name)
     {
         $this->path = $this->dir()->theme($dist, $name);
         return $this;
@@ -142,7 +142,7 @@ trait Accessors
      * @param string $name
      * @return void
      */
-    private final function setNamespace(string $name)
+    private function setNamespace(string $name)
     {
         $this->namespace = $this->nominator()->namespace($name);
         return $this;

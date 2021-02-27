@@ -17,7 +17,7 @@ trait FakeValues
      *
      * @return string
      */
-    private final function fakeTheme() : string
+    private function fakeTheme() : string
     {
         $lenght = rand(0, 50);
 
@@ -34,7 +34,7 @@ trait FakeValues
      *
      * @return string
      */
-    private final function fakeAuthor() : string
+    private function fakeAuthor() : string
     {
         $name  = Str::random(6);
         $email = $this->faker->email;
@@ -49,7 +49,7 @@ trait FakeValues
      *
      * @return string
      */
-    private final function fakeInclude() : string
+    private function fakeInclude() : string
     {
         $prefix = 'include-';
         $name   = $this->faker->word();
@@ -65,7 +65,7 @@ trait FakeValues
      *
      * @return string
      */
-    private final function fakeComponent() : string
+    private function fakeComponent() : string
     {
         $prefix = 'component-';
         $name   = $this->faker->word();
@@ -81,7 +81,7 @@ trait FakeValues
      *
      * @return string
      */
-    private final function fakeDescription() : string
+    private function fakeDescription() : string
     {
         return $this->faker->text(60);
     }
@@ -92,7 +92,7 @@ trait FakeValues
      * @param integer $index
      * @return string
      */
-    private final function getErrorClass(string $index) : string
+    private function getErrorClass(string $index) : string
     {
         $errors = Config::get('Samurai.errors');
 

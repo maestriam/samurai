@@ -92,7 +92,7 @@ trait Construction
      *
      * @return void
      */
-    private final function mkStructure() : bool
+    private function mkStructure() : bool
     {
         $paths[] = $this->path;
         $paths[] = $this->assetPath();

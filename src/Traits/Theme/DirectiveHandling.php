@@ -74,7 +74,7 @@ trait DirectiveHandling
      * @param string $file
      * @return object|null
      */
-    private final function parseFilePath(string $file) : ?object
+    private function parseFilePath(string $file) : ?object
     {
         $path = $this->filePath();
 
