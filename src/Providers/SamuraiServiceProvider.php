@@ -12,7 +12,7 @@ use Maestriam\Samurai\Console\MakeComponentCommand;
 use Maestriam\Samurai\Console\RefreshThemeCommand;
 use Maestriam\Samurai\Console\InitThemeCommand;
 
-class MainServiceProvider extends ServiceProvider
+class SamuraiServiceProvider extends ServiceProvider
 {
     /**
      * Ao iniciar o service provider...
@@ -60,10 +60,10 @@ class MainServiceProvider extends ServiceProvider
         $source    = __DIR__.'/../Config/config.php';
         $published = config_path('samurai.php');
 
-        $this->publishes([$source => $published], 'Samurai');
+        $this->publishes([$source => $published], 'samurai');
 
         $config = (is_file($published)) ? $published : $source; 
-        $this->mergeConfigFrom($config, 'Samurai');
+        $this->mergeConfigFrom($config, 'samurai');
 
         $file = __DIR__.'/../Config/consts.php';
         $this->mergeConfigFrom($file, 'Samurai.consts');

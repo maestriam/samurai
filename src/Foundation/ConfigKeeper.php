@@ -11,7 +11,7 @@ class ConfigKeeper
      *
      * @return string
      */
-    public function env() : string
+    public function env() : ?string
     {
         return Config::get('Samurai.env_key');
     }
