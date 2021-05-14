@@ -2,6 +2,7 @@
 
 namespace Maestriam\Samurai\Tests\Unit\Foundation\EnvHandler;
 
+use Exception;
 use Maestriam\Samurai\Tests\TestCase;
 use Maestriam\Samurai\Foundation\EnvHandler;
 
@@ -26,13 +27,12 @@ class EnvHandlerTest extends TestCase
      *
      * @return void
      */
-    public function testSetEnvVariable()
+    public function testGetAndSetEnvVariable()
     {        
         $key = 'THEME_CURRENT';
         $val = 'my-theme';
         
-        $handler = new EnvHandler();
-        
+        $handler = new EnvHandler();        
         $handler->set($key, $val);
 
         $this->assertIsString($handler->get($key));
@@ -41,7 +41,7 @@ class EnvHandlerTest extends TestCase
     /**
      * Verifica se consegue criar um novo arquivo de configurações
      * se caso não exista no projeto.
-     * Por padrão, sempre deve ser criado na raíz do projeto
+     * Por padrão, sempre deve ser criado na raíz do projeto (base_path())
      * 
      * @return void
      */

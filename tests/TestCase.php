@@ -24,7 +24,7 @@ class TestCase extends BaseTesCase
     protected function getPackageProviders($app) : array
     {
         return [
-            
+            // SamuraiServiceProvider::class
         ];
     }
 
