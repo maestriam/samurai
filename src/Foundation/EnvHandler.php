@@ -6,11 +6,36 @@ use Maestriam\Samurai\Exceptions\EnvNotFoundException;
 
 class EnvHandler
 {
-    protected $file;
+    protected $filename;
 
     public function __construct()
     {
-        $this->file = base_path('.env');
+        if (! $this->exists()) {
+            $this->initEnv();
+        }
+    }
+    
+    /**
+      * Cria um novo arquivo de configurações do ambiente do projeto
+      *
+      * @param string $custom
+      * @return integer
+      */
+    public function initEnv() : int
+    {        
+        return touch($this->file());
+    }
+
+    /**
+     * Retorna o nome do arquivo de configurações de ambiente do projeto
+     *
+     * @return string
+     */
+    public function file() : string
+    {
+        $file = config('samurai.env_file', '.env');
+
+        return base_path($file);
     }
 
     /**
@@ -96,7 +121,7 @@ class EnvHandler
      */
     public function exists() : bool
     {
-        return is_file($this->file);
+        return is_file($this->file());
     }
 
     /**
@@ -110,7 +135,7 @@ class EnvHandler
             throw new EnvNotFoundException();
         }
 
-        return file_get_contents($this->file);
+        return file_get_contents($this->file());
     }
 
     /**
@@ -157,6 +182,6 @@ class EnvHandler
     {
         $content = implode("\n", $lines);
 
-        return file_put_contents($this->file, $content);
+        return file_put_contents($this->file(), $content);
     }
 }
