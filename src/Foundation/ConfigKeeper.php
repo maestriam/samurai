@@ -7,13 +7,15 @@ use Illuminate\Support\Facades\Config;
 class ConfigKeeper
 {
     /**
-     * Retorna o nome da chave que será aplicada no arquivo .env
+     * Retorna o nome da chave que será aplicada no arquivo .env.
+     * Se não conseguir encontrar a chave no arquivo de configuração
+     * do pacote, retorne THEME_CURRENT.
      *
      * @return string
      */
-    public function env() : ?string
+    public function env() : string
     {
-        return Config::get('Samurai.env_key');
+        return Config::get('samurai.env_key', 'THEME_CURRENT');
     }
 
     /**
