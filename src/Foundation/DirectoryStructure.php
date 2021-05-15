@@ -4,7 +4,7 @@ namespace Maestriam\Samurai\Foundation;
 
 use Illuminate\Support\Facades\Config;
 
-class StructureDirectory
+class DirectoryStructure
 {
     /**
      * Retorna o caminho
@@ -13,9 +13,9 @@ class StructureDirectory
      */
     public function base() : string
     {
-        $samurai = Config::get('Samurai.themes.folder');
+        $default = base_path('themes');
 
-        return $samurai;
+        return config('samurai.themes.folder') ?? $default;
     }
 
     /**

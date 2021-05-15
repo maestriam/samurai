@@ -35,4 +35,22 @@ class ConfigKeeperTest extends TestCase
         $this->assertIsString($config->env());
         $this->assertEquals($env, $config->env());
     }
+
+    /**
+     * Verifica se consegue pegar env_key caso não esteja definida
+     * no arquivo de configuração do pacote.
+     * Por padrão, deve retornar o CURRENT_THEME
+     *
+     * @return void
+     */
+    public function testDefaultGetEnvKey()
+    {
+        $env = 'CURRENT_THEME';
+        
+        $config = new ConfigKeeper();
+
+        $this->assertIsString($config->env());
+
+        $this->assertEquals($env, $config->env());
+    }
 }

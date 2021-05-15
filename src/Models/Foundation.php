@@ -6,16 +6,17 @@ use Maestriam\Samurai\Foundation\ConfigKeeper;
 use Maestriam\Samurai\Foundation\EnvHandler;
 use Maestriam\Samurai\Foundation\FileSystem;
 use Maestriam\Samurai\Foundation\FileNominator;
-use Maestriam\Samurai\Foundation\SyntaxValidator;
-use Maestriam\Samurai\Foundation\StructureDirectory;
 use Maestriam\Samurai\Foundation\FilenameParser;
+use Maestriam\Samurai\Foundation\SyntaxValidator;
+use Maestriam\Samurai\Foundation\DirectoryStructure;
 
 class Foundation
 {
     /**
+     * Classe auxiliar para gerenciamento de estrutura de diretórios
+     * dentor do projeto
      *
-     *
-     * @var StructureDirectory
+     * @var DirectoryStructure
      */
     private $dir;
 
@@ -56,7 +57,6 @@ class Foundation
      * @var ConfigKeeper
      */
     private $config;
-
     
     /**
      * Instância do parser de filepath para objeto
@@ -95,7 +95,7 @@ class Foundation
     }
 
     /**
-     * Undocumented function
+     * 
      *
      * @return FileNominator
      */
@@ -112,12 +112,12 @@ class Foundation
      * Retorna uma instância de RN sobre 
      * estrutura de pasta do tema
      *
-     * @return StructureDirectory
+     * @return DirectoryStructure
      */
-    protected function dir() : StructureDirectory
+    protected function dir() : DirectoryStructure
     {
         if ($this->dir == null) {
-            $this->dir = new StructureDirectory();
+            $this->dir = new DirectoryStructure();
         }
 
         return $this->dir;
@@ -166,5 +166,4 @@ class Foundation
 
         return $this->parser;
     }
-
 }

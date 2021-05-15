@@ -9,13 +9,13 @@ class ConfigKeeper
     /**
      * Retorna o nome da chave que será aplicada no arquivo .env.
      * Se não conseguir encontrar a chave no arquivo de configuração
-     * do pacote, retorne THEME_CURRENT.
+     * do pacote, retorne CURRENT_THEME.
      *
      * @return string
      */
     public function env() : string
     {
-        return Config::get('samurai.env_key', 'THEME_CURRENT');
+        return config('samurai.env_key') ?? 'CURRENT_THEME';
     }
 
     /**

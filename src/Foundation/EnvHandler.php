@@ -33,7 +33,7 @@ class EnvHandler
      */
     public function file() : string
     {
-        $file = config('samurai.env_file', '.env');
+        $file = config('samurai.env_file') ?? '.env';
 
         return base_path($file);
     }

@@ -2,7 +2,6 @@
 
 namespace Maestriam\Samurai\Tests\Unit\Foundation\EnvHandler;
 
-use Exception;
 use Maestriam\Samurai\Tests\TestCase;
 use Maestriam\Samurai\Foundation\EnvHandler;
 

@@ -16,7 +16,7 @@ class RegistersCustomDirectiveProvider extends ServiceProvider
     }
 
     /**
-     * Registra a diretiva para retorna o diretório publico
+     * Registra a diretiva para retornar o diretório publico
      * do assets do tema
      *
      * @return void
