@@ -28,6 +28,8 @@ class FileSystem
      */
     public function mkFolder(string $path) : bool
     {
+        if (is_dir($path)) return true;
+
         return mkdir($path, $this->permission(), true);
     }
 

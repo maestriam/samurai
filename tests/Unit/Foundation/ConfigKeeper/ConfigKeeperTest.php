@@ -21,15 +21,14 @@ class ConfigKeeperTest extends TestCase
     } 
 
     /**
-     * Verifica se consegue recuperar a chave que deve ser inserida
+     * Tenta recuperar a chave que será inserida
      * no arquivo de ambiente
      *
      * @return void
      */
     public function testGetEnvKey()
     {
-        $env = config('samurai.env_key');
-        
+        $env = config('samurai.env_key');        
         $config = new ConfigKeeper();
 
         $this->assertIsString($config->env());
@@ -45,12 +44,24 @@ class ConfigKeeperTest extends TestCase
      */
     public function testDefaultGetEnvKey()
     {
-        $env = 'CURRENT_THEME';
-        
+        $env = 'CURRENT_THEME';        
         $config = new ConfigKeeper();
 
         $this->assertIsString($config->env());
-
         $this->assertEquals($env, $config->env());
+    }
+
+    /**
+     * Verifica se consegue pegar a descrição padrão do tema
+     *
+     * @return void
+     */
+    public function testGetDescription()
+    {
+        $desc = config('samurai.description');        
+        $config = new ConfigKeeper();
+
+        $this->assertIsString($config->description());
+        $this->assertEquals($desc, $config->description());
     }
 }

@@ -66,6 +66,7 @@ trait Accessors
     public function assetPath() : string
     {
         $dist = $this->distributor;
+        
         return $this->dir()->assets($dist, $this->name);
     }
 

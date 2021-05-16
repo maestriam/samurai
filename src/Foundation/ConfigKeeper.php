@@ -25,7 +25,7 @@ class ConfigKeeper
      */
     public function author() : object
     {
-        $author = Config::get('Samurai.author');
+        $author = Config::get('samurai.author');
 
         return (object) $author;
     }
@@ -37,7 +37,9 @@ class ConfigKeeper
      */
     public function description() : string
     {
-        return Config::get('Samurai.description');
+        $default = 'A new awsome theme is comming!';
+
+        return config('samurai.description') ?? $default;
     }
 
 }

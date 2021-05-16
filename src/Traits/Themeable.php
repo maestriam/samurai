@@ -4,7 +4,7 @@ namespace Maestriam\Samurai\Traits;
 
 use Maestriam\Samurai\Entities\Base;
 use Maestriam\Samurai\Entities\Theme;
-use Maestriam\Samurai\Models\Wizard;
+use Maestriam\Samurai\Entities\Wizard;
 
 /**
  * Funções compartilhadas para manipulação de temas

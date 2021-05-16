@@ -2,7 +2,7 @@
 
 namespace Maestriam\Samurai\Traits\Theme;
 
-use Maestriam\Samurai\Models\Directive;
+use Maestriam\Samurai\Entities\Directive;
 use Maestriam\Samurai\Foundation\DirectiveFinder;
 use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
 

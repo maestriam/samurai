@@ -162,6 +162,32 @@ class Theme extends Foundation
     }
 
     /**
+     * Retorna o caminho público do projeto
+     * onde os asses do projeto são armazenados
+     *
+     * @return string
+     */
+    public function publicPath() : string
+    {
+        $dist = $this->distributor;
+        
+        return $this->dir()->public($dist, $this->name);
+    }
+
+    /**
+     * Retorna o caminho do diretório onde são armazenados
+     * os arquivos de assets (js/css/imgs)
+     *
+     * @return string
+     */
+    public function assetPath() : string
+    {
+        $dist = $this->distributor;
+        
+        return $this->dir()->assets($dist, $this->name);
+    }
+
+    /**
      * Define o nome do tema que será criado/manipulado
      *
      * @param string $name

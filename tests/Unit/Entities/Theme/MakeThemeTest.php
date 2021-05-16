@@ -10,9 +10,9 @@ use Maestriam\Samurai\Tests\TestCase;
  */
 class MakeThemeTest extends ThemeTestCase
 {
-    public function testValidTheme()
+    public function testCreateTheme()
     {
-        $name = 'sandbox/themex';
+        $name = 'xuxu/pacoca';
 
         $theme = new Theme($name);
 

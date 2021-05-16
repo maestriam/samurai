@@ -108,7 +108,7 @@ class DirectoryStructure
      */
     public function files(string $vendor, string $name) : string
     {
-        $files = Config::get('Samurai.themes.files');
+        $files = Config::get('samurai.themes.files');
 
         return $this->theme($vendor, $name) . DS . $files;
     }

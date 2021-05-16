@@ -128,7 +128,11 @@ class FilenameParser
 
         $name = array_pop($pieces);
 
-        $name = (count($pieces) > 1) ? implode('/', $pieces) : $pieces[0];
+        if (empty($pieces)) {
+            return $name;
+        }
+
+        $name = (count($pieces) > 1) ? implode(DS, $pieces) : $pieces[0];
 
         return (! strlen($name)) ? null : $name;
     }
