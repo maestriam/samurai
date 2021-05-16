@@ -1,9 +1,9 @@
 <?php
 
-namespace Maestriam\Samurai\Models;
+namespace Maestriam\Samurai\Entities;
 
-use Maestriam\Samurai\Models\Theme;
-use Maestriam\Samurai\Models\Foundation;
+use Maestriam\Samurai\Entities\Theme;
+use Maestriam\Samurai\Entities\Foundation;
 
 class Base extends Foundation
 {

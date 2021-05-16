@@ -2,8 +2,8 @@
 
 namespace Maestriam\Samurai\Traits;
 
-use Maestriam\Samurai\Models\Base;
-use Maestriam\Samurai\Models\Theme;
+use Maestriam\Samurai\Entities\Base;
+use Maestriam\Samurai\Entities\Theme;
 use Maestriam\Samurai\Models\Wizard;
 
 /**

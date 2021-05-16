@@ -2,8 +2,9 @@
 
 namespace Maestriam\Samurai\Tests;
 
-use Maestriam\Samurai\Providers\SamuraiServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTesCase;
+use Maestriam\Samurai\Providers\SamuraiServiceProvider;
+use Maestriam\FileSystem\Providers\FileSystemProvider;
 
 class TestCase extends BaseTesCase
 {
@@ -24,6 +25,7 @@ class TestCase extends BaseTesCase
     protected function getPackageProviders($app) : array
     {
         return [
+            FileSystemProvider::class,
             SamuraiServiceProvider::class
         ];
     }
@@ -40,7 +42,7 @@ class TestCase extends BaseTesCase
             'themes' => [
                 'files'     => 'src',
                 'assets'    => 'assets',
-                'folder'    => base_path('themes'),
+                'folder'    => __DIR__ . '/../sandbox/',
             ],
             'author' => [
                 'name'   => 'Giuliano Sampaio',
@@ -57,7 +59,8 @@ class TestCase extends BaseTesCase
     private function registerLaravelConfig($app)
     {
         $app['config']->set('view', [
-            'compiled' => storage_path('framework/views')
+            'compiled' => storage_path('framework/views'),
+            'paths'    => [resource_path('views')]
         ]);
     }
 }

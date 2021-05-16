@@ -32,18 +32,6 @@ trait Accessors
     }
 
     /**
-     * Retorna a URL de assets do tema dentro
-     * do projeto Laravel
-     *
-     * @return string
-     */
-    public function public() : string
-    {
-        $url = 'themes/' . $this->vendor;
-        return asset($url);
-    }
-
-    /**
      * Retorna o caminho do diretório onde são armazenados
      * os arquivos de diretivas (include/component)
      *
@@ -57,18 +45,6 @@ trait Accessors
     }
 
     /**
-     * Undocumented function
-     *
-     * @return string
-     */
-    public function indicative() : string
-    {
-        $theme = $this->dir()->theme($this->distributor, $this->name); 
-
-        return $this->dir()->indicative($theme);
-    }
-
-    /**
      * Retorna o caminho público do projeto
      * onde os asses do projeto são armazenados
      *
@@ -77,6 +53,7 @@ trait Accessors
     public function publicPath() : string
     {
         $dist = $this->distributor;
+        
         return $this->dir()->public($dist, $this->name);
     }
 

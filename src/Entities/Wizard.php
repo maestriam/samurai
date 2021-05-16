@@ -1,9 +1,9 @@
 <?php
 
-namespace Maestriam\Samurai\Models;
+namespace Maestriam\Samurai\Entities;
 
 use stdClass;
-use Maestriam\Samurai\Models\Foundation;
+use Maestriam\Samurai\Entities\Foundation;
 use Maestriam\Samurai\Traits\Shared\Composer;
 use Maestriam\Samurai\Traits\Shared\BasicAccessors;
 

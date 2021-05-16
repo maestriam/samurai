@@ -8,5 +8,10 @@ use Maestriam\Samurai\Tests\TestCase;
  * Testes de funcionalidades básicas apresentadas no README.md
  */
 class ThemeTestCase extends TestCase
-{    
+{
+    public function testSetVendor()
+    {
+        
+    }
+    
 }

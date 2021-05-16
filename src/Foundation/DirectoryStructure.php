@@ -139,6 +139,7 @@ class DirectoryStructure
     private function findTheme(string $base, string $vendor, string $name) : string
     {
         $name = strtolower($name);
+        
         $path = $base . DS . $vendor . DS . $name;
 
         return $path;

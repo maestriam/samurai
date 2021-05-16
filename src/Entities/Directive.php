@@ -1,11 +1,11 @@
 <?php
 
-namespace Maestriam\Samurai\Models;
+namespace Maestriam\Samurai\Entities;
 
 use Illuminate\Support\Str;
-use Maestriam\Samurai\Models\Theme;
+use Maestriam\Samurai\Entities\Theme;
 use Illuminate\Support\Facades\Blade;
-use Maestriam\Samurai\Models\Foundation;
+use Maestriam\Samurai\Entities\Foundation;
 use Illuminate\View\Compilers\BladeCompiler;
 use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
 use Maestriam\Samurai\Exceptions\DirectiveExistsException;

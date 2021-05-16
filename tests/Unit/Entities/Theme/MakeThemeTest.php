@@ -10,8 +10,12 @@ use Maestriam\Samurai\Tests\TestCase;
  */
 class MakeThemeTest extends ThemeTestCase
 {
-
     public function testValidTheme()
     {
+        $name = 'sandbox/themex';
+
+        $theme = new Theme($name);
+
+        $ret =  $theme->build();
     }    
 }

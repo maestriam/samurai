@@ -1,6 +1,6 @@
 <?php
 
-namespace Maestriam\Samurai\Models;
+namespace Maestriam\Samurai\Entities;
 
 use Maestriam\Samurai\Foundation\ConfigKeeper;
 use Maestriam\Samurai\Foundation\EnvHandler;
