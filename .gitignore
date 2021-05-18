@@ -1,5 +1,5 @@
-vendor/
-sandbox/
-build/
-composer.lock
-.phpunit.result.cache
+/vendor/
+/sandbox/
+/build/
+/composer.lock
+/.phpunit.result.cache

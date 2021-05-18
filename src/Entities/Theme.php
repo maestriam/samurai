@@ -34,7 +34,7 @@ class Theme extends Foundation
      *
      * @var string
      */
-    public $vendor = '';
+    protected Vendor $vendor;
 
     /**
      * Caminho-base do tema
@@ -86,7 +86,7 @@ class Theme extends Foundation
      */
     public function __construct(string $vendor = null)
     {
-        $this->vendor($vendor); //->parseVendor();
+        $this->vendor($vendor);
     }
     
     /**
@@ -98,7 +98,7 @@ class Theme extends Foundation
             return $this->getVendor();
         }
         
-        return $this->setVendor($vendor)->parseVendor();
+        return $this->setVendor($vendor);
     }
 
     /**
@@ -108,11 +108,7 @@ class Theme extends Foundation
      */
     private function setVendor(string $vendor) : Theme
     {
-        if (! $this->valid()->vendor($vendor)) {
-            throw new InvalidThemeNameException($vendor);
-        }
-
-        $this->vendor = $vendor;
+        $this->vendor = new Vendor($vendor);
         return $this;
     }
 
@@ -123,7 +119,7 @@ class Theme extends Foundation
      */
     private function getVendor() : string
     {
-        return $this->vendor;
+        return $this->vendor->package();
     }
 
     /**

@@ -26,7 +26,7 @@ class TestCase extends BaseTesCase
     {
         return [
             FileSystemProvider::class,
-            SamuraiServiceProvider::class
+            // SamuraiServiceProvider::class
         ];
     }
 
@@ -35,24 +35,28 @@ class TestCase extends BaseTesCase
         $this->registerLaravelConfig($app);
 
         $app['config']->set('samurai', [
-            'prefix'  => 'samurai-theme',
+
+            'prefix'      => 'samurai-theme',
+            'env_key'     => 'THEME_CURRENT',
+            'env_file'    => '.env.testing',
+            'publishable' => 'assets',
+            'description' => 'A new awsome theme is comming!',
+            
             'species' => [
                 'component', 'include'
             ],
+            
             'themes' => [
                 'files'     => 'src',
                 'assets'    => 'assets',
                 'folder'    => __DIR__ . '/../sandbox/',
             ],
+            
             'author' => [
                 'name'   => 'Giuliano Sampaio',
                 'vendor' => 'maestriam',
                 'email'  => 'giuguitar@gmail.com',
             ],
-            'publishable' => 'assets',
-            'env_file'    => '.env.testing',
-            'env_key'     => 'THEME_CURRENT',
-            'description' => 'A new awsome theme is comming!',
         ]);
     }
 

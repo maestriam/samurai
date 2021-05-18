@@ -1,14 +1,15 @@
 <?php
 
+namespace Maestriam\Samurai\Entities\Theme;
+
 use Maestriam\Samurai\Foundation\DirectoryStructure;
 
 /**
- * Classe auxiliara responsável para gerenciar os caminhos e diretório
- * importantes dentro do t
+ * Classe auxiliar responsável para gerenciar os caminhos e diretório
+ * importantes dentro do tema
  */
 class ThemeStructure
 {
-
     private DirectoryStructure $directoryStructure;
     
     public function __construct()

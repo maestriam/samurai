@@ -40,6 +40,5 @@ class ConfigKeeper
         $default = 'A new awsome theme is comming!';
 
         return config('samurai.description') ?? $default;
-    }
-
+    }    
 }

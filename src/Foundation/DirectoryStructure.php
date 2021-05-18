@@ -45,7 +45,6 @@ class DirectoryStructure
         return $this->findTheme($base, $vendor, $name);
     }
 
-    
     /**
      * Retorna o caminho relativo de um tema/diretiva
      * dentro do projeto
@@ -67,7 +66,7 @@ class DirectoryStructure
      */
     public function assets(string $vendor, string $name) : string
     {
-        $assets = Config::get('Samurai.themes.assets');
+        $assets = config('samurai.themes.assets');
 
         return $this->theme($vendor, $name) . DS . $assets;
     }
@@ -108,7 +107,7 @@ class DirectoryStructure
      */
     public function files(string $vendor, string $name) : string
     {
-        $files = Config::get('samurai.themes.files');
+        $files = config('samurai.themes.files');
 
         return $this->theme($vendor, $name) . DS . $files;
     }
