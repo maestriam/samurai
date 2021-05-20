@@ -2,24 +2,20 @@
 
 namespace Maestriam\Samurai\Exceptions;
 
-use Config;
 use Exception;
-use Maestriam\Samurai\Traits\Shared\ConfigAccessors;
 
 class BaseException extends Exception
 {
-    use ConfigAccessors;
-
     /**
      * Inicia os atributos de acordo com o código de erro
      *
      * @param string $code
      * @return void
      */
-    public function initialize(string $code, string ...$placeholders)
+    public function initialize(string $code, string $message, string ...$params)
     {
         $this->setCode($code);
-        $this->setMessage($code, $placeholders);
+        $this->setMessage($message, $params);
     }
 
     /**
@@ -40,13 +36,8 @@ class BaseException extends Exception
      * @param string $name
      * @return void
      */
-    protected function setMessage(string $code, array $placeholders = [])
+    protected function setMessage(string $message, array $params = [])
     {
-        $err     = $this->getErrorConfig($code);
-        $message = $err['msg'];
-
-        $message = vsprintf($message, $placeholders);
-
-        $this->message = $message;    
+        $this->message = vsprintf($message, $params);
     }
 }

@@ -8,7 +8,8 @@ class InvalidAuthorException extends BaseException
 {
     public function __construct($author)
     {
-        $this->initialize(INVALID_AUTHOR_CODE, $author);
+        $msg = 'The author name "%s" is an invalid author name. E.g: Name <email@host.com>';
+        
+        $this->initialize(0104, $msg, $author);
     }
 }
-

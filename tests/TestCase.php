@@ -2,11 +2,11 @@
 
 namespace Maestriam\Samurai\Tests;
 
-use Orchestra\Testbench\TestCase as BaseTesCase;
-use Maestriam\Samurai\Providers\SamuraiServiceProvider;
+use Orchestra\Testbench\TestCase as BaseTestCase;
 use Maestriam\FileSystem\Providers\FileSystemProvider;
+use Maestriam\Samurai\Providers\SamuraiServiceProvider;
 
-class TestCase extends BaseTesCase
+class TestCase extends BaseTestCase
 {
     /**
      * {@inheritDoc}
@@ -66,5 +66,19 @@ class TestCase extends BaseTesCase
             'compiled' => storage_path('framework/views'),
             'paths'    => [resource_path('views')]
         ]);
+    }
+
+    /**
+     * Verifica se classe possui determinada função
+     *
+     * @param mixed $obj
+     * @param string $function
+     * @return void
+     */
+    protected function assertObjectHasFunction($obj, string $function)
+    {
+        $exists = method_exists($obj, $function);
+
+        $this->assertTrue($exists);
     }
 }

@@ -9,9 +9,6 @@ use Maestriam\Samurai\Tests\TestCase;
  */
 class ThemeTestCase extends TestCase
 {
-    public function testSetVendor()
-    {
-        
-    }
+
     
 }

@@ -2,28 +2,11 @@
 
 namespace Maestriam\Samurai\Tests\Foundation\SyntaxValidator;
 
-use Tests\TestCase;
-use Maestriam\Samurai\Foundation\SyntaxValidator;
-
 /**
  * Testes de funcionalidades básicas apresentadas no README.md
  */
-class ValidVendorTest extends TestCase
+class ValidVendorTest extends SyntaxValidatorTest
 {
-    protected $valid;
-
-    /**
-     * Instancia a classe de validação para ser testada
-     *
-     * @return void
-     */
-    protected function setUp() : void
-    {
-        parent::setUp();
-
-        $this->valid = new SyntaxValidator();
-    }
-
     /**
      * Verifica se há sucesso ao passar um vendor/theme válido
      *
@@ -33,7 +16,7 @@ class ValidVendorTest extends TestCase
     {
         $vendor = 'vendor/theme';
         
-        $this->success($vendor);
+        $this->assertValidVendor($vendor);
     }
     
     /**
@@ -46,7 +29,7 @@ class ValidVendorTest extends TestCase
     {
         $vendor = 'my_vendor-name/my_theme-name';
         
-        $this->success($vendor);
+        $this->assertValidVendor($vendor);
     }
     
     /**
@@ -59,7 +42,7 @@ class ValidVendorTest extends TestCase
     {
         $vendor = 'vendör/variação';
         
-        $this->failure($vendor);
+        $this->assertInvalidVendor($vendor);
     }
 
     /**
@@ -72,7 +55,7 @@ class ValidVendorTest extends TestCase
     {
         $vendor = 'vendo!,/asdq#q3sd';
         
-        $this->failure($vendor);
+        $this->assertInvalidVendor($vendor);
     }
 
     /**
@@ -85,7 +68,7 @@ class ValidVendorTest extends TestCase
     {
         $vendor = 'VENDOR/NAME';
 
-        $this->failure($vendor);
+        $this->assertInvalidVendor($vendor);
     }
 
     /**
@@ -97,34 +80,6 @@ class ValidVendorTest extends TestCase
     {
         $vendor = 'vendor/123theme';
 
-        $this->success($vendor);
-    }
-
-    /**
-     * Contesta um teste para verificar se há retorno de sucesso
-     *
-     * @param mixed $vendor
-     * @return void
-     */
-    private function success($vendor)
-    {
-        $result = $this->valid->vendor($vendor);
-        
-        $this->assertIsBool($result);
-        $this->assertTrue($result);
-    }
-
-    /**
-     * Contesta um teste para verificar se há retorno de sucesso
-     *
-     * @param mixed $vendor
-     * @return void
-     */
-    private function failure($vendor)
-    {
-        $result = $this->valid->vendor($vendor);
-        
-        $this->assertIsBool($result);
-        $this->assertFalse($result);
+        $this->assertValidVendor($vendor);
     }
 }

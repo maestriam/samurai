@@ -22,19 +22,19 @@ class Theme extends Foundation
         DirectiveHandling;
 
     /**
-     * Nome do tema para ser criado/manipulado
-     *
-     * @var string
-     */
-    public $name = '';
-
-    /**
      * Nome do distribuidor do tema/Nome do tema
      * Ex: vendor/theme
      *
-     * @var string
+     * @var Vendor
      */
-    protected Vendor $vendor;
+    protected Vendor $vendorInstance;
+
+    /**
+     * Informações do autor do tema
+     *
+     * @var Author
+     */
+    protected Author $authorInstance;
 
     /**
      * Caminho-base do tema
@@ -44,32 +44,11 @@ class Theme extends Foundation
     public $path = '';
 
     /**
-     * Apelido para ser chamado pelo Laravel Blade
-     *
-     * @var string
-     */
-    public $namespace = '';
-
-    /**
-     *
-     *
-     * @var string
-     */
-    public $author = null;
-
-    /**
      * Undocumented variable
      *
      * @var string
      */
     protected $description = null;
-
-    /**
-     * Undocumented variable
-     *
-     * @var string
-     */
-    protected $distributor = null;
 
     /**
      * Instância do classe que encontra todos as diretivas
@@ -92,7 +71,7 @@ class Theme extends Foundation
     /**
      * {@inheritDoc}
      */
-    public function vendor(string $vendor = null) : Theme|string
+    public function vendor(string $vendor = null) : Theme|Vendor
     {
         if ($vendor == null) {
             return $this->getVendor();
@@ -108,80 +87,76 @@ class Theme extends Foundation
      */
     private function setVendor(string $vendor) : Theme
     {
-        $this->vendor = new Vendor($vendor);
+        $this->vendorInstance = new Vendor($vendor);
         return $this;
     }
 
     /**
-     * Retorna o vendor do tema
+     * Retorna as informações sobre o vendor do tema
      *
-     * @return string
+     * @return Vendor
      */
-    private function getVendor() : string
+    private function getVendor() : Vendor
     {
-        return $this->vendor->package();
+        return $this->vendorInstance;
     }
 
     /**
-     * Interpreta as informações vindas do vendor e
-     * define o nome, caminho, namespace e distribuidor do tema
-     *
-     * @return void
+     * {@inheritDoc}
      */
-    private function parseVendor(): Theme
+    public function author(string $author = null) : Author|Theme
     {
-        if (! $this->vendor) {
-            throw new InvalidThemeNameException($this->vendor);
+        if (! $author) {
+            return $this->getAuthor();
         }
 
-        $vendor = $this->parser()->vendor($this->vendor);
+        return $this->setAuthor($author);
+    }
 
-        $this->setName($vendor->name)
-             ->setNamespace($vendor->name)             
-             ->setDistributor($vendor->distributor)
-             ->setPath($vendor->distributor, $vendor->name);
+    /**
+     * Retorna as informações do autor do tema
+     *
+     * @return Author
+     */
+    private function getAuthor() : Author
+    {
+        return $this->authorInstance;
+    }
 
+    /**
+     * Define as informações do autor do tema
+     *
+     * @param string $author
+     * @return Theme
+     */
+    private function setAuthor(string $author) : Theme
+    {
+        $this->authorInstance = new Author($author);
+        
         return $this;
     }
-    
-    /**
-     * Retorna o caminho do diretório onde são armazenados
-     * os arquivos de diretivas (include/component)
-     *
-     * @return string
-     */
-    public function filePath() : string
-    {
-        $dist = $this->distributor;
-        
-        return $this->dir()->files($dist, $this->name);
-    }
 
     /**
-     * Retorna o caminho público do projeto
-     * onde os asses do projeto são armazenados
+     * Retorna o nome do projeto
      *
      * @return string
      */
-    public function publicPath() : string
+    public function name() : string
     {
-        $dist = $this->distributor;
-        
-        return $this->dir()->public($dist, $this->name);
+        return $this->vendor()->name();
     }
 
-    /**
-     * Retorna o caminho do diretório onde são armazenados
-     * os arquivos de assets (js/css/imgs)
-     *
-     * @return string
-     */
-    public function assetPath() : string
-    {
-        $dist = $this->distributor;
-        
-        return $this->dir()->assets($dist, $this->name);
-    }
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Define o nome do tema que será criado/manipulado
@@ -228,30 +203,17 @@ class Theme extends Foundation
     }
 
     /**
-     * Define o caminho-base do tema
-     *
-     * @param string $name
-     * @return void
-     */
-    private function setPath(string $dist, string $name) : Theme
-    {
-        $this->path = $this->dir()->theme($dist, $name);
-        
-        return $this;
-    }
-
-    /**
      * {@inheritDoc}
      */
-    public function author(string $author) : Theme
-    {
-        if (! $this->valid()->author($author)) {
-            throw new InvalidAuthorException($author);
-        }
+    // public function author(string $author) : Theme
+    // {
+    //     if (! $this->valid()->author($author)) {
+    //         throw new InvalidAuthorException($author);
+    //     }
 
-        $this->author = $author;        
-        return $this;
-    }
+    //     $this->author = $author;        
+    //     return $this;
+    // }
 
     /**
      * {@inheritDoc}
@@ -319,4 +281,50 @@ class Theme extends Foundation
 
         return $this;
     }
+
+    
 }
+
+
+
+// /**
+//      * Retorna o caminho do diretório onde são armazenados
+//      * os arquivos de diretivas (include/component)
+//      *
+//      * @return string
+//      */
+//     public function filePath() : string
+//     {
+//         $name = $this->vendor()->name();
+//         $dist = $this->vendor()->distributor();
+        
+//         return $this->dir()->files($dist, $name);
+//     }
+
+//     /**
+//      * Retorna o caminho público do projeto
+//      * onde os asses do projeto são armazenados
+//      *
+//      * @return string
+//      */
+//     public function publicPath() : string
+//     {
+//         $name = $this->vendor()->name();
+//         $dist = $this->vendor()->distributor();
+        
+//         return $this->dir()->public($dist, $name);
+//     }
+
+//     /**
+//      * Retorna o caminho do diretório onde são armazenados
+//      * os arquivos de assets (js/css/imgs)
+//      *
+//      * @return string
+//      */
+//     public function assetPath() : string
+//     {
+//         $name = $this->vendor()->name();
+//         $dist = $this->vendor()->distributor();
+        
+//         return $this->dir()->assets($dist, $name);
+//     }

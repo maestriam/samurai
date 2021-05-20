@@ -53,7 +53,7 @@ class FilenameParser
      * o e-mail e nome do autor
      *
      * @param string $author
-     * @return void
+     * @return object
      */
     public function author(string $author) : object
     {
