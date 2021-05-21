@@ -8,7 +8,7 @@ use Maestriam\Samurai\Foundation\EnvHandler;
 /**
  * Testes de funcionalidades básicas apresentadas no README.md
  */
-class EnvHandlerTest extends TestCase
+class EnvHandlerTestCase extends TestCase
 {
     /**
      * Instancia a classe de validação para ser testada

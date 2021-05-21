@@ -15,14 +15,8 @@ use Maestriam\Samurai\Traits\Shared\BasicAccessors;
 
 class Theme extends Foundation 
 {
-    use Validation,
-        Composer,
-        Construction,
-        BasicAccessors,
-        DirectiveHandling;
-
     /**
-     * Nome do distribuidor do tema/Nome do tema
+     * Nome do distribuidor do tema/nome do tema
      * Ex: vendor/theme
      *
      * @var Vendor
@@ -37,18 +31,11 @@ class Theme extends Foundation
     protected Author $authorInstance;
 
     /**
-     * Caminho-base do tema
-     *
-     * @var string
-     */
-    public $path = '';
-
-    /**
-     * Undocumented variable
-     *
-     * @var string
-     */
-    protected $description = null;
+     * Controle de caminhos de tema
+     * 
+     * @var Structure
+     */    
+    protected Structure $structureInstance;
 
     /**
      * Instância do classe que encontra todos as diretivas
@@ -56,16 +43,25 @@ class Theme extends Foundation
      *
      * @var DirectiveFinder
      */
-    private $finder;
+    protected DirectiveFinder $finderInstance;
 
     /**
-     * Undocumented function
+     * Descrição do tema
+     *
+     * @var string
+     */
+    protected $description = null;
+
+    /**
+     * Regras de negócio do tema
      *
      * @param string $name
      */
     public function __construct(string $vendor = null)
     {
-        $this->vendor($vendor);
+        if ($vendor) {
+            $this->vendor($vendor)->setStructure();
+        }   
     }
     
     /**
@@ -88,6 +84,7 @@ class Theme extends Foundation
     private function setVendor(string $vendor) : Theme
     {
         $this->vendorInstance = new Vendor($vendor);
+
         return $this;
     }
 
@@ -146,75 +143,40 @@ class Theme extends Foundation
         return $this->vendor()->name();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
     /**
-     * Define o nome do tema que será criado/manipulado
+     * Retorna o namespace do tema
      *
-     * @param string $name
-     * @return $this
+     * @return string
      */
-    private function setName(string $name) : Theme
+    public function namespace() : string
     {
-        if (! $this->valid()->theme($name)) {
-            throw new InvalidThemeNameException($name);
-        }
-
-        $this->name = strtolower($name);
-        return $this;
+        return $this->vendor()->namespace();
     }
 
     /**
-     * Define o nome do tema que será criado/manipulado
+     * Retorna a instância de estrutura de diretórios do tema
      *
-     * @param string $name
+     * @return Structure
+     */
+    public function paths() : Structure
+    {
+        return $this->structureInstance;
+    }
+
+    /**
+     * Define a instância de estrutura de diretórios do tema
+     *
      * @return Theme
      */
-    private function setDistributor(string $dist) : Theme
+    private function setStructure() : Theme
     {
-        if (! $this->isValidName($dist)) {
-            throw new InvalidThemeNameException($dist);
-        }
+        $vendor = $this->vendor();
 
-        $this->distributor = strtolower($dist);
+        $this->structureInstance = new Structure($vendor);
+
         return $this;
     }
-
-    /**
-     * Define o namespace do tema para ser chamado no projeto
-     *
-     * @param string $name
-     * @return Theme
-     */
-    private function setNamespace(string $name) : Theme
-    {
-        $this->namespace = $this->nominator()->namespace($name);
-        return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    // public function author(string $author) : Theme
-    // {
-    //     if (! $this->valid()->author($author)) {
-    //         throw new InvalidAuthorException($author);
-    //     }
-
-    //     $this->author = $author;        
-    //     return $this;
-    // }
-
+    
     /**
      * {@inheritDoc}
      */
@@ -224,107 +186,74 @@ class Theme extends Foundation
 
         return $this;
     }
-
-    /**
-     * Retorna uma instância de uma diretiva de acordo
-     * com os dados do nome, do tipo e do tema a qual pertence
-     *
-     * @param string $name  Nome da diretiva
-     * @param string $type  Tipo que pertence
-     * @return Directive
-     */
-    private function directivefy(string $name, string $type) : Directive
-    {
-        return new Directive($name, $type, $this);
-    }
-
-    /**
-     * Retorna se existe o diretório do tema
-     * na base de temas
-     *
-     * @param string $name   Nome do tema
-     * @return boolean
-     */
-    public function exists() : bool
-    {
-        $theme = $this->dir()->theme($this->distributor, $this->name);
-
-        return (is_dir($theme)) ? true : false;
-    }
-
-    /**
-     * Tenta encontrar um tema questão
-     * Caso não encontre, constua-o
-     *
-     * @return Theme
-     */
-    public function findOrBuild() : Theme
-    {
-        if (! $this->exists()) {
-            return $this->build();
-        }
-
-        return $this->get();
-    }
-
-    /**
-     * Retorna a instância de um tema
-     * se caso o tema existir
-     *
-     * @return Theme|null
-     */
-    public function get() : ?Theme
-    {
-        if (! $this->exists()) {
-            return null;
-        }
-
-        return $this;
-    }
-
-    
 }
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 // /**
-//      * Retorna o caminho do diretório onde são armazenados
-//      * os arquivos de diretivas (include/component)
+//      * Retorna uma instância de uma diretiva de acordo
+//      * com os dados do nome, do tipo e do tema a qual pertence
 //      *
-//      * @return string
+//      * @param string $name  Nome da diretiva
+//      * @param string $type  Tipo que pertence
+//      * @return Directive
 //      */
-//     public function filePath() : string
+//     private function directivefy(string $name, string $type) : Directive
 //     {
-//         $name = $this->vendor()->name();
-//         $dist = $this->vendor()->distributor();
-        
-//         return $this->dir()->files($dist, $name);
+//         return new Directive($name, $type, $this);
 //     }
 
 //     /**
-//      * Retorna o caminho público do projeto
-//      * onde os asses do projeto são armazenados
+//      * Retorna se existe o diretório do tema
+//      * na base de temas
 //      *
-//      * @return string
+//      * @param string $name   Nome do tema
+//      * @return boolean
 //      */
-//     public function publicPath() : string
+//     public function exists() : bool
 //     {
-//         $name = $this->vendor()->name();
-//         $dist = $this->vendor()->distributor();
-        
-//         return $this->dir()->public($dist, $name);
+//         $theme = $this->dir()->theme($this->distributor, $this->name);
+
+//         return (is_dir($theme)) ? true : false;
 //     }
 
 //     /**
-//      * Retorna o caminho do diretório onde são armazenados
-//      * os arquivos de assets (js/css/imgs)
+//      * Tenta encontrar um tema questão
+//      * Caso não encontre, constua-o
 //      *
-//      * @return string
+//      * @return Theme
 //      */
-//     public function assetPath() : string
+//     public function findOrBuild() : Theme
 //     {
-//         $name = $this->vendor()->name();
-//         $dist = $this->vendor()->distributor();
-        
-//         return $this->dir()->assets($dist, $name);
+//         if (! $this->exists()) {
+//             return $this->build();
+//         }
+
+//         return $this->get();
 //     }
+
+//     /**
+//      * Retorna a instância de um tema
+//      * se caso o tema existir
+//      *
+//      * @return Theme|null
+//      */
+//     public function get() : ?Theme
+//     {
+//         if (! $this->exists()) {
+//             return null;
+//         }
+
+//         return $this;
+//     }    

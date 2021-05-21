@@ -11,7 +11,7 @@ class TestCase extends BaseTestCase
     /**
      * {@inheritDoc}
      */
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setUp();
     }
@@ -22,7 +22,7 @@ class TestCase extends BaseTestCase
      * @param mixed $app
      * @return array
      */
-    protected function getPackageProviders($app) : array
+    protected function getPackageProviders($app): array
     {
         return [
             FileSystemProvider::class,
@@ -31,7 +31,7 @@ class TestCase extends BaseTestCase
     }
 
     protected function getEnvironmentSetUp($app)
-    {             
+    {
         $this->registerLaravelConfig($app);
 
         $app['config']->set('samurai', [
@@ -41,17 +41,17 @@ class TestCase extends BaseTestCase
             'env_file'    => '.env.testing',
             'publishable' => 'assets',
             'description' => 'A new awsome theme is comming!',
-            
+
             'species' => [
                 'component', 'include'
             ],
-            
+
             'themes' => [
                 'files'     => 'src',
                 'assets'    => 'assets',
-                'folder'    => __DIR__ . '/../sandbox/',
+                'folder'    => __DIR__ . '/../sandbox',
             ],
-            
+
             'author' => [
                 'name'   => 'Giuliano Sampaio',
                 'vendor' => 'maestriam',

@@ -8,7 +8,7 @@ use stdClass;
 /**
  * Testes de funcionalidades básicas apresentadas no README.md
  */
-class GetEnvVariableTest extends EnvHandlerTest
+class GetEnvVariableTest extends EnvHandlerTestCase
 {
     /**
      * Instancia a classe de validação para ser testada
