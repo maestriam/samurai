@@ -25,22 +25,6 @@ class Structure extends Foundation
     }
 
     /**
-     * Carrega as informações do vendor para gerar os caminhos 
-     * do tema específicado
-     *
-     * @param Vendor $vendor
-     * @return Structure
-     */
-    private function loadVendor(Vendor $vendor) : Structure
-    {
-        $this->dist = $vendor->distributor();
-
-        $this->theme = $vendor->name();
-
-        return $this;
-    }
-
-    /**
      * Retorna o caminho público do projeto
      * onde os asses do projeto são armazenados
      *
@@ -71,5 +55,21 @@ class Structure extends Foundation
     public function files() : string
     {        
         return $this->dir()->files($this->dist, $this->theme);
+    }
+    
+    /**
+     * Carrega as informações do vendor para gerar os caminhos 
+     * do tema específicado
+     *
+     * @param Vendor $vendor
+     * @return Structure
+     */
+    private function loadVendor(Vendor $vendor) : Structure
+    {
+        $this->dist = $vendor->distributor();
+
+        $this->theme = $vendor->name();
+
+        return $this;
     }
 }

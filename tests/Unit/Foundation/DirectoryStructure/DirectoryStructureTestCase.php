@@ -8,7 +8,7 @@ use Maestriam\Samurai\Foundation\DirectoryStructure;
 /**
  * Testes de funcionalidades básicas apresentadas no README.md
  */
-class DirectoryStructureTest extends TestCase
+class DirectoryStructureTestCase extends TestCase
 {
     /**
      * Instancia a classe de validação para ser testada

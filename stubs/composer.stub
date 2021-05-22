@@ -1,0 +1,15 @@
+{
+    "name": "{{package}}",
+    "description": "{{description}}",
+    "type": "blade-theme",
+    "license": "GPL-3.0",
+    "require": {
+        "maestriam/samurai": "dev-master"
+    },
+    "authors": [
+        {
+            "name": "{{authorName}}", 
+            "email": "{{authorEmail}}"
+        }
+    ]
+}

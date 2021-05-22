@@ -8,7 +8,7 @@ use Maestriam\Samurai\Foundation\ConfigKeeper;
 /**
  * Testes de funcionalidades básicas apresentadas no README.md
  */
-class ConfigKeeperTest extends TestCase
+class ConfigKeeperTestCase extends TestCase
 {
     /**
      * Instancia a classe de validação para ser testada
