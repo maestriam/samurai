@@ -113,7 +113,7 @@ class Author extends Foundation
      */
     private function getName() : string
     {
-        return $this->name;
+        return $this->name ?? $this->config()->author()->name;
     }    
     
     /**
@@ -135,6 +135,6 @@ class Author extends Foundation
      */
     private function getEmail() : string
     {
-        return $this->email;
+        return $this->email ?? $this->config()->author()->email;
     }
 }

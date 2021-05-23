@@ -2,7 +2,9 @@
 
 namespace Maestriam\Samurai\Entities;
 
+use Illuminate\Support\Facades\Auth;
 use Maestriam\Samurai\Contracts\ThemeContract;
+use Maestriam\Samurai\Entities\FileSystem;
 use Maestriam\Samurai\Entities\Foundation;
 use Maestriam\Samurai\Exceptions\InvalidAuthorException;
 use Maestriam\Samurai\Exceptions\InvalidThemeNameException;
@@ -59,7 +61,7 @@ class Theme extends Foundation
     public function __construct(string $vendor = null)
     {
         if ($vendor) {
-            $this->vendor($vendor)
+            $this->setVendor($vendor)
                  ->setStructure()
                  ->setComposer();
         }   
@@ -111,6 +113,20 @@ class Theme extends Foundation
     public function paths() : Structure
     {
         return $this->structureInstance;
+    }
+
+    /**
+     * Cria um novo tema dentro do projeto
+     *
+     * @return Theme
+     */
+    public function make() : Theme
+    {
+        $this->structure()->init();
+
+        $this->composer()->create();
+
+        return $this;
     }
 
     /**
@@ -169,7 +185,7 @@ class Theme extends Foundation
      */
     private function getAuthor() : Author
     {
-        return $this->authorInstance;
+        return $this->authorInstance ?? new Author();
     }
 
     /**
@@ -187,19 +203,29 @@ class Theme extends Foundation
     }
 
     /**
+     * Retorna a instância de estrutura do tema
+     *
+     * @return Structure
+     */
+    private function structure() : Structure
+    {
+        return $this->structureInstance;
+    }
+
+    /**
      * Define o composer do tema
      *
      * @return Theme
      */
     private function setComposer() : Theme
     {
-        $this->composerInstance = new Composer($this->vendor());
+        $this->composerInstance = new Composer($this);
 
         return $this;
     }
 
     /**
-     * Define o composer do tema
+     * Retorna a instância do composer do tema
      *
      * @return Theme
      */

@@ -36,11 +36,12 @@ class TestCase extends BaseTestCase
 
         $app['config']->set('samurai', [
 
-            'prefix'      => 'samurai-theme',
-            'env_key'     => 'THEME_CURRENT',
-            'env_file'    => '.env.testing',
-            'publishable' => 'assets',
-            'description' => 'A new awsome theme is comming!',
+            'prefix'        => 'samurai-theme',
+            'env_key'       => 'THEME_CURRENT',
+            'env_file'      => '.env.testing',
+            'publishable'   => 'assets',
+            'description'   => 'A new awsome theme is comming!',
+            'template_path' => __DIR__ . '/../stubs/',
 
             'species' => [
                 'component', 'include'
@@ -57,6 +58,12 @@ class TestCase extends BaseTestCase
                 'vendor' => 'maestriam',
                 'email'  => 'giuguitar@gmail.com',
             ],
+
+            'structure' => [
+                'composer'    => '.', 
+                '*-include'   => 'src/',
+                '*-component' => 'src/',
+            ]
         ]);
     }
 

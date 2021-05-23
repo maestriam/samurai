@@ -96,4 +96,7 @@ return [
     |
     */
     'description'   => 'A new awsome theme is comming!',
+
+
+    'template_path' => __DIR__ . '/../tests/',
 ];

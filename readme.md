@@ -12,7 +12,7 @@ You can publishing your themes and install-it in another projects using composer
 
 ## Requirements
 
-- Laravel 6.*^ 
+- Laravel 8.*^ 
 
 ## Installation
 

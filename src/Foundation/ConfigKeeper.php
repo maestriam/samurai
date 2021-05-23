@@ -40,5 +40,27 @@ class ConfigKeeper
         $default = 'A new awsome theme is comming!';
 
         return config('samurai.description') ?? $default;
-    }    
+    }   
+    
+    /**
+     * Retorna o caminho do diretório onde está armazenado os 
+     * arquivos de template
+     *
+     * @return string
+     */
+    public function template() : string
+    {
+        return config('samurai.template_path');
+    }
+
+    /**
+     * Retorna a relação de tipos de templates com o caminho
+     * onde ele deve ser inserido no diretório
+     *
+     * @return array
+     */
+    public function structure() : array
+    {
+        return config('samurai.structure');
+    }
 }

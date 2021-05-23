@@ -2,6 +2,8 @@
 
 namespace Maestriam\Samurai\Entities;
 
+use Maestriam\FileSystem\Support\FileSystem;
+
 class Structure extends Foundation 
 {
     /**
@@ -26,7 +28,7 @@ class Structure extends Foundation
 
     /**
      * Retorna o caminho público do projeto
-     * onde os asses do projeto são armazenados
+     * onde os assets do projeto são armazenados
      *
      * @return string
      */
@@ -55,6 +57,27 @@ class Structure extends Foundation
     public function files() : string
     {        
         return $this->dir()->files($this->dist, $this->theme);
+    }
+
+    /**
+     * Retorna o caminho-raiz do tema
+     *
+     * @return string
+     */
+    public function root() : string
+    {
+        return $this->dir()->theme($this->dist, $this->theme);
+    }
+
+    /**
+     * Executa a criação dos diretórios principais do tema
+     *
+     * @return void
+     */
+    public function init()
+    {
+        FileSystem::folder($this->files())->create();
+        FileSystem::folder($this->assets())->create();
     }
     
     /**

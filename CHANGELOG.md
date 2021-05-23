@@ -11,6 +11,8 @@ All Notable changes to `maestriam/samurai` will be documented in this file.
 - Adding a CHANGELOG file to project
 - Adding orchestra/testbench dependency
 - Adding .travis files
+- Adding building travis CI
+- Integration with maestriam/filesystem
 
 ### Changed
 

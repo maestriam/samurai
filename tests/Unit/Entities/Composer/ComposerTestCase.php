@@ -11,26 +11,18 @@ class ComposerTestCase extends TestCase
     public function testComposerInit()
     {
         $vendor = new Vendor('bands/vixen');
-
         $composer = new Composer($vendor);
 
         $this->assertInstanceOf(Composer::class, $composer);
     }
 
     public function testInitComposerWithDescription()
-    {
+    {        
+        $description = 'my new theme';
         $vendor = new Vendor('bands/vixen');
-
-        $desc = 'my new theme';
-
-        $composer = new Composer($vendor, $desc);
+        $composer = new Composer($vendor, $description);
 
         $this->assertInstanceOf(Composer::class, $composer);
-        $this->assertEquals($desc, $composer->description());
-    }
-
-    public function testSetDescription()
-    {
-        
+        $this->assertEquals($description, $composer->description());
     }
 }
