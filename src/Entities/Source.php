@@ -87,11 +87,24 @@ abstract class Source extends Foundation
      */
     protected function createFile() : FileInfo
     {
-        $holders  = $this->placeholders();
         $drive    = $this->getDrive();
         $filename = $this->filename();
-        $template = $this->template;
+        $holders  = $this->placeholders();
 
-        return $drive->template($template)->create($filename, $holders);
+        return $drive->template($this->template)->create($filename, $holders);
+    }
+
+    /**
+     * Verifica se o arquivo existe, de acordo com o template
+     *
+     * @return boolean
+     */
+    protected function fileExists() : bool
+    {
+        $drive    = $this->getDrive();
+        $template = $this->template;
+        $filename = $this->filename();
+
+        return $drive->template($template)->exists($filename);
     }
 }

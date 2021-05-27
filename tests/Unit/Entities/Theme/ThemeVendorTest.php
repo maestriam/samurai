@@ -3,6 +3,7 @@
 namespace Maestriam\Samurai\Tests\Unit\Entities\Theme;
 
 use Maestriam\Samurai\Entities\Theme;
+use Maestriam\Samurai\Entities\Vendor;
 use Maestriam\Samurai\Tests\TestCase;
 
 /**
@@ -19,7 +20,7 @@ class ThemeVendorTest extends TestCase
     {
         $theme = new Theme();
         
-        $ret = $theme->vendor('sandbox/theme');
+        $ret = $theme->vendor('bands/warrant');
 
         $this->assertInstanceOf(Theme::class, $ret);
     }  
@@ -31,14 +32,25 @@ class ThemeVendorTest extends TestCase
      */
     public function testGetVendor()
     {
-        $theme  = new Theme();
-        $vendor = 'sandbox/vendor';
+        $package = 'bands/warrant';
+        
+        $theme = new Theme();    
+            
+        $theme->vendor($package);
 
-        $theme->vendor($vendor);
-        $ret = $theme->vendor();
+        $this->assertThemeVendor($theme->vendor(), $package);        
+    }
 
-        $this->assertIsString($ret);
-        $this->assertEquals($vendor, $ret);
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function testDefaultVendor()
+    {
+        $theme = new Theme();
+
+        $vendor = $theme->vendor();
     }
 
     /**
@@ -48,12 +60,24 @@ class ThemeVendorTest extends TestCase
      */
     public function testSetVendorPassingConstructor()
     {
-        $vendor = 'sandbox/vendor';
-        $theme  = new Theme($vendor);
+        $package = 'bands/warrant';
+        
+        $theme = new Theme($package);        
 
-        $ret = $theme->vendor();
+        $this->assertThemeVendor($theme->vendor(), $package);
+    }
 
-        $this->assertIsString($ret);
-        $this->assertEquals($vendor, $ret);
+    /**
+     * Verifica se as informações do vendor, definidas no tema,
+     * foram criadas com sucesso
+     *
+     * @param mixed $vendor
+     * @param mixed $package
+     * @return void
+     */
+    private function assertThemeVendor($vendor, $package)
+    {
+        $this->assertInstanceOf(Vendor::class, $vendor);
+        $this->assertEquals($vendor->package(), $package);
     }
 }

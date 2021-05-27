@@ -20,6 +20,5 @@ class ThemeTestCase extends TestCase
 
         $this->assertIsString($theme->description());
         $this->assertEquals($desc, $theme->description());
-    }
-    
+    }    
 }

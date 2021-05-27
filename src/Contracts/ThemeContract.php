@@ -2,8 +2,10 @@
 
 namespace Maestriam\Samurai\Contracts;
 
+use Maestriam\Samurai\Entities\Author;
 use Maestriam\Samurai\Entities\Structure;
 use Maestriam\Samurai\Entities\Theme;
+use Maestriam\Samurai\Entities\Vendor;
 
 interface ThemeContract
 {
@@ -15,7 +17,7 @@ interface ThemeContract
      * @param string $vendor
      * @return Theme
      */
-    public function vendor(string $vendor = null) : Theme|string;
+    public function vendor(string $vendor = null) : Theme|Vendor;
 
     /**
      * Define a descrição do tema
@@ -24,7 +26,7 @@ interface ThemeContract
      * @param string $author
      * @return Theme
      */
-    public function author(string $author) : Theme;
+    public function author(string $author = null) : Author|Theme;
 
     /**
      * Define a descrição do tema
@@ -33,7 +35,7 @@ interface ThemeContract
      * @param string $description
      * @return Theme
      */
-    public function description(string $description) : Theme;
+    public function description(string $description = null) : Theme|string;
 
     /**
      * Retorna o nome do tema
@@ -55,4 +57,20 @@ interface ThemeContract
      * @return Structure
      */
     public function paths() : Structure;
+
+    /**
+     * Verifica se o tema já existe dentro do projeto
+     *
+     * @return boolean
+     */
+    public function exists() : bool;
+
+    /**
+     * Cria um novo tema dentro do projeto.
+     * Caso o tema já exista, emite uma exception de erro 
+     *
+     * @return Theme
+     * @throws ThemeExistsException
+     */
+    public function make() : Theme;
 }

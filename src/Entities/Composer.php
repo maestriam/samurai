@@ -4,6 +4,12 @@ namespace Maestriam\Samurai\Entities;
 
 class Composer extends Source
 {
+    
+    /**
+     * Caminho absoluto do arquivo
+     */
+    private string $path;
+
     /**
      * Descrição do tema
      */
@@ -12,12 +18,7 @@ class Composer extends Source
     /**
      * Nome do template
      */
-    protected string $template = 'composer';
-    
-    /**
-     * Caminho absoluto do arquivo
-     */
-    private string $path;
+    protected string $template = 'composer';    
 
     /**
      * Instância com as regras de negócio sobre composer.json
@@ -48,6 +49,16 @@ class Composer extends Source
         }
 
         return $this->setDescription($desc);
+    }
+
+    /**
+     * Verifica se o arquivo já existe dentro do tema
+     *
+     * @return boolean
+     */
+    public function exists() : bool
+    {
+        return $this->fileExists();
     }
 
     /**

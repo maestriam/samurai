@@ -2,19 +2,14 @@
 
 namespace Maestriam\Samurai\Entities;
 
-use Illuminate\Support\Facades\Auth;
 use Maestriam\Samurai\Contracts\ThemeContract;
-use Maestriam\Samurai\Entities\FileSystem;
 use Maestriam\Samurai\Entities\Foundation;
-use Maestriam\Samurai\Exceptions\InvalidAuthorException;
-use Maestriam\Samurai\Exceptions\InvalidThemeNameException;
-use Maestriam\Samurai\Traits\Theme\Validation;
-use Maestriam\Samurai\Traits\Theme\Construction;
-use Maestriam\Samurai\Foundation\DirectiveFinder;
-use Maestriam\Samurai\Traits\Theme\DirectiveHandling;
-use Maestriam\Samurai\Traits\Shared\BasicAccessors;
+use Maestriam\Samurai\Exceptions\ThemeExistsException;
 
-class Theme extends Foundation 
+;
+use Maestriam\Samurai\Foundation\DirectiveFinder;
+
+class Theme extends Foundation implements ThemeContract
 {
     /**
      * Nome do distribuidor do tema/nome do tema
@@ -61,9 +56,7 @@ class Theme extends Foundation
     public function __construct(string $vendor = null)
     {
         if ($vendor) {
-            $this->setVendor($vendor)
-                 ->setStructure()
-                 ->setComposer();
+            $this->setVendor($vendor)->setStructure()->setComposer();
         }   
     }
     
@@ -116,14 +109,15 @@ class Theme extends Foundation
     }
 
     /**
-     * Cria um novo tema dentro do projeto
-     *
-     * @return Theme
+     * {@inheritDoc}
      */
     public function make() : Theme
     {
-        $this->structure()->init();
+        if ($this->exists()) {
+            throw new ThemeExistsException($this->vendor()->package());
+        }
 
+        $this->structure()->init();
         $this->composer()->create();
 
         return $this;
@@ -141,6 +135,14 @@ class Theme extends Foundation
         $this->composer()->description($description);
 
         return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function exists() : bool
+    {
+        return $this->composer()->exists();
     }
 
     /**
