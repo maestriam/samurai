@@ -1,0 +1,13 @@
+language: php
+
+php:
+  - 8.0
+
+os: 
+  - linux
+
+before_script:
+  - composer install
+
+script:
+  - vendor/bin/phpunit
