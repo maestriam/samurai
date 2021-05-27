@@ -34,11 +34,5 @@
             "Maestriam\\Samurai\\Providers\\MainServiceProvider"
           ]
         }
-    },
-    "repositories": [
-        {
-          "type": "path",
-          "url": "../filesystem"
-        }
-    ]
+    }
 }
