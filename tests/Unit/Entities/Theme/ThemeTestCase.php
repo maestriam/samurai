@@ -13,12 +13,11 @@ class ThemeTestCase extends TestCase
     public function testThemeDescription()
     {
         $theme = new Theme('bands/iron-maiden');
+        $descr = 'Run to the hills';
 
-        $desc = 'Run to the hills';
-
-        $theme->description($desc);
+        $theme->description($descr);
 
         $this->assertIsString($theme->description());
-        $this->assertEquals($desc, $theme->description());
+        $this->assertEquals($descr, $theme->description());
     }    
 }

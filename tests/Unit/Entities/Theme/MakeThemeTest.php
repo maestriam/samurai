@@ -33,14 +33,4 @@ class MakeThemeTest extends ThemeTestCase
         $theme1->make();
         $theme2->make();
     }
-
-    public function testExistingTheme()
-    {
-        $theme = new Theme('bands/ozzy-osbourne');
-
-        $theme->make();
-
-        $this->assertIsBool($theme->exists());
-        $this->assertTrue($theme->exists());
-    }
 }

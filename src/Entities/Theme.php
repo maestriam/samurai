@@ -53,23 +53,17 @@ class Theme extends Foundation implements ThemeContract
      *
      * @param string $name
      */
-    public function __construct(string $vendor = null)
+    public function __construct(string $vendor)
     {
-        if ($vendor) {
-            $this->setVendor($vendor)->setStructure()->setComposer();
-        }   
+        $this->setVendor($vendor)->setStructure()->setComposer();        
     }
     
     /**
      * {@inheritDoc}
      */
-    public function vendor(string $vendor = null) : Theme|Vendor
+    public function vendor() : Vendor
     {
-        if ($vendor == null) {
-            return $this->getVendor();
-        }
-        
-        return $this->setVendor($vendor);
+        return $this->vendorInstance;
     }
 
     /**
@@ -155,16 +149,6 @@ class Theme extends Foundation implements ThemeContract
         $this->vendorInstance = new Vendor($vendor);
 
         return $this;
-    }
-
-    /**
-     * Retorna as informações sobre o vendor do tema
-     *
-     * @return Vendor
-     */
-    private function getVendor() : Vendor
-    {
-        return $this->vendorInstance;
     }
 
     /**

@@ -18,11 +18,9 @@ class ThemeVendorTest extends TestCase
      */
     public function testSetVendor()
     {
-        $theme = new Theme();
+        $theme = new Theme('bands/warrant');
         
-        $ret = $theme->vendor('bands/warrant');
-
-        $this->assertInstanceOf(Theme::class, $ret);
+        $this->assertInstanceOf(Vendor::class, $theme->vendor());
     }  
     
     /**
@@ -30,41 +28,13 @@ class ThemeVendorTest extends TestCase
      *
      * @return void
      */
-    public function testGetVendor()
-    {
-        $package = 'bands/warrant';
-        
-        $theme = new Theme();    
-            
-        $theme->vendor($package);
-
-        $this->assertThemeVendor($theme->vendor(), $package);        
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @return void
-     */
-    public function testDefaultVendor()
-    {
-        $theme = new Theme();
-
-        $vendor = $theme->vendor();
-    }
-
-    /**
-     * Verifica se consegue definir o vendor no contructor do tema
-     *
-     * @return void
-     */
-    public function testSetVendorPassingConstructor()
+    public function testGetVendorPackage()
     {
         $package = 'bands/warrant';
         
         $theme = new Theme($package);        
 
-        $this->assertThemeVendor($theme->vendor(), $package);
+        $this->assertThemeVendor($theme->vendor(), $package);        
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Maestriam\Samurai\Tests;
 
+use Illuminate\Foundation\Application;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use Maestriam\FileSystem\Providers\FileSystemProvider;
 use Maestriam\Samurai\Providers\SamuraiServiceProvider;
@@ -14,6 +15,12 @@ class TestCase extends BaseTestCase
     public function setUp(): void
     {
         parent::setUp();
+    }
+
+    public function tearDown() : void
+    {
+        $this->clearSandBox();
+        parent::tearDown();
     }
 
     /**
@@ -67,7 +74,13 @@ class TestCase extends BaseTestCase
         ]);
     }
 
-    private function registerLaravelConfig($app)
+    /**
+     * Registra as configurações do Laravel para o pacote.
+     *
+     * @param Application $app
+     * @return void
+     */
+    private function registerLaravelConfig(Application $app)
     {
         $app['config']->set('view', [
             'compiled' => storage_path('framework/views'),
@@ -87,5 +100,24 @@ class TestCase extends BaseTestCase
         $exists = method_exists($obj, $function);
 
         $this->assertTrue($exists);
+    }
+
+    /**
+     * Remove o diretório de conteúdo de testes
+     *
+     * @return void
+     */
+    protected function clearSandBox($folder = null)
+    {
+        $sandbox = $folder ?? config('samurai.themes.folder');
+
+        $files = array_diff(scandir($sandbox), array('.', '..'));
+
+        foreach ($files as $file) { 
+
+            $item = "$sandbox/$file";
+
+            is_dir($item) ? $this->clearSandBox($item) : unlink($item); 
+        }
     }
 }

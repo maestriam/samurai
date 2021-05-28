@@ -17,7 +17,7 @@ interface ThemeContract
      * @param string $vendor
      * @return Theme
      */
-    public function vendor(string $vendor = null) : Theme|Vendor;
+    public function vendor() : Vendor;
 
     /**
      * Define a descrição do tema
