@@ -5,6 +5,7 @@ namespace Maestriam\Samurai\Tests;
 use Illuminate\Foundation\Application;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use Maestriam\FileSystem\Providers\FileSystemProvider;
+use Maestriam\FileSystem\Support\FileSystem;
 use Maestriam\Samurai\Providers\SamuraiServiceProvider;
 
 class TestCase extends BaseTestCase
@@ -15,6 +16,7 @@ class TestCase extends BaseTestCase
     public function setUp(): void
     {
         parent::setUp();
+        $this->initSandBox();
     }
 
     public function tearDown() : void
@@ -102,6 +104,13 @@ class TestCase extends BaseTestCase
         $this->assertTrue($exists);
     }
 
+    protected function initSandBox()
+    {
+        $sandbox = config('samurai.themes.folder');
+
+        FileSystem::folder($sandbox)->create();
+    }
+
     /**
      * Remove o diretório de conteúdo de testes
      *
@@ -119,5 +128,7 @@ class TestCase extends BaseTestCase
 
             is_dir($item) ? $this->clearSandBox($item) : unlink($item); 
         }
+
+        return rmdir($sandbox);
     }
 }
