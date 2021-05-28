@@ -2,9 +2,10 @@
 
 namespace Maestriam\Samurai\Entities;
 
-class Composer extends Source
-{
-    
+use Maestriam\Samurai\Contracts\ComposerContract;
+
+class Composer extends Source implements ComposerContract
+{    
     /**
      * Caminho absoluto do arquivo
      */
@@ -36,11 +37,7 @@ class Composer extends Source
     }
 
     /**
-     * Retorna/Define a descrição do tema 
-     * Se passar uma string como parâmetro, assume a função de definição
-     *
-     * @param string $desc
-     * @return string|Composer
+     * {@inheritDoc}
      */
     public function description(string $desc = null) : string|Composer
     {
@@ -92,9 +89,9 @@ class Composer extends Source
     {
         return [
             'description' => $this->description(),
-            'authorName'  => $this->theme->author()->name(),
-            'authorEmail' => $this->theme->author()->email(),
-            'package'     => $this->theme->vendor()->package(),
+            'authorName'  => $this->theme()->author()->name(),
+            'authorEmail' => $this->theme()->author()->email(),
+            'package'     => $this->theme()->vendor()->package(),
         ];
     }
 

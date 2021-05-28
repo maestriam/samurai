@@ -19,6 +19,9 @@ class TestCase extends BaseTestCase
         $this->initSandBox();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function tearDown() : void
     {
         $this->clearSandBox();
@@ -26,10 +29,7 @@ class TestCase extends BaseTestCase
     }
 
     /**
-     * Retorna o Service Provider para carregamento
-     *
-     * @param mixed $app
-     * @return array
+     * {@inheritDoc}
      */
     protected function getPackageProviders($app): array
     {
@@ -39,6 +39,9 @@ class TestCase extends BaseTestCase
         ];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function getEnvironmentSetUp($app)
     {
         $this->registerLaravelConfig($app);
@@ -104,6 +107,11 @@ class TestCase extends BaseTestCase
         $this->assertTrue($exists);
     }
 
+    /**
+     * Cria um novo diretório para testes
+     *
+     * @return void
+     */
     protected function initSandBox()
     {
         $sandbox = config('samurai.themes.folder');

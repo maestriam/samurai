@@ -11,60 +11,12 @@ abstract class Source extends Foundation
     /**
      * Tema qual o arquivo pertence
      */
-    protected Theme $theme;
+    protected Theme $themeInstance;
 
     /**
      * Nome do template
      */
     protected string $template;
-   
-    /**
-     * Define o tema que será 
-     *
-     * @param Theme $theme
-     * @return Source
-     */
-    protected function setTheme(Theme $theme) : Source
-    {
-        $this->theme = $theme;
-        return $this;
-    }
-
-    /**
-     * Retorna o drive para a manipulação de arquivos dentro do tema.    
-     * Se não houver drive criado para o tema, configura um novo drive.  
-     *
-     * @return Drive
-     */
-    private function getDrive() : Drive
-    {
-        $name = $this->theme->vendor()->package();
-
-        $drive = FileSystem::drive($name);
-
-        return ($drive->exists()) ? $drive : $this->initDrive($drive);
-    }
-
-    /**
-     * Configura um novo drive para criação de tema   
-     *
-     * @param Drive $drive
-     * @return Drive
-     */
-    private function initDrive(Drive $drive) : Drive
-    {
-        $root = $this->theme->paths()->root();
-        $stub = $this->config()->template();
-        $path = $this->config()->structure();
-
-        $drive->structure()->root($root);
-        $drive->structure()->template($stub);
-        $drive->structure()->paths($path);
-
-        $drive->save();
-
-        return $drive;
-    }
 
     /**
      * Retorna os dados para a geração do arquivo composer.json
@@ -79,6 +31,64 @@ abstract class Source extends Foundation
      * @return string
      */
     abstract protected function filename() : string;
+   
+    /**
+     * Define o tema que será 
+     *
+     * @param Theme $theme
+     * @return self
+     */
+    protected function setTheme(Theme $theme) : self
+    {
+        $this->themeInstance = $theme;
+        return $this;
+    }
+
+    /**
+     * Retorna a instância do tema
+     *
+     * @return Theme
+     */
+    protected function theme() : Theme
+    {
+        return $this->themeInstance;
+    }
+
+    /**
+     * Retorna o drive para a manipulação de arquivos dentro do tema.    
+     * Se não houver drive criado para o tema, configura um novo drive.  
+     *
+     * @return Drive
+     */
+    private function getDrive() : Drive
+    {
+        $name = $this->theme()->vendor()->package();
+
+        $drive = FileSystem::drive($name);
+
+        return ($drive->exists()) ? $drive : $this->initDrive($drive);
+    }
+
+    /**
+     * Configura um novo drive para criação de tema   
+     *
+     * @param Drive $drive
+     * @return Drive
+     */
+    private function initDrive(Drive $drive) : Drive
+    {
+        $root = $this->theme()->paths()->root();
+        $stub = $this->config()->template();
+        $path = $this->config()->structure();
+
+        $drive->structure()->root($root);
+        $drive->structure()->template($stub);
+        $drive->structure()->paths($path);
+
+        $drive->save();
+
+        return $drive;
+    }
 
     /**
      * Executa a criação do arquivo, baseado em um template

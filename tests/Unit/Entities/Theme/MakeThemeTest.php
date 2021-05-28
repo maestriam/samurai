@@ -3,7 +3,6 @@
 namespace Maestriam\Samurai\Tests\Unit\Entities\Theme;
 
 use Maestriam\Samurai\Entities\Theme;
-use Maestriam\FileSystem\Support\FileSystem;
 use Maestriam\Samurai\Exceptions\ThemeExistsException;
 
 /**
@@ -11,6 +10,11 @@ use Maestriam\Samurai\Exceptions\ThemeExistsException;
  */
 class MakeThemeTest extends ThemeTestCase
 {
+    /**
+     * Verifica se consegue criar um tema com um vendor válido
+     *
+     * @return void
+     */
     public function testCreateTheme()
     {
         $theme = new Theme('bands/ozzy');
@@ -23,6 +27,11 @@ class MakeThemeTest extends ThemeTestCase
         $this->assertDirectoryExists($theme->paths()->assets()); 
     } 
     
+    /**
+     * Verifica se consegue criar um tema já existe na base
+     *
+     * @return void
+     */
     public function testCreateExistingTheme()
     {
         $theme1 = new Theme('bands/ozzy');
