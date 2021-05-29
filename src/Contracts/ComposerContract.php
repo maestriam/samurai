@@ -2,12 +2,18 @@
 
 namespace Maestriam\Samurai\Contracts;
 
+use Maestriam\Samurai\Entities\Theme;
 use Maestriam\Samurai\Entities\Composer;
-use Maestriam\Samurai\Entities\Vendor;
 
 interface ComposerContract
 {
-    public function __construct(Vendor $vendor, string $desc = null);
+    /**
+     * Instância com as regras de negócio sobre composer.json
+     *
+     * @param Vendor $vendor
+     * @param string $desc
+     */
+    public function __construct(Theme $theme, string $desc = null);
 
     /**
      * Retorna/Define a descrição do tema 
@@ -16,5 +22,5 @@ interface ComposerContract
      * @param string $desc
      * @return string|Composer
      */
-    public function description(string $desc = null) : string|Composer
+    public function description(string $desc = null) : string|Composer;
 }

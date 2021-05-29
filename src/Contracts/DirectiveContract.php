@@ -11,4 +11,11 @@ interface DirectiveContract
      * @return string
      */
     public function sentence() : string;
+    
+    /**
+     * Retorna o tipo de diretiva 
+     * 
+     * @return string
+     */
+    public function type() : string;
 }

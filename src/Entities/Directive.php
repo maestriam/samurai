@@ -68,6 +68,14 @@ abstract class Directive extends Source implements DirectiveContract
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function type() : string
+    {
+        return $this->type;
+    }
+
+    /**
      * Carrega todas as informações da diretiva através do tema,
      * nome da diretiva e com seu tipo
      *
@@ -78,7 +86,9 @@ abstract class Directive extends Source implements DirectiveContract
      */
     protected function start(Theme $theme, string $sentence, string $type) : void
     {
-        $this->setSentence($sentence)->setTheme($theme);
+        $this->setType($type)
+             ->setSentence($sentence)
+             ->setTheme($theme);
     }
 
     /**
@@ -102,7 +112,23 @@ abstract class Directive extends Source implements DirectiveContract
 
         $this->sentence = strtolower($sentence);
         return $this;
-    } 
+    }
+    
+    /**
+     * Define o tipo da diretiva
+     *
+     * @param string $type
+     * @return Directive
+     */
+    protected function setType(string $type) : self
+    {
+        if (! $this->valid()->type($type)) {
+            throw new InvalidTypeDirectiveException($type);
+        }
+
+        $this->type = $type;
+        return $this;
+    }
 }
 
 
@@ -169,21 +195,7 @@ abstract class Directive extends Source implements DirectiveContract
 //         return $this;
 //     }
 
-//     /**
-//      * Define o tipo da diretiva
-//      *
-//      * @param string $type
-//      * @return Directive
-//      */
-//     protected function setType(string $type) : self
-//     {
-//         if (! $this->valid()->type($type)) {
-//             throw new InvalidTypeDirectiveException($type);
-//         }
 
-//         $this->type = $type;
-//         return $this;
-//     }
 
 //     /**
 //      * Undocumented function

@@ -28,7 +28,7 @@ class IncludeDirective extends Directive
     {
         $filename = $this->sentence() . '.include.blade';
 
-        return ;
+        return $filename;
     }
 
     public function placeholders() : array

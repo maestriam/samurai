@@ -76,7 +76,7 @@ class SyntaxValidator
      */
     public function type(string $type) : bool
     {
-        $types = Config::get('Samurai.species');
+        $types = config('samurai.species');
 
         return (in_array($type, $types)) ? true : false;
     }
