@@ -23,7 +23,7 @@ class IncludeDirective extends Directive
     {
         $this->start($theme, $sentence, 'include');
     }
-
+    
     public function filename() : string
     {
         $filename = $this->sentence() . '.include.blade';
@@ -34,5 +34,10 @@ class IncludeDirective extends Directive
     public function placeholders() : array
     {
         return [];
+    }
+
+    public function make()
+    {
+        dd('xx');
     }
 }

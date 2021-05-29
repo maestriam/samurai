@@ -197,21 +197,3 @@ abstract class Directive extends Source implements DirectiveContract
 
 
 
-//     /**
-//      * Undocumented function
-//      *
-//      * @return Directive
-//      */
-//     protected function setPath() : self
-//     {
-//         $folder = null;
-//         $name   = $this->name . DS;
-//         $theme  = $this->theme->filepath() . DS;
-
-//         if ($this->folder != null) {
-//             $folder = $this->folder . DS;
-//         }
-
-//         $this->path = $theme . $folder . $name;
-//         return $this;
-//     }

@@ -28,7 +28,8 @@ class FilenameParser
     }
 
     /**
-     * Undocumented function
+     * Retorna o nome do arquivo e seu diretório,
+     * dado seu caminho dentro do sistema
      *
      * @param string $path
      * @return object|null

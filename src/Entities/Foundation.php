@@ -81,11 +81,12 @@ class Foundation
     }
 
     /**
-     * Undocumented function
+     * Classe auxiliar para validar a sintaxe das informações preenchidas 
+     * sobre o tema
      *
      * @return SyntaxValidator
      */
-    public function valid() : SyntaxValidator
+    protected function valid() : SyntaxValidator
     {
         if ($this->valid == null) {
             $this->valid = new SyntaxValidator();
@@ -95,21 +96,7 @@ class Foundation
     }
 
     /**
-     * 
-     *
-     * @return FileNominator
-     */
-    protected function nominator() : FileNominator
-    {
-        if ($this->nominator == null) {
-            $this->nominator = new FileNominator();
-        }
-
-        return $this->nominator;
-    }
-
-    /**
-     * Retorna uma instância de RN sobre 
+     * Classe auxiliar para  instância de RN sobre 
      * estrutura de pasta do tema
      *
      * @return DirectoryStructure
@@ -124,21 +111,7 @@ class Foundation
     }
 
     /**
-     * Undocumented function
-     *
-     * @return EnvHandler
-     */
-    protected function env() : EnvHandler
-    {
-        if (! $this->env) {
-            $this->env = new EnvHandler();
-        }
-
-        return $this->env;
-    }
-
-    /**
-     * Retorna a instância de configurações do Samurai
+     * Classe auxiliar para retorno das informações de configurações do pacote
      *
      * @return void
      */
@@ -152,8 +125,8 @@ class Foundation
     }
 
     /**
-     * Identifica o nome e o tipo da diretiva através
-     * de seu caminho absoluto
+     * Classe auxiliar para identificar o nome e o tipo da diretiva, 
+     * através de seu caminho absoluto
      *
      * @param string $file
      * @return object|null
@@ -165,5 +138,23 @@ class Foundation
         }
 
         return $this->parser;
+    }
+
+    protected function env() : EnvHandler
+    {
+        if (! $this->env) {
+            $this->env = new EnvHandler();
+        }
+
+        return $this->env;
+    }
+
+    protected function nominator() : FileNominator
+    {
+        if ($this->nominator == null) {
+            $this->nominator = new FileNominator();
+        }
+
+        return $this->nominator;
     }
 }

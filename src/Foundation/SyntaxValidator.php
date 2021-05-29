@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Config;
 class SyntaxValidator
 {
     /**
-     * 
+     * Verifica se o padrão "vendor/theme"
+     * foi preenchido corretamente
      *
      * @param string $sentence
      * @return boolean
@@ -20,8 +21,8 @@ class SyntaxValidator
     }
 
     /**
-     * Verifica se o padrão "Nome do author <email@domain>
-     * foi preenchido
+     * Verifica se o padrão "Nome do author <email@domain>"
+     * foi preenchido corretamente
      *
      * @param string $sentence
      * @return boolean

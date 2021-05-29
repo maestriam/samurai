@@ -40,6 +40,12 @@ class IncludeTestCase extends TestCase
         $this->assertEquals($include->sentence(), $sentence);
     }
     
+    /**
+     * Verifica se o tipo definido para a diretiva está correta
+     *
+     * @param IncludeDirective $include
+     * @return void
+     */
     protected function assertDirectiveType(IncludeDirective $include)
     {
         $this->assertIsString($include->type());
