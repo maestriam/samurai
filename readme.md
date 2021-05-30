@@ -91,4 +91,4 @@ E.g:
 <script src="@public('js/index.js')" />
 ```  
 <br></br>  
-Created by [Giuliano Sampaio](https://github.com/giusampaio) with ❤️ and 🍺!
+Created by [Giuliano Sampaio](https://github.com/giusampaio) with ❤️, ☕ and 🍺!

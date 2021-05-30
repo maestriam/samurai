@@ -6,6 +6,7 @@ use Illuminate\Foundation\Application;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use Maestriam\FileSystem\Providers\FileSystemProvider;
 use Maestriam\FileSystem\Support\FileSystem;
+use Maestriam\Samurai\Entities\Theme;
 use Maestriam\Samurai\Providers\SamuraiServiceProvider;
 
 class TestCase extends BaseTestCase
@@ -80,20 +81,6 @@ class TestCase extends BaseTestCase
     }
 
     /**
-     * Registra as configurações do Laravel para o pacote.
-     *
-     * @param Application $app
-     * @return void
-     */
-    private function registerLaravelConfig(Application $app)
-    {
-        $app['config']->set('view', [
-            'compiled' => storage_path('framework/views'),
-            'paths'    => [resource_path('views')]
-        ]);
-    }
-
-    /**
      * Verifica se classe possui determinada função
      *
      * @param mixed $obj
@@ -120,6 +107,17 @@ class TestCase extends BaseTestCase
     }
 
     /**
+     * Retorna a instância de um tema
+     *
+     * @param string $package
+     * @return Theme
+     */
+    protected function theme(string $package) : Theme
+    {
+        return new Theme($package);
+    }
+
+    /**
      * Remove o diretório de conteúdo de testes
      *
      * @return void
@@ -138,5 +136,20 @@ class TestCase extends BaseTestCase
         }
 
         return rmdir($sandbox);
+    }
+
+
+    /**
+     * Registra as configurações do Laravel para o pacote.
+     *
+     * @param Application $app
+     * @return void
+     */
+    private function registerLaravelConfig(Application $app)
+    {
+        $app['config']->set('view', [
+            'compiled' => storage_path('framework/views'),
+            'paths'    => [resource_path('views')]
+        ]);
     }
 }

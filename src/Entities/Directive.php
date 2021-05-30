@@ -5,14 +5,11 @@ namespace Maestriam\Samurai\Entities;
 use Illuminate\Support\Str;
 use Maestriam\Samurai\Entities\Theme;
 use Illuminate\Support\Facades\Blade;
-use Maestriam\Samurai\Entities\Foundation;
 use Illuminate\View\Compilers\BladeCompiler;
 use Maestriam\Samurai\Contracts\DirectiveContract;
-use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
 use Maestriam\Samurai\Exceptions\DirectiveExistsException;
 use Maestriam\Samurai\Exceptions\InvalidDirectiveNameException;
 use Maestriam\Samurai\Exceptions\InvalidTypeDirectiveException;
-use stdClass;
 
 abstract class Directive extends Source implements DirectiveContract
 {
@@ -59,6 +56,11 @@ abstract class Directive extends Source implements DirectiveContract
     */
     protected string $alias;
 
+    public function __construct(Theme $theme, string $sentence)
+    {
+        $this->start($theme, $sentence, $this->type());
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -84,6 +86,44 @@ abstract class Directive extends Source implements DirectiveContract
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function alias() : string
+    {
+        return $this->alias;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function filename() : string
+    {        
+        $pattern = '%s.%s.blade';
+
+        return sprintf($pattern, $this->sentence(), $this->type);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function placeholders() : array
+    {
+        return ['name' => $this->name];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function create()
+    {
+        $info = $this->createFile();
+
+        $this->setPath($info->absolute_path);
+
+        return $this;
+    }
+
+    /**
      * Carrega todas as informações da diretiva através do tema,
      * nome da diretiva e com seu tipo
      *
@@ -94,10 +134,12 @@ abstract class Directive extends Source implements DirectiveContract
      */
     protected function start(Theme $theme, string $sentence, string $type) : void
     {
+        $this->setTheme($theme);
+        
         $this->setType($type)
              ->setSentence($sentence)
              ->setName($sentence)
-             ->setTheme($theme);
+             ->setAlias();
     }
 
     /**
@@ -169,88 +211,17 @@ abstract class Directive extends Source implements DirectiveContract
 
          return $this;
      }
+
+     /**
+      * Define o alias para ser chamado dentro do projeto
+      *
+      * @param string $name
+      * @return Directive
+      */
+     protected function setAlias() : self
+     {
+         $this->alias = $this->nominator()->alias($this->name);
+
+         return $this;
+     }
 }
-
-
-
-            //  ->setType($type)
-            //  ->setName($sentence)
-            //  ->setAlias($sentence)
-            //  ->setFilename()
-            //  ->setFolder($sentence)
-            //  ->setPath($sentence);
-
-
-// /**
-//      * Undocumented function
-//      *
-//      * @param string $name
-//      * @return Directive
-//      */
-//     protected function setName(string $name) : self
-//     {
-//         $request = $this->parser()->filename($name);
-
-//         $this->name = Str::slug($request->name);
-//         return $this;
-//     }
-
-//     /**
-//      * Undocumented function
-//      *
-//      * @param string $name
-//      * @return Directive
-//      */
-//     protected function setAlias(string $name) : self
-//     {
-//         $this->alias = $this->nominator()->alias($this->name);
-//         return $this;
-//     }
-
-//     /**
-//      *
-//      *
-//      * @param string $folder
-//      * @return void
-//      */
-//     protected function setFolder(string $name) : self
-//     {
-//         $request = $this->parser()->filename($name);
-
-//         $this->folder = strtolower($request->folder);
-//         return $this;
-//     }
-
-//     /**
-//      * Define o nome do arquivo para ser chamado no projeto
-//      *
-//      * @param string $name
-//      * @return void
-//      */
-//     protected function setFilename() : self
-//     {
-//         $file = $this->nominator()->filename($this->name, $this->type);
-
-//         $this->filename = $file;
-//         return $this;
-//     }
-
-//      * Undocumented function
-//      *
-//      * @return Directive
-//      */
-//     protected function setPath() : self
-//     {
-//         $folder = null;
-//         $name   = $this->name . DS;
-//         $theme  = $this->theme->filepath() . DS;
-
-//         if ($this->folder != null) {
-//             $folder = $this->folder . DS;
-//         }
-
-//         $this->path = $theme . $folder . $name;
-//         return $this;
-//     }
-
-

@@ -18,4 +18,11 @@ interface DirectiveContract
      * @return string
      */
     public function type() : string;
+
+    /**
+     * Retorna o nome do arquivo
+     *
+     * @return string
+     */
+    public function filename() : string;
 }
