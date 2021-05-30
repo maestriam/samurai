@@ -57,7 +57,7 @@ return [
     */
     'author' => [
         'name'   => 'Giuliano Sampaio',
-        'vendor' => 'maestriam',
+        'dist'   => 'maestriam',
         'email'  => 'giuguitar@gmail.com',
     ],
 

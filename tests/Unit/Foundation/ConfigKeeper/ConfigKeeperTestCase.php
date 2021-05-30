@@ -11,44 +11,47 @@ use Maestriam\Samurai\Foundation\ConfigKeeper;
 class ConfigKeeperTestCase extends TestCase
 {
     /**
-     * Instancia a classe de validação para ser testada
+     * Retorna o valor de env_key, vindo da configuração
      *
      * @return void
      */
-    public function setUp() : void
+    protected function getEnvKey()
     {
-        parent::setUp();
-    } 
-
-    /**
-     * Tenta recuperar a chave que será inserida
-     * no arquivo de ambiente
-     *
-     * @return void
-     */
-    public function testGetEnvKey()
-    {
-        $env = config('samurai.env_key');        
-        $config = new ConfigKeeper();
-
-        $this->assertIsString($config->env());
-        $this->assertEquals($env, $config->env());
+        return config('samurai.env_key'); 
     }
 
     /**
-     * Verifica se consegue pegar env_key caso não esteja definida
-     * no arquivo de configuração do pacote.
-     * Por padrão, deve retornar o CURRENT_THEME
+     * Apaga o registro de env_key, definido na configuração
      *
      * @return void
      */
-    public function testDefaultGetEnvKey()
+    protected function eraseEnvKey()
     {
-        $env = 'CURRENT_THEME';        
-        $config = new ConfigKeeper();
+        config(['samurai.env_key' => null]);   
+    }
 
-        $this->assertIsString($config->env());
-        $this->assertEquals($env, $config->env());
+    /**
+     * Define o diretório base de temas nas configurações
+     *
+     * @param string $folder
+     * @return void
+     */
+    protected function setThemeBase(string $folder = null)
+    {
+        config(['samurai.themes.folder' => $folder]);
+    }
+
+    /**
+     * Verifica se a chave vinda das configurações está OK
+     *
+     * @param mixed $value
+     * @param mixed $expected
+     * @return void
+     */
+    protected function assertConfigKey($value, $expected)
+    {
+        $this->assertIsString($value);
+        $this->assertEquals($value, $expected);
     }
 
     /**

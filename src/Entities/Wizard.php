@@ -4,26 +4,50 @@ namespace Maestriam\Samurai\Entities;
 
 use stdClass;
 use Maestriam\Samurai\Entities\Foundation;
-use Maestriam\Samurai\Traits\Shared\Composer;
-use Maestriam\Samurai\Traits\Shared\BasicAccessors;
 
 class Wizard extends Foundation
 {
-    use BasicAccessors, Composer;
+    /**
+     * Instância com as regras de negócio sobre o vendor
+     */
+    private Vendor $vendorInstance;    
+    
+    public function __construct()
+    {
+        $this->setVendor();
+    }
 
     /**
-     * Undocumented function
-     *
-     * @return void
+     * Retorna a pergunta sobre o nome do tema para ser criado.   
+     * Por padrão, retorna o vendor/nome-do-projeto como resposta.
+     * 
+     * @return object
      */
-    public function theme() : stdClass
+    public function theme() : object
     {
-        $theme    = $this->defaultVendor();
-        $question = sprintf('Name (<vendor/name>) [%s]', $theme);
+        $package  = $this->vendor()->package();
+        $question = sprintf('Name (<vendor/name>) [%s]', $package);
 
         return (object) [
             'ask'     => $question,
-            'default' => $theme
+            'default' => $package
+        ];
+    }
+
+    /**
+     * Retorna a pergunta sobre a descrição do tema para ser criado.    
+     * Por padrão, retorna o vendor/nome-do-projeto como resposta.
+     *
+     * @return void
+     */
+    public function description() : object
+    {
+        $description = $this->config()->description();
+        $question    = sprintf("Description [%s]", $description);
+
+        return (object) [
+            'ask'     => $question,
+            'default' => $description
         ];
     }
 
@@ -32,23 +56,7 @@ class Wizard extends Foundation
      *
      * @return void
      */
-    public function description() : stdClass
-    {
-        $desc     = $this->defaultDesc();
-        $question = sprintf("Description [%s]", $desc);
-
-        return (object) [
-            'ask'     => $question,
-            'default' => $desc
-        ];
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @return void
-     */
-    public function author() : stdClass
+    public function author() : object
     {
         $author = $this->defaultAuthor();
         $ask    = sprintf('Author [%s]', $author);
@@ -83,19 +91,49 @@ class Wizard extends Foundation
     }
 
     /**
-     * Retorna um vendor padrão para a criação
-     * do tema
+     * Retorna o vendor padrão da aplicação
      *
-     * @return string
+     * @return Vendor
      */
-    private function defaultVendor() : string
+    private function vendor() : Vendor
     {
-        $author = $this->config()->author();
-        $vendor = $author->vendor;
-        $theme  = $this->dir()->project();
-
-        return $vendor .'/'. $theme . '-theme';
+        return $this->vendorInstance;
     }
+    
+    /**
+     * Define o vendor padrão da aplicação
+     *
+     * @return Wizard
+     */
+    private function setVendor() : Wizard
+    {
+        $this->vendorInstance = new Vendor();
+
+        return $this;
+    }
+
+    /**
+     * Define o vendor padrão da aplicação
+     *
+     * @return Wizard
+     */
+    private function setComposer(Theme $theme) : Wizard
+    {
+        $this->composerInstance = new Composer($theme);
+
+        return $this;
+    }
+
+    /**
+     * Retorna o composer padrão da aplicação
+     *
+     * @return Composer
+     */
+    private function composer() : Composer
+    {
+        return $this->composerInstance;
+    }
+
 
     /**
      * Retorna uma descrição padrão para o tema

@@ -22,13 +22,13 @@ class Vendor extends Foundation
     private string $package;
 
     /**
-     * 
+     * Instancia as regras de negócio sobre o vendor
      *
      * @param string $vendor
      */
-    public function __construct(string $package)
+    public function __construct(string $package = null)
     {
-        $this->setPackage($package)->parsePackage();
+        ($package) ? $this->set($package) : $this->default();
     }
     
     /**
@@ -107,6 +107,31 @@ class Vendor extends Foundation
         $this->setName($name)->setDist($dist);
 
         return $this;
+    }
+
+    /**
+     * Carrega as informações padrões do vendor
+     *
+     * @return Vendor
+     */
+    private function default() : Vendor
+    {
+        $project = $this->dir()->project();
+        $author  = $this->config()->author();
+        $package = sprintf("%s/%s", $author->dist, $project);
+
+        return $this->set($package);
+    }
+
+    /**
+     * Interpreta e define as informações sobre o vendor
+     *
+     * @param string $package
+     * @return void
+     */
+    private function set(string $package) : Vendor
+    {
+        return $this->setPackage($package)->parsePackage();
     }
 
     /**

@@ -6,16 +6,23 @@ use Illuminate\Support\Facades\Config;
 
 class DirectoryStructure
 {
-    /**
-     * Retorna o caminho
-     *
-     * @return void
-     */
-    public function base() : string
-    {
-        $default = base_path('themes');
+    private ConfigKeeper $configInstance;
 
-        return config('samurai.themes.folder') ?? $default;
+    public function __construct()
+    {
+        $this->setConfig();
+    }    
+
+    public function config() : ConfigKeeper
+    {
+        return $this->configInstance;
+    }
+    
+    private function setConfig() : DirectoryStructure
+    {
+        $this->configInstance = new ConfigKeeper();
+        
+        return $this;
     }
 
     /**
@@ -37,7 +44,8 @@ class DirectoryStructure
      */
     public function theme(string $vendor, string $name) : ?string
     {
-        $base   = $this->base();
+        $base = $this->config()->base();
+
         $finded = $this->findVendor($vendor, $name);
 
         if ($finded) return $finded;

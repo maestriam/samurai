@@ -67,9 +67,9 @@ class TestCase extends BaseTestCase
             ],
 
             'author' => [
-                'name'   => 'Giuliano Sampaio',
-                'vendor' => 'maestriam',
-                'email'  => 'giuguitar@gmail.com',
+                'name'  => 'Giuliano Sampaio',
+                'dist'  => 'maestriam',
+                'email' => 'giuguitar@gmail.com',
             ],
 
             'structure' => [
@@ -125,6 +125,10 @@ class TestCase extends BaseTestCase
     protected function clearSandBox($folder = null)
     {
         $sandbox = $folder ?? config('samurai.themes.folder');
+
+        if (! is_dir($sandbox)) {
+            return null;
+        }      
 
         $files = array_diff(scandir($sandbox), array('.', '..'));
 

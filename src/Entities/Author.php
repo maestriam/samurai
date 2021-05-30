@@ -6,15 +6,35 @@ use Maestriam\Samurai\Exceptions\InvalidAuthorException;
 
 class Author extends Foundation 
 {
+    /**
+     * Nome do autor do tema
+     * 
+     * @var string
+     */
     private string $name; 
-
+    
+    /**
+     * E-mail do autor do tema
+     * 
+     * @var string
+     */
     private string $email;
 
+    /**
+     * Distribuidora do autor
+     */
+    private string $dist;
+
+    /**
+     * Instância com as regras de negócios sobre o autor do tema.  
+     * Na ausência de informações sobre o autor, irá pegar as informações
+     * definida nas configurações do projeto como padrão.  
+     *
+     * @param string $author
+     */
     public function __construct(string $author = null)
     {
-        if ($author) {
-            $this->set($author);
-        }
+        ($author) ? $this->set($author) : $this->default();
     }    
     
     /**
@@ -64,6 +84,23 @@ class Author extends Foundation
     }
 
     /**
+     * Retorna/Define a distribuidora do autor do tema.  
+     * Se passar uma string como parâmetro, assume a função de definição.  
+     * Informações utilizados dentro arquivo composer.json  
+     *
+     * @param string $dist
+     * @return Author|string
+     */
+    public function dist(string $dist = null) : Author|string
+    {
+        if (! $dist) {
+            return $this->getEmail();
+        } 
+        
+        return $this->setEmail($dist);
+    }
+
+    /**
      * Define o nome e o autor do tema, de acordo com o padrão:  
      * Ex: Giu Sampaio <<email@email.com>>
      * 
@@ -83,14 +120,16 @@ class Author extends Foundation
     }
 
     /**
-     * Carrega o nome e o e-mail do autor de um objeto específico
+     * Carrega o nome, distribuidora e o e-mail do autor de um objeto específico
      *
      * @param object $author
      * @return Author
      */
     private function load(object $author) : Author
     {
-        return $this->name($author->name)->email($author->email);
+        return $this->name($author->name)
+                    ->email($author->email)
+                    ->dist($author->dist);
     }    
 
     /**
@@ -136,5 +175,27 @@ class Author extends Foundation
     private function getEmail() : string
     {
         return $this->email ?? $this->config()->author()->email;
+    }
+
+    /**
+     * Define a distribuidora do autor do tema
+     *
+     * @param string $dist
+     * @return Author
+     */
+    private function setDist(string $dist) : Author
+    {
+        $this->dist = $dist;
+        return $this;
+    }
+
+    /**
+     * Retorna o distribuidora do autor do tema
+     *
+     * @return string
+     */
+    private function getDist() : string
+    {
+        return $this->dist ?? $this->config()->author()->dist;
     }
 }

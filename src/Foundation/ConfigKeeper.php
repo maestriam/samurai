@@ -19,13 +19,25 @@ class ConfigKeeper
     }
 
     /**
+     * Retorna o caminho-base dos temas dentro do projeto
+     *
+     * @return void
+     */
+    public function base() : string
+    {
+        $default = base_path('themes');
+
+        return config('samurai.themes.folder') ?? $default;
+    }
+
+    /**
      * Retorna as configurações do autor para criação de um tema
      *
      * @return object
      */
     public function author() : object
     {
-        $author = Config::get('samurai.author');
+        $author = config('samurai.author');
 
         return (object) $author;
     }
