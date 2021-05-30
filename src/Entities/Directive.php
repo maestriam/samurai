@@ -56,6 +56,12 @@ abstract class Directive extends Source implements DirectiveContract
     */
     protected string $alias;
 
+    /**
+     * Instância as regras de negócio de uma diretiva
+     *
+     * @param Theme $theme
+     * @param string $sentence
+     */
     public function __construct(Theme $theme, string $sentence)
     {
         $this->start($theme, $sentence, $this->type());
@@ -114,7 +120,7 @@ abstract class Directive extends Source implements DirectiveContract
     /**
      * {@inheritDoc}
      */
-    public function create()
+    public function create() : Component|Includer
     {
         $info = $this->createFile();
 
