@@ -54,7 +54,7 @@ class Structure extends Foundation
      *
      * @return string
      */
-    public function files() : string
+    public function source() : string
     {        
         return $this->dir()->files($this->dist, $this->theme);
     }
@@ -76,7 +76,7 @@ class Structure extends Foundation
      */
     public function init()
     {
-        FileSystem::folder($this->files())->create();
+        FileSystem::folder($this->source())->create();
         FileSystem::folder($this->assets())->create();
     }
     

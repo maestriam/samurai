@@ -76,6 +76,14 @@ abstract class Directive extends Source implements DirectiveContract
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function path() : string
+    {
+        return $this->path;
+    }
+
+    /**
      * Carrega todas as informações da diretiva através do tema,
      * nome da diretiva e com seu tipo
      *
@@ -88,6 +96,7 @@ abstract class Directive extends Source implements DirectiveContract
     {
         $this->setType($type)
              ->setSentence($sentence)
+             ->setName($sentence)
              ->setTheme($theme);
     }
 
@@ -129,6 +138,37 @@ abstract class Directive extends Source implements DirectiveContract
         $this->type = $type;
         return $this;
     }
+
+    /**
+     * Define o caminho completo do arquivo composer.json dentro do tema
+     *
+     * @param string $path
+     * @return Composer
+     */
+    protected function setPath(string $path) : Directive
+    {
+        if (! is_file($path)) {
+            throw new \Exception('File not found');
+        }
+
+        $this->path = $path;
+        return $this;
+    }
+
+    /**
+      * Define o nome da diretiva
+      *
+      * @param string $name
+      * @return Directive
+      */
+     protected function setName(string $name) : self
+     {
+         $parsed = $this->parser()->filename($name);
+
+         $this->name = Str::slug($parsed->name);
+
+         return $this;
+     }
 }
 
 
@@ -195,5 +235,22 @@ abstract class Directive extends Source implements DirectiveContract
 //         return $this;
 //     }
 
+//      * Undocumented function
+//      *
+//      * @return Directive
+//      */
+//     protected function setPath() : self
+//     {
+//         $folder = null;
+//         $name   = $this->name . DS;
+//         $theme  = $this->theme->filepath() . DS;
+
+//         if ($this->folder != null) {
+//             $folder = $this->folder . DS;
+//         }
+
+//         $this->path = $theme . $folder . $name;
+//         return $this;
+//     }
 
 

@@ -39,14 +39,11 @@ class FilenameParser
         $name   = $this->parseOnlyName($file);
         $folder = $this->parseFolder($file);
         
-        if (! $name) return null;
-
-        $request = [
-            'name'   => $name,
-            'folder' => $folder
-        ];
-
-        return (object) $request;
+        if (! $name) {
+           return null;
+        }
+        
+        return (object) ['name' => $name, 'folder' => $folder];
     }
 
     /**

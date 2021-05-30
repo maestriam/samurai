@@ -10,12 +10,12 @@ class StructureTestCase extends TestCase
 {
     public function testInitStructure()
     {
-        $vendor = new Vendor('sando/xlo');
+        $vendor = new Vendor('bands/dio');
 
         $structure = new Structure($vendor);
 
         $this->assertObjectHasFunction($structure, 'public');
         $this->assertObjectHasFunction($structure, 'assets');
-        $this->assertObjectHasFunction($structure, 'files');
+        $this->assertObjectHasFunction($structure, 'source');
     }
 }

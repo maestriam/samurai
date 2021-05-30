@@ -11,11 +11,11 @@ class ThemeStructureTest extends ThemeTestCase
      *
      * @return void
      */
-    public function testFilesPath()
+    public function testSourcePath()
     {
         $theme = new Theme('sandbox/local');
 
-        $this->assertPathString($theme->paths()->files());
+        $this->assertPathString($theme->paths()->source());
     }    
     
     public function testAssetPath()

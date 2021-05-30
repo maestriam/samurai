@@ -72,9 +72,9 @@ class TestCase extends BaseTestCase
             ],
 
             'structure' => [
-                'composer'    => '.', 
-                '*-include'   => 'src/',
-                '*-component' => 'src/',
+                'composer'  => '.', 
+                'include'   => 'src/',
+                'component' => 'src/',
             ]
         ]);
     }

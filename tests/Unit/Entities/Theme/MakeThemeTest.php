@@ -23,7 +23,7 @@ class MakeThemeTest extends ThemeTestCase
 
         $this->assertInstanceOf(Theme::class, $theme);
         $this->assertDirectoryExists($theme->paths()->root());
-        $this->assertDirectoryExists($theme->paths()->files());   
+        $this->assertDirectoryExists($theme->paths()->source());   
         $this->assertDirectoryExists($theme->paths()->assets()); 
     } 
     

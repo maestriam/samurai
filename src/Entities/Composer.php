@@ -134,7 +134,7 @@ class Composer extends Source implements ComposerContract
      * @param string $path
      * @return Composer
      */
-    private function setPath(string $path) : Composer
+    protected function setPath(string $path) : Composer
     {
         if (! is_file($path)) {
             throw new \Exception('');

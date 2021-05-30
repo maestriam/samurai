@@ -2,7 +2,7 @@
 
 namespace Maestriam\Samurai\Entities;
 
-class IncludeDirective extends Directive
+class Includer extends Directive
 {
     /**
      * Nome do template
@@ -15,29 +15,38 @@ class IncludeDirective extends Directive
     protected string $name;
 
     /**
+     * Tipo da diretiva tratada
+     */
+    protected string $type = 'include';
+
+    /**
      * Nome, diretório e extensão da diretiva completa
      */
     protected string $sentence;
 
     public function __construct(Theme $theme, string $sentence)
     {
-        $this->start($theme, $sentence, 'include');
+        $this->start($theme, $sentence, $this->type);
     }
     
     public function filename() : string
-    {
-        $filename = $this->sentence() . '.include.blade';
+    {        
+        $pattern = '%s.%s.blade';
 
-        return $filename;
+        return sprintf($pattern, $this->sentence(), $this->type);
     }
 
     public function placeholders() : array
     {
-        return [];
+        return ['name' => $this->name];
     }
 
-    public function make()
+    public function create()
     {
-        dd('xx');
+        $info = $this->createFile();
+
+        $this->setPath($info->absolute_path);
+
+        return $this;
     }
 }

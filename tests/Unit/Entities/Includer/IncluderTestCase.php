@@ -1,12 +1,12 @@
 <?php
 
-namespace Maestriam\Samurai\Tests\Unit\Entities\Include;
+namespace Maestriam\Samurai\Tests\Unit\Entities\Includer;
 
 use Maestriam\Samurai\Entities\Theme;
 use Maestriam\Samurai\Tests\TestCase;
-use Maestriam\Samurai\Entities\IncludeDirective;
+use Maestriam\Samurai\Entities\Includer;
 
-class IncludeTestCase extends TestCase
+class IncluderTestCase extends TestCase
 {
     /**
      * Verifica se a instância de um novo include foi definida de maneira correta
@@ -19,9 +19,9 @@ class IncludeTestCase extends TestCase
         $theme = new Theme('bands/guns-n-roses');
         
         $sentence = 'tables/table';
-        $include  = new IncludeDirective($theme, $sentence);
+        $include  = new Includer($theme, $sentence);
 
-        $this->assertInstanceOf(IncludeDirective::class, $include);
+        $this->assertInstanceOf(Includer::class, $include);
         $this->assertDirectiveSentence($include, $sentence);
         $this->assertDirectiveType($include);
     }
@@ -29,11 +29,11 @@ class IncludeTestCase extends TestCase
     /**
      * Verifica se a sentença definida para a diretiva está correta
      *
-     * @param IncludeDirective $include
+     * @param Includer $include
      * @param string $sentence
      * @return void
      */
-    protected function assertDirectiveSentence(IncludeDirective $include, string $sentence)
+    protected function assertDirectiveSentence(Includer $include, string $sentence)
     {
         $this->assertIsString($include->sentence());
         $this->assertObjectHasFunction($include, 'sentence');
@@ -43,10 +43,10 @@ class IncludeTestCase extends TestCase
     /**
      * Verifica se o tipo definido para a diretiva está correta
      *
-     * @param IncludeDirective $include
+     * @param Includer $include
      * @return void
      */
-    protected function assertDirectiveType(IncludeDirective $include)
+    protected function assertDirectiveType(Includer $include)
     {
         $this->assertIsString($include->type());
         $this->assertEquals($include->type(), 'include');        
