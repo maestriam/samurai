@@ -42,6 +42,11 @@ class ConfigKeeper
         return (object) $author;
     }
 
+    public function dist() : string
+    {
+        return config('samurai.author.dist') ?? 'maestriam';
+    }
+
     /**
      * Retorna o texto da descrição para a criação de um novo tema
      *

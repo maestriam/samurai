@@ -73,6 +73,14 @@ class Composer extends Source implements ComposerContract
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function preview() : string
+    {
+        return $this->previewContent();
+    }
+
+    /**
      * Retorna o caminho do arquivo composer.json dentro do tema
      *
      * @return string|null

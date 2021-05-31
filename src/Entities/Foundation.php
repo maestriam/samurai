@@ -139,7 +139,12 @@ class Foundation
 
         return $this->parser;
     }
-
+    
+    /**
+     * Classe auxiliar para modificar o arquivo .env do projeto Laravel
+     *
+     * @return EnvHandler
+     */
     protected function env() : EnvHandler
     {
         if (! $this->env) {
@@ -149,6 +154,11 @@ class Foundation
         return $this->env;
     }
 
+    /**
+     * Classe auxiliar para interação sobre
+     *
+     * @return FileNominator
+     */
     protected function nominator() : FileNominator
     {
         if ($this->nominator == null) {

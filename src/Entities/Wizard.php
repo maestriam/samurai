@@ -11,10 +11,15 @@ class Wizard extends Foundation
      * Instância com as regras de negócio sobre o vendor
      */
     private Vendor $vendorInstance;    
+
+    /**
+     * Instância com as regras de negócio sobre o autor
+     */
+    private Author $authorInstance;
     
     public function __construct()
     {
-        $this->setVendor();
+        $this->setVendor()->setAuthor();
     }
 
     /**
@@ -38,7 +43,7 @@ class Wizard extends Foundation
      * Retorna a pergunta sobre a descrição do tema para ser criado.    
      * Por padrão, retorna o vendor/nome-do-projeto como resposta.
      *
-     * @return void
+     * @return object
      */
     public function description() : object
     {
@@ -52,17 +57,19 @@ class Wizard extends Foundation
     }
 
     /**
-     * Undocumented function
+     * Retorna a pergunta sobre o nome e e-mail do autor do tema.      
+     * Por padrão, retorna o nome e e-email definido no config do pacote.  
      *
-     * @return void
+     * @return object
      */
     public function author() : object
     {
-        $author = $this->defaultAuthor();
-        $ask    = sprintf('Author [%s]', $author);
+        $author = $this->defaultAuthor()->signature();
+
+        $question = sprintf('Author [%s]', $author);
 
         return (object) [
-            'ask'     => $ask,
+            'ask'     => $question,
             'default' => $author
         ];
     }
@@ -75,17 +82,18 @@ class Wizard extends Foundation
      * @param string $desc
      * @return stdClass
      */
-    public function confirm($vendor, $author, $desc) : stdClass
+    public function confirm(string $vendor, string $author, string $desc) : object
     {
-        $this->setVendor($vendor)
-             ->setAuthor($author)
-             ->setDescription($desc);
+        $theme = new Theme($vendor);
 
-        $preview = $this->getComposer();
-        $ask     = 'Confirm? '. PHP_EOL . $preview;
+        $theme->author($author)->description($desc);
+
+        $preview = $theme->preview();
+
+        $question = 'Confirm? '. PHP_EOL . $preview;
 
         return (object) [
-            'ask'     => $ask,
+            'ask'     => $question,
             'default' => false
         ];
     }
@@ -113,6 +121,28 @@ class Wizard extends Foundation
     }
 
     /**
+     * Retorna um autor padrão para a criação do tema
+     *
+     * @return string
+     */
+    private function defaultAuthor() : Author
+    {
+        return $this->authorInstance;
+    }
+    
+    /**
+     * Define o autor padrão da aplicação
+     *
+     * @return Wizard
+     */
+    private function setAuthor() : Wizard
+    {
+        $this->authorInstance = new Author();
+
+        return $this;
+    }
+
+    /**
      * Define o vendor padrão da aplicação
      *
      * @return Wizard
@@ -132,33 +162,5 @@ class Wizard extends Foundation
     private function composer() : Composer
     {
         return $this->composerInstance;
-    }
-
-
-    /**
-     * Retorna uma descrição padrão para o tema
-     *
-     * @return string
-     */
-    private function defaultDesc() : string
-    {
-        $project = $this->dir()->project();
-
-        return sprintf("Theme for project '%s'", $project);
-    }
-
-    /**
-     * Retorna um autor padrão para a criação
-     * do tema
-     *
-     * @return string
-     */
-    private function defaultAuthor() : string
-    {
-        $author  = $this->config()->author();
-        $name    = $author->name;
-        $email   = $author->email;
-
-        return sprintf("%s <%s>", $name, $email);
     }
 }

@@ -140,6 +140,14 @@ class Theme extends Foundation implements ThemeContract
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function preview() : string 
+    {
+        return $this->composer()->preview();
+    }
+
+    /**
      * Define o nome do vendor do tema.  
      *
      * @return Theme

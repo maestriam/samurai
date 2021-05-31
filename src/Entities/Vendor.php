@@ -116,9 +116,11 @@ class Vendor extends Foundation
      */
     private function default() : Vendor
     {
-        $project = $this->dir()->project();
-        $author  = $this->config()->author();
-        $package = sprintf("%s/%s", $author->dist, $project);
+        $name = $this->dir()->project();
+
+        $distributor = $this->config()->dist();
+        
+        $package = sprintf("%s/%s", $distributor, $name);
 
         return $this->set($package);
     }

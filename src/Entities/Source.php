@@ -105,6 +105,19 @@ abstract class Source extends Foundation
     }
 
     /**
+     * Retorna a previa do conteúdo do template já interpretado
+     *
+     * @return string
+     */
+    protected function previewContent() : string
+    {
+        $drive = $this->getDrive();
+        $holders = $this->placeholders();
+
+        return $drive->template($this->template)->preview($holders);
+    }
+
+    /**
      * Verifica se o arquivo existe, de acordo com o template
      *
      * @return boolean

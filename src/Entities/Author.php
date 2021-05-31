@@ -36,18 +36,6 @@ class Author extends Foundation
     {
         ($author) ? $this->set($author) : $this->default();
     }    
-    
-    /**
-     * Retorna as informações padrões do autor, definido no config
-     *
-     * @return Author
-     */
-    public function default() : Author
-    {
-        $default = $this->config()->author();
-        
-        return $this->load($default);    
-    }
 
     /**
      * Retorna/Define o nome do autor do tema.  
@@ -91,13 +79,24 @@ class Author extends Foundation
      * @param string $dist
      * @return Author|string
      */
-    public function dist(string $dist = null) : Author|string
-    {
-        if (! $dist) {
-            return $this->getEmail();
-        } 
+    // public function dist(string $dist = null) : Author|string
+    // {
+    //     if (! $dist) {
+    //         return $this->getDist();
+    //     } 
         
-        return $this->setEmail($dist);
+    //     return $this->setDist($dist);
+    // }
+
+    /**
+     * Retorna a assinatura do autor.   
+     * Ex: Joe Doe <foo@acme.com>
+     *
+     * @return string
+     */
+    public function signature() : string
+    {
+        return sprintf("%s <%s>", $this->name(), $this->email());
     }
 
     /**
@@ -128,8 +127,8 @@ class Author extends Foundation
     private function load(object $author) : Author
     {
         return $this->name($author->name)
-                    ->email($author->email)
-                    ->dist($author->dist);
+                    ->email($author->email);
+                    // ->dist($author->dist);
     }    
 
     /**
@@ -197,5 +196,17 @@ class Author extends Foundation
     private function getDist() : string
     {
         return $this->dist ?? $this->config()->author()->dist;
+    }
+
+    /**
+     * Retorna as informações padrões do autor, definido no config
+     *
+     * @return Author
+     */
+    private function default() : Author
+    {
+        $default = $this->config()->author();
+        
+        return $this->load($default);    
     }
 }
