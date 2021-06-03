@@ -5,6 +5,7 @@ namespace Maestriam\Samurai\Entities;
 use Maestriam\Samurai\Contracts\ThemeContract;
 use Maestriam\Samurai\Entities\Foundation;
 use Maestriam\Samurai\Exceptions\ThemeExistsException;
+use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
 use Maestriam\Samurai\Foundation\DirectiveFinder;
 
 class Theme extends Foundation implements ThemeContract
@@ -49,11 +50,11 @@ class Theme extends Foundation implements ThemeContract
     /**
      * Regras de negócio do tema
      *
-     * @param string $name
+     * @param string $package
      */
-    public function __construct(string $vendor)
+    public function __construct(string $package)
     {
-        $this->init($vendor);
+        $this->init($package);
     }
     
     /**
@@ -167,15 +168,42 @@ class Theme extends Foundation implements ThemeContract
     }
 
     /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function use()
+    {
+        $this->guard();
+
+        $this->register();
+    }
+
+    /**
+     * Registra o nome do pacote do tema no arquivo de ambiente 
+     * do projeto Laravel
+     *
+     * @return void
+     */
+    private function register()
+    {
+        $name = $this->package();
+
+        $key = $this->config()->env();
+
+        $this->env()->set($key, $name);
+    }
+
+    /**
      * Inicia as regras de negócio do tema  
      * Se o tema já existir dentro do projeto, carrega suas informações  
      *
-     * @param string $vendor
+     * @param string $package
      * @return Theme
      */
-    private function init(string $vendor) : Theme
+    private function init(string $package) : Theme
     {
-        $this->setVendor($vendor)->setComposer()->setStructure();
+        $this->setVendor($package)->setComposer()->setStructure();
 
         if ($this->exists()) {
             return $this->load();
@@ -280,5 +308,20 @@ class Theme extends Foundation implements ThemeContract
     private function composer() : Composer
     {
         return $this->composerInstance;
+    }
+
+    /**
+     * Faz as devidas validações sobre o tema.  
+     * Se existir algo incompátivel, emite um Exception.  
+     *
+     * @return void
+     */
+    private function guard() : void
+    {
+        if ($this->exists()) {
+            return; 
+        }
+
+        throw new ThemeNotFoundException($this->package());
     }
 }

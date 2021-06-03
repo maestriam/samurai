@@ -32,6 +32,38 @@ class Base extends Foundation
     }
 
     /**
+     * Retorna o tema padrão definido no projeto.  
+     *
+     * @return Theme|null
+     */
+    public function current() : ?Theme
+    {
+        $key = $this->config()->env();
+
+        $current = $this->env()->get($key);
+
+        return $this->find($current);
+    }
+
+    /**
+     * Retorna o primeiro tema que encontrar no projeto, se exisit.  
+     *
+     * @return ?Theme
+     */
+    public function first() : ?Theme
+    {
+        $folders = $this->readBase();
+        
+        if (empty($folders)) {
+            return null;
+        }
+        
+        $first = array_shift($folders);
+        
+        return $this->find($first);
+    }
+
+    /**
      * Retorna uma instância de um tema, se o tema existir no projeto.
      *
      * @param string $package

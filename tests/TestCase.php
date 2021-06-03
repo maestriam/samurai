@@ -127,21 +127,6 @@ class TestCase extends BaseTestCase
         $sandbox = config('samurai.themes.folder');
 
         FileSystem::folder($sandbox)->delete();
-
-        // if (! is_dir($sandbox)) {
-        //     return null;
-        // }      
-
-        // $files = array_diff(scandir($sandbox), array('.', '..'));
-
-        // foreach ($files as $file) { 
-
-        //     $item = "$sandbox/$file";
-
-        //     is_dir($item) ? $this->clearSandBox($item) : unlink($item); 
-        // }
-
-        // return rmdir($sandbox);
     }
 
 
@@ -151,7 +136,7 @@ class TestCase extends BaseTestCase
      * @param Application $app
      * @return void
      */
-    private function registerLaravelConfig(Application $app)
+    protected function registerLaravelConfig(Application $app)
     {
         $app['config']->set('view', [
             'compiled' => storage_path('framework/views'),

@@ -126,9 +126,7 @@ class Author extends Foundation
      */
     private function load(object $author) : Author
     {
-        return $this->name($author->name)
-                    ->email($author->email);
-                    // ->dist($author->dist);
+        return $this->name($author->name)->email($author->email);
     }    
 
     /**

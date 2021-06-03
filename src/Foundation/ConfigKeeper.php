@@ -2,8 +2,6 @@
 
 namespace Maestriam\Samurai\Foundation;
 
-use Illuminate\Support\Facades\Config;
-
 class ConfigKeeper
 {
     /**
@@ -42,6 +40,11 @@ class ConfigKeeper
         return (object) $author;
     }
 
+    /**
+     * Retorna o nome do distribuidor padrão do tema 
+     *
+     * @return string
+     */
     public function dist() : string
     {
         return config('samurai.author.dist') ?? 'maestriam';
