@@ -3,13 +3,11 @@
 namespace Maestriam\Samurai\Tests\Unit\Entities\Theme;
 
 use Maestriam\Samurai\Entities\Theme;
-use Maestriam\FileSystem\Support\FileSystem;
-use Maestriam\Samurai\Exceptions\ThemeExistsException;
 
 /**
  * Testes de verificação de existência de tema
  */
-class ThemeExistenceTest extends ThemeTestCase
+class ExistsThemeTest extends ThemeTestCase
 {
     /**
      * Verifica se o tema existe na base, depois do comando de criação

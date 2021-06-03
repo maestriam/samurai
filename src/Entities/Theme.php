@@ -123,6 +123,18 @@ class Theme extends Foundation implements ThemeContract
     {
         return $this->composer()->preview();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function find() : ?Theme
+    {
+        if (! $this->exists()) {
+            return null;
+        }
+
+        return $this->load();
+    }
     
     /**
      * {@inheritDoc}

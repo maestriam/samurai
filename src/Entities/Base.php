@@ -2,10 +2,9 @@
 
 namespace Maestriam\Samurai\Entities;
 
-use Maestriam\FileSystem\Support\FileSystem as SupportFileSystem;
+use Maestriam\FileSystem\Support\FileSystem;
 use Maestriam\Samurai\Entities\Theme;
 use Maestriam\Samurai\Entities\Foundation;
-use Maestriam\Samurai\Foundation\FileSystem;
 
 class Base extends Foundation
 {
@@ -16,18 +15,15 @@ class Base extends Foundation
      */
     public function all() : array
     {
-        $themes  = [];
-        $folders = $this->readBase();
+        $themes = [];
 
-        if (empty($folders)) {
-            return $themes;
-        }
+        foreach($this->readBase() as $folder) {
 
-        foreach($folders as $folder) {
+            $theme = $this->find($folder);
 
-            $theme = $this->themefy($folder);
-
-            if ($theme == null) continue;
+            if ($theme == null) {
+                continue;    
+            }
 
             $themes[] = $theme;
         }
@@ -36,62 +32,28 @@ class Base extends Foundation
     }
 
     /**
-     * Retorna o primeiro tema cadastrado no projeto
+     * Retorna uma instância de um tema, se o tema existir no projeto.
      *
+     * @param string $package
      * @return Theme|null
      */
-    public function first() : ?Theme
+    private function find(string $package) : ?Theme
     {
-        $vendors = $this->readBase();
+        $theme = new Theme($package);
 
-        if (empty($vendors)) {
-            return null;
-        }
-
-        $vendor = array_shift($vendors);
-        $themes = $this->readVendor($vendor);
-        
-        if (empty($themes)) {
-            return null;
-        }
-
-        $theme = array_shift($themes);
-        $name  = $vendor . '/' . $theme;
-
-        return $this->themefy($name);
+        return $theme->find();
     }
 
     /**
-     * Retorna o tema atual selecionado
+     * Retorna a lista de temas cadastrados no projeto
      *
-     * @return Theme|null
+     * @return array
      */
-    public function current() : ?Theme
+    private function readBase() : array
     {
-        $key  = $this->config()->env();
-        $name = $this->env()->get($key);
+        $path = $this->config()->base();
 
-        if ($name != null) {
-            return $this->themefy($name);
-        }
-
-        $first = $this->first();
-
-        if ($first != null) {
-            return $first;
-        }
-
-        return null;
-    }
-    
-    /**
-     * Limpa o cache dos arquivos de view do projeto
-     *
-     * @return void
-     */
-    public function clearCache()
-    {
-        return $this->file()->clearCache();
+        return FileSystem::folder($path)->read(2);
     }
 }
 
@@ -135,4 +97,64 @@ class Base extends Foundation
     //     $base = $this->dir()->base() . $vendor;
 
     //     return $this->file()->readDir($base);
+    // }
+
+    
+    // /**
+    //  * Retorna o primeiro tema cadastrado no projeto
+    //  *
+    //  * @return Theme|null
+    //  */
+    // public function first() : ?Theme
+    // {
+    //     $vendors = $this->readBase();
+
+    //     if (empty($vendors)) {
+    //         return null;
+    //     }
+
+    //     $vendor = array_shift($vendors);
+    //     $themes = $this->readVendor($vendor);
+        
+    //     if (empty($themes)) {
+    //         return null;
+    //     }
+
+    //     $theme = array_shift($themes);
+    //     $name  = $vendor . '/' . $theme;
+
+    //     return $this->themefy($name);
+    // }
+
+    // /**
+    //  * Retorna o tema atual selecionado
+    //  *
+    //  * @return Theme|null
+    //  */
+    // public function current() : ?Theme
+    // {
+    //     $key  = $this->config()->env();
+    //     $name = $this->env()->get($key);
+
+    //     if ($name != null) {
+    //         return $this->themefy($name);
+    //     }
+
+    //     $first = $this->first();
+
+    //     if ($first != null) {
+    //         return $first;
+    //     }
+
+    //     return null;
+    // }
+    
+    // /**
+    //  * Limpa o cache dos arquivos de view do projeto
+    //  *
+    //  * @return void
+    //  */
+    // public function clearCache()
+    // {
+    //     return $this->file()->clearCache();
     // }

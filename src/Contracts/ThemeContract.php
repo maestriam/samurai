@@ -66,12 +66,19 @@ interface ThemeContract
 
     /**
      * Retorna a prévia de como irá ficar o arquivo composer.json.   
-     * Utilizado junto com o Wizard, auxiliara para criação de temas de modo
+     * Utilizado junto com o Wizard, auxiliar para criação de temas de modo
      * interativo via console    
      *
      * @return string
      */
     public function preview() : string;
+
+    /**
+     * Retorna um tema existente
+     *
+     * @return Theme|null
+     */
+    public function find() : ?Theme;
 
     /**
      * Define a descrição do tema
@@ -91,12 +98,3 @@ interface ThemeContract
      */
     public function make() : Theme;
 }
-
-
-
-
-
-
-
-
-
