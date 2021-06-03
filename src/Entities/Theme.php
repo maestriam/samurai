@@ -5,8 +5,6 @@ namespace Maestriam\Samurai\Entities;
 use Maestriam\Samurai\Contracts\ThemeContract;
 use Maestriam\Samurai\Entities\Foundation;
 use Maestriam\Samurai\Exceptions\ThemeExistsException;
-
-;
 use Maestriam\Samurai\Foundation\DirectiveFinder;
 
 class Theme extends Foundation implements ThemeContract
@@ -55,7 +53,7 @@ class Theme extends Foundation implements ThemeContract
      */
     public function __construct(string $vendor)
     {
-        $this->load($vendor);
+        $this->init($vendor);
     }
     
     /**
@@ -113,6 +111,36 @@ class Theme extends Foundation implements ThemeContract
     /**
      * {@inheritDoc}
      */
+    public function exists() : bool
+    {
+        return $this->composer()->exists();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function preview() : string 
+    {
+        return $this->composer()->preview();
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function description(string $description = null) : Theme|string
+    {
+        if (! $description) {
+            return $this->composer()->description();
+        }
+        
+        $this->composer()->description($description);
+
+        return $this;
+    }    
+
+    /**
+     * {@inheritDoc}
+     */
     public function make() : Theme
     {
         if ($this->exists()) {
@@ -127,43 +155,31 @@ class Theme extends Foundation implements ThemeContract
     }
 
     /**
-     * {@inheritDoc}
+     * Inicia as regras de negócio do tema  
+     * Se o tema já existir dentro do projeto, carrega suas informações  
+     *
+     * @param string $vendor
+     * @return Theme
      */
-    public function description(string $description = null) : Theme|string
+    private function init(string $vendor) : Theme
     {
-        if (! $description) {
-            return $this->composer()->description();
-        }
-        
-        $this->composer()->description($description);
+        $this->setVendor($vendor)->setComposer()->setStructure();
+
+        if ($this->exists()) {
+            return $this->load();
+        }        
 
         return $this;
     }
 
     /**
-     * {@inheritDoc}
+     * Carrega as informações vindas do arquivo composer.json
+     * para dentro da instância  
+     *
+     * @return Theme
      */
-    public function exists() : bool
+    private function load() : Theme
     {
-        return $this->composer()->exists();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function preview() : string 
-    {
-        return $this->composer()->preview();
-    }
-
-    private function load(string $vendor) : Theme
-    {
-        $this->setVendor($vendor)->setComposer()->setStructure();
-
-        if (! $this->exists()) {
-            return $this;
-        }
-
         $info = $this->composer()->load()->info();
 
         $this->author()->name($info->authors[0]->name);

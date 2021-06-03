@@ -24,18 +24,9 @@ interface ThemeContract
      * Usado no arquivo composer.json
      *
      * @param string $author
-     * @return Theme
+     * @return Author|Theme
      */
     public function author(string $author = null) : Author|Theme;
-
-    /**
-     * Define a descrição do tema
-     * Usado no arquivo composer.json
-     *
-     * @param string $description
-     * @return Theme
-     */
-    public function description(string $description = null) : Theme|string;
 
     /**
      * Retorna o nome do tema
@@ -59,11 +50,37 @@ interface ThemeContract
     public function paths() : Structure;
 
     /**
+     * Retorna o nome-do-distribuidor/nome-do-tema.    
+     * Padrão de nome do pacote utilizado no composer.  
+     *
+     * @return string
+     */
+    public function package() : string;
+
+    /**
      * Verifica se o tema já existe dentro do projeto
      *
      * @return boolean
      */
     public function exists() : bool;
+
+    /**
+     * Retorna a prévia de como irá ficar o arquivo composer.json.   
+     * Utilizado junto com o Wizard, auxiliara para criação de temas de modo
+     * interativo via console    
+     *
+     * @return string
+     */
+    public function preview() : string;
+
+    /**
+     * Define a descrição do tema
+     * Usado no arquivo composer.json
+     *
+     * @param string $description
+     * @return Theme|string
+     */
+    public function description(string $description = null) : Theme|string;
 
     /**
      * Cria um novo tema dentro do projeto.
@@ -74,3 +91,12 @@ interface ThemeContract
      */
     public function make() : Theme;
 }
+
+
+
+
+
+
+
+
+

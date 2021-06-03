@@ -87,6 +87,11 @@ class Composer extends Source implements ComposerContract
         return $this;
     }
 
+    /**
+     * Carrega as informações do arquivo composer.json, dentro do tema.  
+     *
+     * @return Composer
+     */
     public function load() : Composer
     {
         $pack = $this->theme()->package();
@@ -203,6 +208,10 @@ class Composer extends Source implements ComposerContract
             if (! property_exists($json, $k) || $json->$k == null) {
                 return false;   
             }            
+        }
+
+        if (! is_array($json->authors) || empty($json->authors)) {
+            return false;
         }
 
         return true;
