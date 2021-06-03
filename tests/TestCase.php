@@ -124,22 +124,24 @@ class TestCase extends BaseTestCase
      */
     protected function clearSandBox($folder = null)
     {
-        $sandbox = $folder ?? config('samurai.themes.folder');
+        $sandbox = config('samurai.themes.folder');
 
-        if (! is_dir($sandbox)) {
-            return null;
-        }      
+        FileSystem::folder($sandbox)->delete();
 
-        $files = array_diff(scandir($sandbox), array('.', '..'));
+        // if (! is_dir($sandbox)) {
+        //     return null;
+        // }      
 
-        foreach ($files as $file) { 
+        // $files = array_diff(scandir($sandbox), array('.', '..'));
 
-            $item = "$sandbox/$file";
+        // foreach ($files as $file) { 
 
-            is_dir($item) ? $this->clearSandBox($item) : unlink($item); 
-        }
+        //     $item = "$sandbox/$file";
 
-        return rmdir($sandbox);
+        //     is_dir($item) ? $this->clearSandBox($item) : unlink($item); 
+        // }
+
+        // return rmdir($sandbox);
     }
 
 

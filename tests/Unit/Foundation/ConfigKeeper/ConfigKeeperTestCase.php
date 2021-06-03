@@ -10,6 +10,11 @@ use Maestriam\Samurai\Foundation\ConfigKeeper;
  */
 class ConfigKeeperTestCase extends TestCase
 {
+    public function tearDown() : void
+    {
+        //
+    }
+
     /**
      * Retorna o valor de env_key, vindo da configuração
      *

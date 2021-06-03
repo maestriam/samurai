@@ -55,7 +55,7 @@ class Theme extends Foundation implements ThemeContract
      */
     public function __construct(string $vendor)
     {
-        $this->setVendor($vendor)->setStructure()->setComposer();        
+        $this->load($vendor);
     }
     
     /**
@@ -105,14 +105,23 @@ class Theme extends Foundation implements ThemeContract
     /**
      * {@inheritDoc}
      */
+    public function package() : string
+    {
+        return $this->vendor()->package();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function make() : Theme
     {
         if ($this->exists()) {
-            throw new ThemeExistsException($this->vendor()->package());
+            throw new ThemeExistsException($this->package());
         }
 
         $this->structure()->init();
-        $this->composer()->create();
+        
+        $this->composer()->create()->load();
 
         return $this;
     }
@@ -145,6 +154,23 @@ class Theme extends Foundation implements ThemeContract
     public function preview() : string 
     {
         return $this->composer()->preview();
+    }
+
+    private function load(string $vendor) : Theme
+    {
+        $this->setVendor($vendor)->setComposer()->setStructure();
+
+        if (! $this->exists()) {
+            return $this;
+        }
+
+        $info = $this->composer()->load()->info();
+
+        $this->author()->name($info->authors[0]->name);
+
+        $this->author()->email($info->authors[0]->email);
+
+        return $this;
     }
 
     /**

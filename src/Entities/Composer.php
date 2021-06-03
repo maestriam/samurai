@@ -2,22 +2,37 @@
 
 namespace Maestriam\Samurai\Entities;
 
+use Exception;
 use Maestriam\Samurai\Contracts\ComposerContract;
+use Maestriam\Samurai\Exceptions\InvalidComposerFileException;
 
 class Composer extends Source implements ComposerContract
 {    
     /**
      * Caminho absoluto do arquivo
+     * 
+     * @var string
      */
     private string $path;
 
     /**
      * Descrição do tema
+     * 
+     * @var string
      */
     private string $desc;
 
     /**
+     * Informações 
+     * 
+     * @var object
+     */
+    private object $info;
+
+    /**
      * Nome do template
+     * 
+     * @var string
      */
     protected string $template = 'composer';    
 
@@ -70,6 +85,31 @@ class Composer extends Source implements ComposerContract
         $this->setPath($info->absolute_path);
 
         return $this;
+    }
+
+    public function load() : Composer
+    {
+        $pack = $this->theme()->package();
+        
+        $content = $this->loadContent();
+
+        $json = json_decode($content);        
+
+        if (! $this->isValid($json)) {           
+            throw new InvalidComposerFileException($pack);
+        }       
+        
+        return $this->extract($json);
+    }
+
+    /**
+     * Retorna as informações do arquivo composer.json
+     *
+     * @return object
+     */
+    public function info() : object
+    {
+        return $this->info;
     }
 
     /**
@@ -125,6 +165,19 @@ class Composer extends Source implements ComposerContract
     }
 
     /**
+     * Define as informações extraídas do 
+     *
+     * @param object $info
+     * @return Composer
+     */
+    private function setInfo(object $info) : Composer
+    {
+        $this->info = $info;
+
+        return $this;
+    }
+
+    /**
      * Retorna a descrição do tema  
      * Se não houver uma descrição definida, retorna a descrição padrão
      * inserida no arquivo config.php 
@@ -137,12 +190,44 @@ class Composer extends Source implements ComposerContract
     }
 
     /**
+     * Verifica se o arquivo composer do tema é válido
+     *
+     * @param object $json
+     * @return boolean
+     */
+    private function isValid(object $json) : bool
+    {
+        $keys = ['name', 'description', 'type', 'require', 'authors'];
+
+        foreach ($keys as $k) {            
+            if (! property_exists($json, $k) || $json->$k == null) {
+                return false;   
+            }            
+        }
+
+        return true;
+    }
+    
+    /**
+     * Pega as informações do arquivo Json
+     *
+     * @param object $json
+     * @return Composer
+     */
+    private function extract(object $json) : Composer
+    {
+        $this->setInfo($json)->description($json->description);
+
+        return $this;
+    }
+
+    /**
      * Define o caminho completo do arquivo composer.json dentro do tema
      *
      * @param string $path
      * @return Composer
      */
-    protected function setPath(string $path) : Composer
+    private function setPath(string $path) : Composer
     {
         if (! is_file($path)) {
             throw new \Exception('');

@@ -3,15 +3,16 @@
 namespace Maestriam\Samurai\Tests\Unit\Entities\Composer;
 
 use Maestriam\Samurai\Entities\Composer;
-use Maestriam\Samurai\Entities\Vendor;
+use Maestriam\Samurai\Entities\Theme;
 use Maestriam\Samurai\Tests\TestCase;
 
 class ComposerTestCase extends TestCase
 {
     public function testComposerInit()
     {
-        $vendor = new Vendor('bands/vixen');
-        $composer = new Composer($vendor);
+        $theme = new Theme('bands/vixen');
+
+        $composer = new Composer($theme);
 
         $this->assertInstanceOf(Composer::class, $composer);
     }
@@ -19,8 +20,10 @@ class ComposerTestCase extends TestCase
     public function testInitComposerWithDescription()
     {        
         $description = 'my new theme';
-        $vendor = new Vendor('bands/vixen');
-        $composer = new Composer($vendor, $description);
+
+        $theme = new Theme('bands/vixen');
+        
+        $composer = new Composer($theme, $description);
 
         $this->assertInstanceOf(Composer::class, $composer);
         $this->assertEquals($description, $composer->description());

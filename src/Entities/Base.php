@@ -2,8 +2,10 @@
 
 namespace Maestriam\Samurai\Entities;
 
+use Maestriam\FileSystem\Support\FileSystem as SupportFileSystem;
 use Maestriam\Samurai\Entities\Theme;
 use Maestriam\Samurai\Entities\Foundation;
+use Maestriam\Samurai\Foundation\FileSystem;
 
 class Base extends Foundation
 {
@@ -91,44 +93,46 @@ class Base extends Foundation
     {
         return $this->file()->clearCache();
     }
-
-    /**
-     * Retorna o objeto de um tema de acordo com um nome específico
-     *
-     * @param string $name
-     * @return Theme
-     */
-    private function themefy(string $name) : ?Theme
-    {
-        $theme = new Theme($name);
-
-        return $theme->get();
-    }
-
-    /**
-     * Retorna a lista de todos as pastas criadas dentro
-     * da base de temas do projeto
-     *
-     * @return void
-     */
-    private function readBase() : array
-    {
-        $base = $this->dir()->base();
-        
-        return $this->file()->readDir($base);
-    }
-    
-    /**
-     * Retorna a lista de todos as pastas criadas dentro
-     * da base de temas do projeto
-     *
-     * @param string $vendor
-     * @return void
-     */
-    private function readVendor(string $vendor) : array
-    {
-        $base = $this->dir()->base() . $vendor;
-
-        return $this->file()->readDir($base);
-    }
 }
+
+
+
+    // /**
+    //  * Retorna o objeto de um tema de acordo com um nome específico
+    //  *
+    //  * @param string $name
+    //  * @return Theme
+    //  */
+    // private function themefy(string $name) : ?Theme
+    // {
+    //     $theme = new Theme($name);
+
+    //     return $theme->get();
+    // }
+
+    // /**
+    //  * Retorna a lista de todos as pastas criadas dentro
+    //  * da base de temas do projeto
+    //  *
+    //  * @return void
+    //  */
+    // private function readBase() : array
+    // {
+    //     $base = $this->config()->base();
+        
+    //     return SupportFileSystem::folder($base)->read(2);
+    // }
+    
+    // /**
+    //  * Retorna a lista de todos as pastas criadas dentro
+    //  * da base de temas do projeto
+    //  *
+    //  * @param string $vendor
+    //  * @return void
+    //  */
+    // private function readVendor(string $vendor) : array
+    // {
+    //     $base = $this->dir()->base() . $vendor;
+
+    //     return $this->file()->readDir($base);
+    // }

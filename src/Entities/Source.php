@@ -130,4 +130,13 @@ abstract class Source extends Foundation
 
         return $drive->template($template)->exists($filename);
     }
+
+    protected function loadContent() : string 
+    {
+        $drive    = $this->getDrive();
+        $template = $this->template;
+        $filename = $this->filename();
+
+        return $drive->template($template)->load($filename);
+    }
 }
