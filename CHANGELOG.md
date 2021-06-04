@@ -4,7 +4,7 @@ All Notable changes to `maestriam/samurai` will be documented in this file.
 
 ## Next
 
-## 3.0.0 - 2021-05
+## 3.0.0 - 2021-07
 
 ### Added
 
@@ -13,6 +13,7 @@ All Notable changes to `maestriam/samurai` will be documented in this file.
 - Adding .travis files
 - Adding building travis CI
 - Integration with maestriam/filesystem
+- Adding facades functions
 
 ### Changed
 

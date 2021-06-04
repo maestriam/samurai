@@ -36,7 +36,7 @@ class TestCase extends BaseTestCase
     {
         return [
             FileSystemProvider::class,
-            // SamuraiServiceProvider::class
+            SamuraiServiceProvider::class
         ];
     }
 
@@ -81,7 +81,7 @@ class TestCase extends BaseTestCase
     }
 
     /**
-     * Verifica se classe possui determinada função
+     * Afirma que a classe possui determinada função
      *
      * @param mixed $obj
      * @param string $function
@@ -92,6 +92,17 @@ class TestCase extends BaseTestCase
         $exists = method_exists($obj, $function);
 
         $this->assertTrue($exists);
+    }
+
+    /**
+     * Afirma que é um tema válido
+     *
+     * @param mixed $theme
+     * @return void
+     */    
+    protected function assertValidTheme($theme)
+    {
+        $this->assertInstanceOf(Theme::class, $theme);
     }
 
     /**
@@ -128,7 +139,6 @@ class TestCase extends BaseTestCase
 
         FileSystem::folder($sandbox)->delete();
     }
-
 
     /**
      * Registra as configurações do Laravel para o pacote.

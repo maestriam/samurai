@@ -12,7 +12,6 @@ class RegistersThemesServiceProvider extends ServiceProvider
 
     public function boot()
     {
-
         $theme = $this->base()->current();
 
         if ($theme == null) {

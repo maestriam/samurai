@@ -11,6 +11,7 @@ use Maestriam\Samurai\Console\PublishThemeCommand;
 use Maestriam\Samurai\Console\MakeComponentCommand;
 use Maestriam\Samurai\Console\RefreshThemeCommand;
 use Maestriam\Samurai\Console\InitThemeCommand;
+use Maestriam\Samurai\Entities\Samurai;
 
 class SamuraiServiceProvider extends ServiceProvider
 {
@@ -21,32 +22,17 @@ class SamuraiServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerErrors();
         $this->registerConfigs();
-        $this->registerConstants();
-        $this->registerTranslations();
+        $this->registerFacade();
         $this->registerCommands();
         $this->registerServices();
     }
 
-    /**
-     * Define as traduções e mensagens do pacote
-     *
-     * @return void
-     */
-    public function registerTranslations()
+    private function registerFacade()
     {
-        $alias    = 'Samurai';
-        $basePath = 'resources/lang/vendor/';
-
-        $langPath = base_path($basePath) . $alias;
-        $dirPath  = __DIR__ .'/../Resources/lang';
-
-        if (is_dir($langPath)) {
-            return $this->loadTranslationsFrom($langPath, $alias);
-        }
-
-        $this->loadTranslationsFrom($dirPath, $alias);
+        $this->app->bind('samurai',function() {
+            return new Samurai();
+        });
     }
 
 
@@ -64,50 +50,6 @@ class SamuraiServiceProvider extends ServiceProvider
 
         $config = (is_file($published)) ? $published : $source; 
         $this->mergeConfigFrom($config, 'samurai');
-
-        $file = __DIR__.'/../Config/consts.php';
-        $this->mergeConfigFrom($file, 'Samurai.consts');
-
-    }
-
-    /**
-     * Define todas as constantes que auxiliarão
-     * dentro da aplicação
-     *
-     * @return void
-     */
-    protected function registerConstants()
-    {
-        $consts = Config::get('Samurai.consts');
-
-        foreach ($consts as $k => $v) {
-    
-            if (defined($k)) {
-                return false;
-            }
-        
-            define($k, $v);
-        }
-    }
-
-
-    protected function registerErrors()
-    {
-        $file = __DIR__.'/../Config/errors.php';
-        $this->mergeConfigFrom($file, 'Samurai.errors');
-
-        $consts = Config::get('Samurai.errors');
-
-        foreach ($consts as $code => $prop) {
-
-            $const = $prop['const'];
-
-            if (defined($const)) {
-                return false;
-            }
-
-            define($const, $code);
-        }
     }
 
     /**
@@ -138,8 +80,8 @@ class SamuraiServiceProvider extends ServiceProvider
      */
     protected function registerServices()
     {
-        $this->app->register(RegistersThemesServiceProvider::class);
-        $this->app->register(LoadThemesServiceProvider::class);
-        $this->app->register(RegistersCustomDirectiveProvider::class);
+        // $this->app->register(RegistersThemesServiceProvider::class);
+        // $this->app->register(LoadThemesServiceProvider::class);
+        // $this->app->register(RegistersCustomDirectiveProvider::class);
     }
 }

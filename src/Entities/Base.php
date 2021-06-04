@@ -42,6 +42,10 @@ class Base extends Foundation
 
         $current = $this->env()->get($key);
 
+        if (! $current) {
+            return null;
+        }
+
         return $this->find($current);
     }
 
@@ -64,7 +68,8 @@ class Base extends Foundation
     }
 
     /**
-     * Retorna uma instância de um tema, se o tema existir no projeto.
+     * Retorna a instância de um tema.  
+     * Se o tema não existir no projeto, retorna nulo.  
      *
      * @param string $package
      * @return Theme|null
@@ -88,34 +93,6 @@ class Base extends Foundation
         return FileSystem::folder($path)->read(2);
     }
 }
-
-
-
-    // /**
-    //  * Retorna o objeto de um tema de acordo com um nome específico
-    //  *
-    //  * @param string $name
-    //  * @return Theme
-    //  */
-    // private function themefy(string $name) : ?Theme
-    // {
-    //     $theme = new Theme($name);
-
-    //     return $theme->get();
-    // }
-
-    // /**
-    //  * Retorna a lista de todos as pastas criadas dentro
-    //  * da base de temas do projeto
-    //  *
-    //  * @return void
-    //  */
-    // private function readBase() : array
-    // {
-    //     $base = $this->config()->base();
-        
-    //     return SupportFileSystem::folder($base)->read(2);
-    // }
     
     // /**
     //  * Retorna a lista de todos as pastas criadas dentro
@@ -131,55 +108,7 @@ class Base extends Foundation
     //     return $this->file()->readDir($base);
     // }
 
-    
-    // /**
-    //  * Retorna o primeiro tema cadastrado no projeto
-    //  *
-    //  * @return Theme|null
-    //  */
-    // public function first() : ?Theme
-    // {
-    //     $vendors = $this->readBase();
 
-    //     if (empty($vendors)) {
-    //         return null;
-    //     }
-
-    //     $vendor = array_shift($vendors);
-    //     $themes = $this->readVendor($vendor);
-        
-    //     if (empty($themes)) {
-    //         return null;
-    //     }
-
-    //     $theme = array_shift($themes);
-    //     $name  = $vendor . '/' . $theme;
-
-    //     return $this->themefy($name);
-    // }
-
-    // /**
-    //  * Retorna o tema atual selecionado
-    //  *
-    //  * @return Theme|null
-    //  */
-    // public function current() : ?Theme
-    // {
-    //     $key  = $this->config()->env();
-    //     $name = $this->env()->get($key);
-
-    //     if ($name != null) {
-    //         return $this->themefy($name);
-    //     }
-
-    //     $first = $this->first();
-
-    //     if ($first != null) {
-    //         return $first;
-    //     }
-
-    //     return null;
-    // }
     
     // /**
     //  * Limpa o cache dos arquivos de view do projeto
