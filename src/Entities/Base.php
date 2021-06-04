@@ -9,9 +9,7 @@ use Maestriam\Samurai\Entities\Foundation;
 class Base extends Foundation
 {
     /**
-     * Retorna todos os temas cadastrados no projeto
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function all() : array
     {
@@ -32,9 +30,7 @@ class Base extends Foundation
     }
 
     /**
-     * Retorna o tema padrão definido no projeto.  
-     *
-     * @return Theme|null
+     * {@inheritDoc}
      */
     public function current() : ?Theme
     {
@@ -50,9 +46,7 @@ class Base extends Foundation
     }
 
     /**
-     * Retorna o primeiro tema que encontrar no projeto, se exisit.  
-     *
-     * @return ?Theme
+     * {@inheritDoc}
      */
     public function first() : ?Theme
     {
@@ -65,6 +59,30 @@ class Base extends Foundation
         $first = array_shift($folders);
         
         return $this->find($first);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function any() : ?Theme
+    {
+        if ($this->empty()) {
+            return null;
+        }
+
+        $current = $this->current();
+
+        return $current ?? $this->first();
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function empty() : bool
+    {
+        $dir = $this->readBase();
+
+        return  (empty($dir)) ? true : false;
     }
 
     /**

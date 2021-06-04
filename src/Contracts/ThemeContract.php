@@ -97,4 +97,12 @@ interface ThemeContract
      * @throws ThemeExistsException
      */
     public function make() : Theme;
+    
+    /**
+     * Verifica se o tema existe dentro do projeto.  
+     * Se não existir, cria o tema.
+     *
+     * @return Theme
+     */
+    public function findOrCreate() : Theme;
 }

@@ -103,6 +103,7 @@ class TestCase extends BaseTestCase
     protected function assertValidTheme($theme)
     {
         $this->assertInstanceOf(Theme::class, $theme);
+        $this->assertTrue($theme->exists());
     }
 
     /**

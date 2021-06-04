@@ -168,11 +168,23 @@ class Theme extends Foundation implements ThemeContract
     }
 
     /**
-     * Undocumented function
+     * {@inheritDoc}
+     */
+    public function findOrCreate() : Theme
+    {
+        if (! $this->exists()) {
+            return $this->make();
+        }
+
+        return $this->load();
+    }
+
+    /**
+     * Registra o tema como atual no projeto.  
      *
      * @return void
      */
-    public function use()
+    public function use() : void
     {
         $this->guard();
 

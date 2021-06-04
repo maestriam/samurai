@@ -35,7 +35,6 @@ class SamuraiServiceProvider extends ServiceProvider
         });
     }
 
-
     /**
      * Registra todos os arquivos de configurações do componente
      *
@@ -80,7 +79,7 @@ class SamuraiServiceProvider extends ServiceProvider
      */
     protected function registerServices()
     {
-        // $this->app->register(RegistersThemesServiceProvider::class);
+        // $this->app->register(RegistersThemesProvider::class);
         // $this->app->register(LoadThemesServiceProvider::class);
         // $this->app->register(RegistersCustomDirectiveProvider::class);
     }

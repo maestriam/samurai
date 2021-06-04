@@ -3,12 +3,10 @@
 namespace Maestriam\Samurai\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Maestriam\Samurai\Traits\Themeable;
+use Maestriam\Samurai\Support\Samurai;
 
 class LoadThemesServiceProvider extends ServiceProvider
 {
-    use Themeable;
-
     /**
      * Inicia o carregamento do primeiro tema que encontrar
      *
@@ -16,7 +14,7 @@ class LoadThemesServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $theme = $this->base()->current();
+        $theme = Samurai::base()->current();
 
         if ($theme == null) return false;
 

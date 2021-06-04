@@ -2,23 +2,20 @@
 
 namespace Maestriam\Samurai\Providers;
 
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
-use Maestriam\Samurai\Traits\Themeable;
+use Maestriam\Samurai\Support\Samurai;
 
-class RegistersThemesServiceProvider extends ServiceProvider
+class RegistersThemesProvider extends ServiceProvider
 {
-    use Themeable;
-
     public function boot()
     {
-        $theme = $this->base()->current();
+        $theme = Samurai::base()->any();
 
         if ($theme == null) {
             return false;
         }
         
-        $this->registerView($theme->path, $theme->namespace);
+        $this->registerView($theme->paths()->root(), $theme->namespace());
     }
 
     /**
@@ -31,7 +28,7 @@ class RegistersThemesServiceProvider extends ServiceProvider
      */
     protected function registerView($source, $namespace)
     {
-        $views = array_merge([$source], Config::get('view.paths'));
+        $views = array_merge([$source], config('view.paths'));
         
         $this->loadViewsFrom($views, $namespace);
     }
