@@ -11,7 +11,8 @@ class RegistersThemesProviderTest extends TestCase
     {
         $this->theme('bands/pantera')->findOrCreate()->use();
 
-        $this->app->register(RegistersThemesProvider::class);
-        
+        $provider = $this->app->register(RegistersThemesProvider::class);
+
+        $this->assertInstanceOf(RegistersThemesProvider::class, $provider);
     }
 }

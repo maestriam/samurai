@@ -180,15 +180,24 @@ class Theme extends Foundation implements ThemeContract
     }
 
     /**
-     * Registra o tema como atual no projeto.  
-     *
-     * @return void
+     * {@inheritDoc}
      */
     public function use() : void
     {
         $this->guard();
 
         $this->register();
+    }
+
+    /**
+     * Retorna a instância de uma diretiva include para o tema.  
+     *
+     * @param string $sentence
+     * @return Includer
+     */
+    public function include(string $sentence) : Includer
+    {
+        return new Includer($this, $sentence);
     }
 
     /**

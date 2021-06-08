@@ -23,7 +23,7 @@ interface DirectiveContract
     public function type() : string;
 
     /**
-     * Retorna o caminho da diretiva 
+     * Retorna o caminho absoluto da diretiva 
      * 
      * @return string
      */
@@ -57,4 +57,12 @@ interface DirectiveContract
      * @return Component|Includer
      */
     public function create() : Component|Includer;
+
+    /**
+     * Carrega a diretiva para ser utilizada dentro da aplicação Laravel,
+     * dentro dos arquivos Blade
+     *
+     * @return Component|Includer
+     */
+    public function import() : Component|Includer;
 }

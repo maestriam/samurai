@@ -3,6 +3,7 @@
 namespace Maestriam\Samurai\Contracts;
 
 use Maestriam\Samurai\Entities\Author;
+use Maestriam\Samurai\Entities\Includer;
 use Maestriam\Samurai\Entities\Structure;
 use Maestriam\Samurai\Entities\Theme;
 use Maestriam\Samurai\Entities\Vendor;
@@ -81,7 +82,7 @@ interface ThemeContract
     public function find() : ?Theme;
 
     /**
-     * Define a descrição do tema
+     * Define a descrição do tema.  
      * Usado no arquivo composer.json
      *
      * @param string $description
@@ -105,4 +106,19 @@ interface ThemeContract
      * @return Theme
      */
     public function findOrCreate() : Theme;
+
+    /**
+     * Registra o tema como atual no projeto.  
+     *
+     * @return void
+     */
+    public function use() : void;
+
+    /**
+     * Retorna a instância de uma diretiva include para o tema.  
+     *
+     * @param string $sentence
+     * @return Includer
+     */
+    public function include(string $sentence) : Includer;
 }

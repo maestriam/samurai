@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Maestriam\Samurai\Entities\Theme;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Compilers\BladeCompiler;
+use Maestriam\FileSystem\Support\FileSystem;
 use Maestriam\Samurai\Contracts\DirectiveContract;
 use Maestriam\Samurai\Exceptions\DirectiveExistsException;
 use Maestriam\Samurai\Exceptions\InvalidDirectiveNameException;
@@ -130,6 +131,38 @@ abstract class Directive extends Source implements DirectiveContract
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function import() : Component|Includer
+    {                      
+        $path = $this->relative();
+        
+        $namespace = $this->theme()->namespace();
+
+        $file = $this->nominator()->blade($namespace, $path);  
+        
+        Blade::component($file, $this->alias());
+
+        return $this;
+    }
+    
+    /**
+     * Retorna o caminho relativo da diretiva dentro do tema
+     *
+     * @return string
+     */
+    public function relative() : string
+    {
+        $path = $this->path();
+
+        $base = $this->theme()->paths()->root() . DS;
+
+        $base = FileSystem::folder($base)->sanitize();
+
+        return str_replace($base, '', $path);
+    }
+
+    /**
      * Carrega todas as informações da diretiva através do tema,
      * nome da diretiva e com seu tipo
      *
@@ -140,12 +173,11 @@ abstract class Directive extends Source implements DirectiveContract
      */
     protected function start(Theme $theme, string $sentence, string $type) : void
     {
-        $this->setTheme($theme);
-        
-        $this->setType($type)
-             ->setSentence($sentence)
-             ->setName($sentence)
-             ->setAlias();
+        $this->setTheme($theme);        
+        $this->setType($type);
+        $this->setSentence($sentence);
+        $this->setName($sentence);
+        $this->setAlias();
     }
 
     /**
@@ -153,9 +185,10 @@ abstract class Directive extends Source implements DirectiveContract
      * que irá fornecer o nome/sub-diretório
      *
      * @param Theme $theme
-     * @return self
+     * @return Directive
+     * @throws InvalidDirectiveNameException
      */
-    protected function setSentence(string $sentence) : self
+    protected function setSentence(string $sentence) : Directive
     {
         $parsed = $this->parser()->filename($sentence);
 
@@ -176,8 +209,9 @@ abstract class Directive extends Source implements DirectiveContract
      *
      * @param string $type
      * @return Directive
+     * @throws InvalidDirectiveNameException
      */
-    protected function setType(string $type) : self
+    protected function setType(string $type) : Directive
     {
         if (! $this->valid()->type($type)) {
             throw new InvalidTypeDirectiveException($type);
@@ -188,7 +222,7 @@ abstract class Directive extends Source implements DirectiveContract
     }
 
     /**
-     * Define o caminho completo do arquivo composer.json dentro do tema
+     * Define o caminho absoluto do arquivo composer.json dentro do tema
      *
      * @param string $path
      * @return Composer
@@ -204,30 +238,29 @@ abstract class Directive extends Source implements DirectiveContract
     }
 
     /**
-      * Define o nome da diretiva
-      *
-      * @param string $name
-      * @return Directive
-      */
-     protected function setName(string $name) : self
-     {
-         $parsed = $this->parser()->filename($name);
+     * Define o nome da diretiva
+     *
+     * @param string $name
+     * @return Directive
+     */
+    protected function setName(string $name) : Directive
+    {
+        $parsed = $this->parser()->filename($name);
 
-         $this->name = Str::slug($parsed->name);
+        $this->name = Str::slug($parsed->name);
 
-         return $this;
-     }
+        return $this;
+    }
 
-     /**
-      * Define o alias para ser chamado dentro do projeto
-      *
-      * @param string $name
-      * @return Directive
-      */
-     protected function setAlias() : self
-     {
-         $this->alias = $this->nominator()->alias($this->name);
+    /**
+     * Define o alias para ser chamado dentro do projeto
+     *
+     * @return Directive
+     */
+    protected function setAlias() : Directive
+    {
+        $this->alias = $this->nominator()->alias($this->name);
 
-         return $this;
-     }
+        return $this;
+    }
 }

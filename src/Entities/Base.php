@@ -111,29 +111,3 @@ class Base extends Foundation
         return FileSystem::folder($path)->read(2);
     }
 }
-    
-    // /**
-    //  * Retorna a lista de todos as pastas criadas dentro
-    //  * da base de temas do projeto
-    //  *
-    //  * @param string $vendor
-    //  * @return void
-    //  */
-    // private function readVendor(string $vendor) : array
-    // {
-    //     $base = $this->dir()->base() . $vendor;
-
-    //     return $this->file()->readDir($base);
-    // }
-
-
-    
-    // /**
-    //  * Limpa o cache dos arquivos de view do projeto
-    //  *
-    //  * @return void
-    //  */
-    // public function clearCache()
-    // {
-    //     return $this->file()->clearCache();
-    // }

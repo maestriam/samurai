@@ -2,7 +2,7 @@
 
 namespace Maestriam\Samurai\Foundation;
 
-use Str;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Config;
 
 class FileNominator
@@ -75,6 +75,6 @@ class FileNominator
      */
     public function alias(string $name) : string
     {
-        return Str::camel($name);
+        return Str::kebab($name);
     }
 }
