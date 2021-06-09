@@ -10,10 +10,11 @@ class LoadThemeTest extends ThemeTestCase
     {
         $theme = $this->theme('bands/running-wild')->findOrCreate();
         
-        $theme->include('musics/under-jolly-roger')->create();
-
         $theme->include('musics/raise-your-fist')->create();
+        $theme->include('musics/under-jolly-roger')->create();
         
-        $theme->load();
+        $ret = $theme->load();
+
+        $this->assertInstanceOf(Theme::class, $ret);
     }
 }

@@ -79,8 +79,8 @@ class SamuraiServiceProvider extends ServiceProvider
      */
     protected function registerServices()
     {
-        // $this->app->register(RegistersThemesProvider::class);
-        // $this->app->register(LoadThemesServiceProvider::class);
+        $this->app->register(RegistersThemesProvider::class);
+        $this->app->register(LoadThemesServiceProvider::class);
         // $this->app->register(RegistersCustomDirectiveProvider::class);
     }
 }

@@ -14,6 +14,22 @@ class InvalidDirectiveNameException extends BaseException
      */
     public function __construct(string $name)
     {
-        $this->initialize(INVALID_DIRECTIVE_NAME_CODE, $name);
+        $this->initialize($name);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getErrorMessage() : string
+    {
+        return 'The [%s] is an invalid name. Its not possible to create an directive with special characters and start number.';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getErrorCode() : string
+    {
+        return 0201;
     }
 }

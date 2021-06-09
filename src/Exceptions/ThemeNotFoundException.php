@@ -14,8 +14,22 @@ class ThemeNotFoundException extends BaseException
      */
     public function __construct(string $name)
     {
-        $msg =  'Theme %s not found. Check the theme name and try again.';
+        $this->initialize( $name);
+    }
 
-        $this->initialize(0102, $msg, $name);
+    /**
+     * {@inheritDoc}
+     */
+    public function getErrorMessage() : string
+    {
+        return 'Theme [%s] not found. Check the theme name and try again.';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getErrorCode() : string
+    {
+        return 0102;
     }
 }

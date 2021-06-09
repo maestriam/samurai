@@ -14,6 +14,22 @@ class DirectiveExistsException extends BaseException
      */
     public function __construct(string $theme, string $name)
     {
-        $this->initialize(DIRECTIVE_EXISTS_CODE, $name, $theme);
+        $this->initialize($theme, $name);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getErrorMessage(): string
+    {
+        return 'The [%s] directive alredy exists in [%s] theme.';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getErrorCode(): string
+    {
+        return 0202;
     }
 }

@@ -14,6 +14,22 @@ class StubNotFoundException extends BaseException
      */
     public function __construct(string $type)
     {
-        $this->initialize(STUB_NOT_FOUND_CODE, $type);
+        $this->initialize($type);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getErrorMessage() : string
+    {
+        return 'The stub file [%s] required is not found.';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getErrorCode() : string
+    {
+        return 0401;
     }
 }

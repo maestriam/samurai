@@ -13,7 +13,23 @@ class EnvNotFoundException extends BaseException
      */
     public function __construct()
     {
-        $this->initialize(ENV_NOT_FOUND_CODE);
+        $this->initialize();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getErrorMessage(): string
+    {
+        return 'File .env not found.';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getErrorCode(): string
+    {
+        return 0301;
     }
 }
 

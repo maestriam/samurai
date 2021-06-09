@@ -2,7 +2,6 @@
 
 namespace Maestriam\Samurai\Exceptions;
 
-use Illuminate\Support\Facades\Lang;
 use Maestriam\Samurai\Exceptions\BaseException;
 
 class InvalidThemeNameException extends BaseException
@@ -14,6 +13,22 @@ class InvalidThemeNameException extends BaseException
      */
     public function __construct(string $name)
     {
-        $this->initialize(INVALID_THEME_NAME_CODE, $name);
+        $this->initialize($name);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getErrorMessage() : string
+    {
+        return 'The name [%s] is an invalid. Its not possible to create an theme with special characters and start number.';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getErrorCode() : string
+    {
+        return 0101;
     }
 }

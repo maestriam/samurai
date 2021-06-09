@@ -14,8 +14,22 @@ class ThemeExistsException extends BaseException
      */
     public function __construct(string $theme)
     {
-        $msg = 'The theme "%s" alredy exists on project.';
-        
-        $this->initialize(0103, $msg, $theme);
+        $this->initialize($theme);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getErrorMessage() : string
+    {
+        return 'The theme [%s] alredy exists on project.';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getErrorCode() : string
+    {
+        return 0103;
     }
 }

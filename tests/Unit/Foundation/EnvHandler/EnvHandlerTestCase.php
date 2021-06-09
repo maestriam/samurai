@@ -29,7 +29,7 @@ class EnvHandlerTestCase extends TestCase
     public function testGetAndSetEnvVariable()
     {        
         $key = 'THEME_CURRENT';
-        $val = 'my-theme';
+        $val = 'bands/kix';
         
         $handler = new EnvHandler();        
         $handler->set($key, $val);
@@ -73,4 +73,11 @@ class EnvHandlerTestCase extends TestCase
 
         $this->assertFileExists($handler->file());
     }    
+
+    public function tearDown(): void
+    {
+        $handler = new EnvHandler();
+
+        $handler->set('THEME_CURRENT', '');
+    }
 }
