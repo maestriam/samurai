@@ -3,6 +3,7 @@
 namespace Maestriam\Samurai\Contracts;
 
 use Maestriam\Samurai\Entities\Author;
+use Maestriam\Samurai\Entities\Component;
 use Maestriam\Samurai\Entities\Includer;
 use Maestriam\Samurai\Entities\Structure;
 use Maestriam\Samurai\Entities\Theme;
@@ -121,4 +122,19 @@ interface ThemeContract
      * @return Includer
      */
     public function include(string $sentence) : Includer;
+
+    /**
+     * Retorna a instância de uma diretiva component para o tema.  
+     *
+     * @param string $sentence
+     * @return Component
+     */
+    public function component(string $sentence) : Component;
+
+    /**
+     * Retorna TODAS as diretivas inseridas no tema.   
+     *
+     * @return array
+     */
+    public function directives() : array;
 }

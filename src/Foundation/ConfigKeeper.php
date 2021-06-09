@@ -2,6 +2,8 @@
 
 namespace Maestriam\Samurai\Foundation;
 
+use Maestriam\FileSystem\Support\FileSystem;
+
 class ConfigKeeper
 {
     /**
@@ -25,9 +27,10 @@ class ConfigKeeper
     {
         $default = base_path('themes');
 
-        $path = config('samurai.themes.folder') ?? $default; 
+        $base  = config('samurai.themes.folder') ?? $default;
+        $base .= DS; 
 
-        return $path . DS;
+        return FileSystem::folder($base)->sanitize();
     }
 
     /**

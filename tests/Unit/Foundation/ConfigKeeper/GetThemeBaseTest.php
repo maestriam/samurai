@@ -2,6 +2,7 @@
 
 namespace Maestriam\Samurai\Tests\Unit\Foundation\ConfigKeeper;
 
+use Maestriam\FileSystem\Support\FileSystem;
 use Maestriam\Samurai\Foundation\ConfigKeeper;
 
 /**
@@ -19,7 +20,9 @@ class GetThemeBaseTest extends ConfigKeeperTestCase
      */
     public function testGetBasePath()
     {          
-        $folder = base_path('bands/kiss');
+        $folder = base_path('bands/kiss') . DS;
+        $folder = FileSystem::folder($folder)->sanitize();
+
         $config = new ConfigKeeper();             
 
         $this->setThemeBase($folder);
@@ -40,7 +43,9 @@ class GetThemeBaseTest extends ConfigKeeperTestCase
     {        
         $this->setThemeBase(null);
 
-        $default = base_path('themes');
+        $default = base_path('themes') . DS;
+        $default = FileSystem::folder($default)->sanitize();
+        
         $config = new ConfigKeeper();  
 
         $this->assertConfigKey($config->base(), $default);

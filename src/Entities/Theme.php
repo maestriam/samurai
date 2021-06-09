@@ -191,10 +191,7 @@ class Theme extends Foundation implements ThemeContract
     }
 
     /**
-     * Retorna a instância de uma diretiva include para o tema.  
-     *
-     * @param string $sentence
-     * @return Includer
+     * {@inheritDoc}
      */
     public function include(string $sentence) : Includer
     {
@@ -202,10 +199,7 @@ class Theme extends Foundation implements ThemeContract
     }
 
     /**
-     * Retorna a instância de uma diretiva component para o tema.  
-     *
-     * @param string $sentence
-     * @return Includer
+     * {@inheritDoc}
      */
     public function component(string $sentence) : Component
     {
@@ -213,9 +207,7 @@ class Theme extends Foundation implements ThemeContract
     }
 
     /**
-     * Retorna TODAS as diretivas inseridas no tema.   
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function directives() : array
     {        
