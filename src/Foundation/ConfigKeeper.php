@@ -25,7 +25,9 @@ class ConfigKeeper
     {
         $default = base_path('themes');
 
-        return config('samurai.themes.folder') ?? $default;
+        $path = config('samurai.themes.folder') ?? $default; 
+
+        return $path . DS;
     }
 
     /**

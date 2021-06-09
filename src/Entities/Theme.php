@@ -2,10 +2,12 @@
 
 namespace Maestriam\Samurai\Entities;
 
+use Maestriam\FileSystem\Support\FileSystem;
 use Maestriam\Samurai\Contracts\ThemeContract;
 use Maestriam\Samurai\Entities\Foundation;
 use Maestriam\Samurai\Exceptions\ThemeExistsException;
 use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
+use Maestriam\Samurai\Foundation\DirectiveCollection;
 use Maestriam\Samurai\Foundation\DirectiveFinder;
 
 class Theme extends Foundation implements ThemeContract
@@ -40,8 +42,7 @@ class Theme extends Foundation implements ThemeContract
     protected Composer $composerInstance;
 
     /**
-     * Instância do classe que encontra todos as diretivas
-     * de um tema
+     * Regras de negócio sobre busca de diretivas dentro do tema.  
      *
      * @var DirectiveFinder
      */
@@ -197,7 +198,28 @@ class Theme extends Foundation implements ThemeContract
      */
     public function include(string $sentence) : Includer
     {
-        return new Includer($this, $sentence);
+        return $this->finder()->include($sentence);
+    }
+
+    /**
+     * Retorna a instância de uma diretiva component para o tema.  
+     *
+     * @param string $sentence
+     * @return Includer
+     */
+    public function component(string $sentence) : Component
+    {
+        return $this->finder()->component($sentence);
+    }
+
+    /**
+     * Retorna TODAS as diretivas inseridas no tema.   
+     *
+     * @return array
+     */
+    public function directives() : array
+    {        
+        return $this->finder()->all();
     }
 
     /**
@@ -224,7 +246,10 @@ class Theme extends Foundation implements ThemeContract
      */
     private function init(string $package) : Theme
     {
-        $this->setVendor($package)->setComposer()->setStructure();
+        $this->setVendor($package)
+             ->setDirectiveFinder()
+             ->setComposer()
+             ->setStructure();
 
         if ($this->exists()) {
             return $this->load();
@@ -332,6 +357,28 @@ class Theme extends Foundation implements ThemeContract
     }
 
     /**
+     * Define a instância de busca de diretivas dentro do tema.  
+     *
+     * @return Theme
+     */
+    private function setDirectiveFinder() : Theme
+    {
+        $this->finderInstance = new DirectiveFinder($this);
+
+        return $this;
+    }
+
+    /**
+     * Retorna a instância de busca de diretivas dentro do tema.  
+     *
+     * @return DirectiveFinder
+     */
+    private function finder() : DirectiveFinder
+    {
+        return $this->finderInstance;
+    }
+
+    /**
      * Faz as devidas validações sobre o tema.  
      * Se existir algo incompátivel, emite um Exception.  
      *
@@ -345,4 +392,5 @@ class Theme extends Foundation implements ThemeContract
 
         throw new ThemeNotFoundException($this->package());
     }
+
 }

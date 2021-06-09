@@ -13,7 +13,7 @@ class DirectoryStructure
         $this->setConfig();
     }    
 
-    public function config() : ConfigKeeper
+    private function config() : ConfigKeeper
     {
         return $this->configInstance;
     }
@@ -46,9 +46,9 @@ class DirectoryStructure
     {
         $base = $this->config()->base();
 
-        $finded = $this->findVendor($vendor, $name);
+        // $finded = $this->findVendor($vendor, $name);
 
-        if ($finded) return $finded;
+        // if ($finded) return $finded;
 
         return $this->findTheme($base, $vendor, $name);
     }
@@ -117,7 +117,7 @@ class DirectoryStructure
     {
         $files = config('samurai.themes.files');
 
-        return $this->theme($vendor, $name) . DS . $files;
+        return $this->theme($vendor, $name) . DS . $files . DS;
     }
 
     /**
@@ -147,7 +147,7 @@ class DirectoryStructure
     {
         $name = strtolower($name);
         
-        $path = $base . DS . $vendor . DS . $name;
+        $path = $base . $vendor . DS . $name;
 
         return $path;
     }
