@@ -8,18 +8,12 @@ class LoadThemeTest extends ThemeTestCase
 {
     public function testLoadTheme()
     {
-        $name = 'bands/manowar';
-
-        $theme1 = new Theme($name);
+        $theme = $this->theme('bands/running-wild')->findOrCreate();
         
-        $theme1->description('Hail to the Engaland')->make();
-        
-        $theme2 = new Theme($name);        
+        $theme->include('musics/under-jolly-roger')->create();
 
-        $this->assertEquals($theme1->author(), $theme2->author());
-        $this->assertEquals($theme1->package(), $theme2->package());
-        $this->assertEquals($theme1->description(), $theme2->description());
-        $this->assertEquals($theme1->paths()->root(), $theme2->paths()->root());
-        $this->assertEquals($theme1->paths()->source(), $theme2->paths()->source());
+        $theme->include('musics/raise-your-fist')->create();
+        
+        $theme->load();
     }
 }

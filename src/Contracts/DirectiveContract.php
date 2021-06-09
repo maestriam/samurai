@@ -64,5 +64,5 @@ interface DirectiveContract
      *
      * @return Component|Includer
      */
-    public function import() : Component|Includer;
+    public function load() : Component|Includer;
 }

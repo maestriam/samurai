@@ -4,12 +4,10 @@ namespace Maestriam\Samurai\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Maestriam\Samurai\Traits\Themeable;
+use Maestriam\Samurai\Support\Samurai;
 
 class RegistersCustomDirectiveProvider extends ServiceProvider
 {
-    use Themeable;
-
     public function boot()
     {
         $this->registerPublic();
@@ -22,10 +20,16 @@ class RegistersCustomDirectiveProvider extends ServiceProvider
      * @return void
      */
     protected function registerPublic()
-    {
-        Blade::directive('public', function ($file) {
+    {             
+        Blade::directive('public', function ($file) {            
+            $theme = Samurai::base()->current(); 
+            
+            if ($theme == null) {
+                return null;
+            }
+            
             $file   = str_replace("'", "", $file);
-            $domain = $this->base()->current()->public();
+            $domain = $theme->paths()->public();
             return "$domain/$file";
         });
     }

@@ -5,15 +5,15 @@ namespace Maestriam\Samurai\Tests\Unit\Entities\Includer;
 use Maestriam\Samurai\Entities\Includer;
 use Maestriam\Samurai\Tests\TestCase;
 
-class ImportIncluderTest extends TestCase
+class LoadIncluderTest extends TestCase
 {
-    public function testImportInclude()
+    public function testLoadInclude()
     {
         $theme = $this->theme('bands/great-white')->findOrCreate();
 
         $include = $theme->include('musics/stick-it')->create();
 
-        $ret = $include->import();
+        $ret = $include->load();
 
         $this->assertInstanceOf(Includer::class, $ret);
     }

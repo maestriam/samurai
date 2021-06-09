@@ -135,7 +135,7 @@ class Theme extends Foundation implements ThemeContract
             return null;
         }
 
-        return $this->load();
+        return $this->import();
     }
     
     /**
@@ -177,7 +177,7 @@ class Theme extends Foundation implements ThemeContract
             return $this->make();
         }
 
-        return $this->load();
+        return $this->import();
     }
 
     /**
@@ -215,6 +215,18 @@ class Theme extends Foundation implements ThemeContract
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function load() : Theme
+    {
+        foreach ($this->directives() as $directive) {    
+            $directive->load();
+        }
+
+        return $this;
+    }
+
+    /**
      * Registra o nome do pacote do tema no arquivo de ambiente 
      * do projeto Laravel
      *
@@ -244,7 +256,7 @@ class Theme extends Foundation implements ThemeContract
              ->setStructure();
 
         if ($this->exists()) {
-            return $this->load();
+            return $this->import();
         }        
 
         return $this;
@@ -256,7 +268,7 @@ class Theme extends Foundation implements ThemeContract
      *
      * @return Theme
      */
-    private function load() : Theme
+    private function import() : Theme
     {
         $info = $this->composer()->load()->info();
 

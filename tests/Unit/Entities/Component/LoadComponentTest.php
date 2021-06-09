@@ -5,15 +5,15 @@ namespace Maestriam\Samurai\Tests\Unit\Entities\Component;
 use Maestriam\Samurai\Entities\Component;
 use Maestriam\Samurai\Tests\TestCase;
 
-class ImportComponentTest extends TestCase
+class LoadComponentTest extends TestCase
 {
-    public function testImportComponent()
+    public function testLoadComponent()
     {
         $theme = $this->theme('bands/king-cobra')->findOrCreate();
 
         $component = $theme->component('musics/never-say-die')->create();
 
-        $ret = $component->import();
+        $ret = $component->load();
 
         $this->assertInstanceOf(Component::class, $ret);
     }

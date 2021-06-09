@@ -137,4 +137,12 @@ interface ThemeContract
      * @return array
      */
     public function directives() : array;
+
+    /**
+     * Importa TODAS as diretivas do tema para ser utilizada dentro
+     * do projeto.  
+     *
+     * @return Theme
+     */
+    public function load() : Theme;
 }

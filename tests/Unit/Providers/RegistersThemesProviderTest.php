@@ -1,6 +1,6 @@
 <?php
 
-namespace Maestriam\Samurai\Tests\Unit\Providers\RegistersThemesProvider;
+namespace Maestriam\Samurai\Tests\Unit\Providers;
 
 use Maestriam\Samurai\Providers\RegistersThemesProvider;
 use Maestriam\Samurai\Tests\TestCase;

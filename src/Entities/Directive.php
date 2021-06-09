@@ -65,7 +65,7 @@ abstract class Directive extends Source implements DirectiveContract
      */
     public function __construct(Theme $theme, string $sentence)
     {
-        $this->start($theme, $sentence, $this->type());
+        $this->init($theme, $sentence, $this->type());
     }
 
     /**
@@ -119,6 +119,16 @@ abstract class Directive extends Source implements DirectiveContract
     }
 
     /**
+     * Retorna o nome da diretiva.  
+     *
+     * @return string
+     */
+    public function name() : string
+    {
+        return $this->name;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function create() : Component|Includer
@@ -133,13 +143,13 @@ abstract class Directive extends Source implements DirectiveContract
     /**
      * {@inheritDoc}
      */
-    public function import() : Component|Includer
+    public function load() : Component|Includer
     {                      
         $path = $this->relative();
         
         $namespace = $this->theme()->namespace();
 
-        $file = $this->nominator()->blade($namespace, $path);  
+        $file = $this->nominator()->blade($namespace, $path);
         
         Blade::component($file, $this->alias());
 
@@ -171,13 +181,14 @@ abstract class Directive extends Source implements DirectiveContract
      * @param string $type
      * @return void
      */
-    protected function start(Theme $theme, string $sentence, string $type) : void
+    protected function init(Theme $theme, string $sentence, string $type) : void
     {
         $this->setTheme($theme);        
         $this->setType($type);
         $this->setSentence($sentence);
         $this->setName($sentence);
         $this->setAlias();
+        $this->setPath();
     }
 
     /**
@@ -227,13 +238,9 @@ abstract class Directive extends Source implements DirectiveContract
      * @param string $path
      * @return Composer
      */
-    protected function setPath(string $path) : Directive
+    protected function setPath() : Directive
     {
-        if (! is_file($path)) {
-            throw new \Exception('File not found');
-        }
-
-        $this->path = $path;
+        $this->path = $this->filePath();;
         return $this;
     }
 
