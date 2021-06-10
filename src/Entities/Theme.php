@@ -2,6 +2,7 @@
 
 namespace Maestriam\Samurai\Entities;
 
+use Illuminate\Support\Facades\File;
 use Maestriam\FileSystem\Support\FileSystem;
 use Maestriam\Samurai\Contracts\ThemeContract;
 use Maestriam\Samurai\Entities\Foundation;
@@ -226,6 +227,20 @@ class Theme extends Foundation implements ThemeContract
         return $this;
     }
 
+    public function publish() : bool
+    {
+        if (! $this->exists()) {
+            throw new ThemeNotFoundException($this->package());
+        }
+
+        $from = $this->structure()->assets();
+        $to   = $this->structure()->public();
+
+        File::copyDirectory($from, $to);
+
+        return (is_dir($to)) ? true : false;
+    }
+
     /**
      * Registra o nome do pacote do tema no arquivo de ambiente 
      * do projeto Laravel
@@ -273,7 +288,6 @@ class Theme extends Foundation implements ThemeContract
         $info = $this->composer()->load()->info();
 
         $this->author()->name($info->authors[0]->name);
-
         $this->author()->email($info->authors[0]->email);
 
         return $this;

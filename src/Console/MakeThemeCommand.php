@@ -8,32 +8,24 @@ use Maestriam\Samurai\Support\Samurai;
 class MakeThemeCommand extends BaseCommand
 {
     /**
-     * The name and signature of the console command.
-     *
-     * @var string
+     * {@inheritDoc}
      */
     protected $signature = 'samurai:make-theme {name}';
 
     /**
-     * The console command description.
-     *
-     * @var string
+     * {@inheritDoc}
      */
     protected $description = 'Create a new theme.';
 
     /**
-     * Mensagem de sucesso ao executar o comando
-     *
-     * @var string
+     * {@inheritDoc}
      */
-    protected $successMessage = 'Theme [%s] created successful.';
+    protected string $successMessage = 'Theme [%s] created successful.';
 
     /**
-     * Mensagem de erro ao executar o comando
-     *
-     * @var string
+     * {@inheritDoc}
      */
-    protected $errorMessage = 'Error to create theme: %s';
+    protected string $errorMessage = 'Error to create theme: %s';
 
     /**
      * Executa o comando de console para criação

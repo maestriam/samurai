@@ -10,6 +10,34 @@ use Maestriam\Samurai\Support\Samurai;
 class BaseCommand extends Command
 {    
     /**
+     * O nome e a assinatura do método
+     *
+     * @var string
+     */
+    protected $signature;
+
+    /**
+     * A descrição do comando
+     *
+     * @var string
+     */
+    protected $description;
+
+    /**
+     * Mensagem de sucesso ao executar o comando
+     *
+     * @var string
+     */
+    protected string $successMessage;
+
+    /**
+     * Mensagem de erro ao executar o comando
+     *
+     * @var string
+     */
+    protected string $errorMessage;
+
+    /**
      * Cria a instância de um novo comando via console
      *
      * @return void

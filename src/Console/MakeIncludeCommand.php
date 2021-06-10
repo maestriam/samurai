@@ -8,42 +8,24 @@ use Maestriam\Samurai\Support\Samurai;
 class MakeIncludeCommand extends BaseCommand
 {
     /**
-     * Assinatura Artisan
-     *
-     * @var string
+     * {@inheritDoc}
      */
     protected $signature = 'samurai:make-include {name} {theme?}';
 
     /**
-     * Descrição do comando Artisan
-     *
-     * @var string
+     * {@inheritDoc}
      */
     protected $description = 'Create a new include for a specific theme';
 
     /**
-     * Mensagem de sucesso ao executar o comando
-     *
-     * @var string
+     * {@inheritDoc}
      */
-    protected $successMessage = 'Include [%s] created in %s';
+    protected string $successMessage = 'Include [%s] created in %s';
 
     /**
-     * Mensagem de erro ao executar o comando
-     *
-     * @var string
+     * {@inheritDoc}
      */
-    protected $errorMessage = 'Error to create include: %s';
-
-    /**
-     * Construção da classe
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    protected string $errorMessage = 'Error to create include: %s';
 
     /**
      * Executa o comando de criação de include atráves do Artisan

@@ -8,32 +8,24 @@ use Maestriam\Samurai\Support\Samurai;
 class MakeComponentCommand extends BaseCommand
 {
     /**
-     * Assinatura Artisan
-     *
-     * @var string
+     * {@inheritDoc}
      */
     protected $signature = 'samurai:make-component {name} {theme?}';
 
     /**
-     * Descrição do comando Artisan
-     *
-     * @var string
+     * {@inheritDoc}
      */
     protected $description = 'Create a new component for specific theme';
 
     /**
-     * Mensagem de sucesso ao executar o comando
-     *
-     * @var string
+     * {@inheritDoc}
      */
-    protected $successMessage = 'Component [%s] created in %s';
+    protected string $successMessage = 'Component [%s] created in %s';
 
     /**
-     * Mensagem de erro ao executar o comando
-     *
-     * @var string
+     * {@inheritDoc}
      */
-    protected $errorMessage = 'Error to create component: %s';
+    protected string $errorMessage = 'Error to create component: %s';
 
     /**
      * Executa o comando de criação de componente atráves do Artisan
