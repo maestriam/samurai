@@ -7,6 +7,8 @@ use Maestriam\Samurai\Exceptions\BaseException;
 
 class StubNotFoundException extends BaseException
 {
+    const CODE = '0401';
+
     /**
      * Define as configuração para enviar o exception
      *
@@ -29,7 +31,7 @@ class StubNotFoundException extends BaseException
      * {@inheritDoc}
      */
     public function getErrorCode() : string
-    {
-        return 0401;
+    {        
+        return self::CODE;
     }
 }

@@ -44,12 +44,13 @@ class MakeComponentCommand extends BaseCommand
     {
         try {
 
-            $name  = $this->getDirectiveArgument();
+            $name = $this->getDirectiveArgument();
+
             $theme = $this->getThemeArgument();
 
             $component = Samurai::theme($theme)->component($name)->create();
 
-            $this->clean();
+            Samurai::base()->clean();
 
             return $this->success($name, $component->path());
 

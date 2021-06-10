@@ -7,6 +7,8 @@ use Maestriam\Samurai\Exceptions\BaseException;
 
 class ThemeExistsException extends BaseException
 {
+    const CODE = '0103';
+
     /**
      * Define as configuração para enviar o exception
      *
@@ -30,6 +32,6 @@ class ThemeExistsException extends BaseException
      */
     public function getErrorCode() : string
     {
-        return 0103;
+        return self::CODE;
     }
 }
