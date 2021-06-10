@@ -3,39 +3,30 @@
 namespace Maestriam\Samurai\Console;
 
 use Exception;
-use Illuminate\Console\Command;
-use Maestriam\Samurai\Traits\Themeable;
-use Maestriam\Samurai\Traits\Shared\ConfigAccessors;
-use Maestriam\Samurai\Traits\Console\MessageLogging;
-use Maestriam\Samurai\Exceptions\StubNotFoundException;
+use Maestriam\Samurai\Entities\Wizard;
+use Maestriam\Samurai\Support\Samurai;
 
-class InitThemeCommand extends Command
+class InitThemeCommand extends BaseCommand
 {
-    use Themeable, ConfigAccessors, MessageLogging;
-
     /**
-     * Assinatura Artisan
-     *
-     * @var string
+     * {@inheritDoc}
      */
     protected $signature = 'samurai:init';
 
     /**
-     * Descrição do comando Artisan
-     *
-     * @var string
+     * {@inheritDoc}
      */
-    protected $description = 'Create a new theme';
+    protected $description = 'Create a new theme using interactive mode';
 
     /**
-     * Construção da classe
-     *
-     * @return void
+     * {@inheritDoc}
      */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    protected string $successMessage = 'Component [%s] created in %s';
+
+    /**
+     * {@inheritDoc}
+     */
+    protected string $errorMessage = 'Error to create component: %s';
 
     /**
      * Executa o comando de criação de componente atráves do Artisan
@@ -46,30 +37,24 @@ class InitThemeCommand extends Command
     {
         try {
 
-            $theme = $this->askTheme();
-            $cmd   = $this->theme($theme);
-
-            $author = $this->askAuthor();
-            $cmd->author($author);
-
-            $desc = $this->askDescription();   
-            $cmd->description($desc);
+            $package = $this->askTheme();
+            $author  = $this->askAuthor();            
+            $descr   = $this->askDescription();   
             
-            if (! $this->beSure($theme, $author, $desc)) {
+            if (! $this->beSure($package, $author, $descr)) {
                 return false;
             }
 
-            $this->theme($theme)
-                 ->author($author)
-                 ->description($desc)
-                 ->build();
+            $theme = Samurai::theme($package);
+                        
+            $theme->author($author)->description($descr)->make();
+            
+            $this->clean();
 
-            $this->base()->clearCache();
-
-            return $this->success('theme.created');
+            return $this->success();
 
         } catch (Exception $e) {
-            return $this->failed($e->getCode());
+            return $this->failure($e);
         }
     }
     
@@ -81,11 +66,9 @@ class InitThemeCommand extends Command
     private function askTheme() : string 
     {
         $question = $this->wizard()->theme();
-        $answer   = $this->askFor($question);
 
-        return $answer;
+        return $this->askFor($question);
     }
-
     
     /**
      * Retorna o autor do tema informado pelo usuário
@@ -95,9 +78,8 @@ class InitThemeCommand extends Command
     private function askAuthor() : string
     {
         $question = $this->wizard()->author();
-        $answer   = $this->askFor($question); 
 
-        return $answer;      
+        return $this->askFor($question); 
     } 
 
     /**
@@ -138,5 +120,16 @@ class InitThemeCommand extends Command
         $question = $this->wizard()->confirm($theme, $author, $desc); 
 
         return $this->confirm($question->ask);
+    }
+
+    /**
+     * Retorna a instância do auxiliar com as perguntas do prompt e
+     * respostas padrão para a criação do tema.  
+     *
+     * @return Wizard
+     */
+    private function wizard() : Wizard
+    {
+        return Samurai::wizard();
     }
 }

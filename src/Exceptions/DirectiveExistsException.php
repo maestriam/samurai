@@ -7,6 +7,8 @@ use Maestriam\Samurai\Exceptions\BaseException;
 
 class DirectiveExistsException extends BaseException
 {
+    const CODE = '0202';
+
     /**
      * Define as configuração para enviar o exception
      *
@@ -30,6 +32,6 @@ class DirectiveExistsException extends BaseException
      */
     public function getErrorCode(): string
     {
-        return 0202;
+        return self::CODE;
     }
 }

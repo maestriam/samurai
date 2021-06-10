@@ -6,6 +6,8 @@ use Maestriam\Samurai\Exceptions\BaseException;
 
 class InvalidComposerFileException extends BaseException
 {
+    const CODE = '0501';
+
     /**
      * Define as configuração para enviar o exception
      *
@@ -29,6 +31,6 @@ class InvalidComposerFileException extends BaseException
      */
     public function getErrorCode() : string
     {
-        return 0501;
+        return self::CODE;
     }
 }

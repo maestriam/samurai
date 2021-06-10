@@ -21,4 +21,12 @@ class Samurai implements SamuraiContract
     {
         return new Theme($package);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function wizard() : Wizard
+    {
+        return new Wizard();
+    }
 }

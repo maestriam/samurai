@@ -6,6 +6,8 @@ use Maestriam\Samurai\Exceptions\BaseException;
 
 class InvalidAuthorException extends BaseException
 {
+    const CODE = '0104';
+
     public function __construct($author)
     {        
         $this->initialize($author);
@@ -24,6 +26,6 @@ class InvalidAuthorException extends BaseException
      */
     public function getErrorCode() : string
     {
-        return 0104;
+        return self::CODE;
     }
 }

@@ -2,8 +2,6 @@
 
 namespace Maestriam\Samurai\Foundation;
 
-use Illuminate\Support\Facades\Config;
-
 class SyntaxValidator
 {
     /**
@@ -35,7 +33,8 @@ class SyntaxValidator
     }
 
     /**
-     *
+     * Verifica se o padrão para o nome do tema está correto.  
+     * Retorna true se estiver correto.  
      *
      * @param string $name
      * @return boolean
@@ -43,12 +42,13 @@ class SyntaxValidator
     public function theme(string $name) : bool
     {
         $onlyValidChars = "/^[a-z0-9_.-]+$/";
-
+        
         return (preg_match($onlyValidChars, $name)) ? true : false;
     }
-
+    
     /**
-     * Undocumented function
+     * Verifica se o padrão para o nome de uma diretiva está correto.  
+     * Retorna true se estiver correto.  
      *
      * @param string $name
      * @return boolean
@@ -57,7 +57,7 @@ class SyntaxValidator
     {
         $startNumbers   = "/^[\d]/";
         $onlyValidChars = "/^[a-zA-Z0-9\/\-]+$/";
-
+        
         if (preg_match($startNumbers, $name)) {
             return false;
         }
@@ -65,12 +65,13 @@ class SyntaxValidator
         if (! preg_match($onlyValidChars, $name)) {
             return false;
         }
-
+        
         return true;
     }
-
+    
     /**
-     * Undocumented function
+     * Verifica se o tipo da diretiva é um tipo aceitável pelo sistema.  
+     * Retorna true se estiver correto.  
      *
      * @param string $type
      * @return boolean

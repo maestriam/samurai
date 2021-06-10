@@ -30,13 +30,11 @@ class Wizard extends Foundation
      */
     public function theme() : object
     {
-        $package  = $this->vendor()->package();
+        $package = $this->vendor()->package();
+
         $question = sprintf('Name (<vendor/name>) [%s]', $package);
 
-        return (object) [
-            'ask'     => $question,
-            'default' => $package
-        ];
+        return $this->question($question, $package);
     }
 
     /**
@@ -48,12 +46,10 @@ class Wizard extends Foundation
     public function description() : object
     {
         $description = $this->config()->description();
-        $question    = sprintf("Description [%s]", $description);
+        
+        $question = sprintf("Description [%s]", $description);
 
-        return (object) [
-            'ask'     => $question,
-            'default' => $description
-        ];
+        return $this->question($question, $description);
     }
 
     /**
@@ -68,10 +64,7 @@ class Wizard extends Foundation
 
         $question = sprintf('Author [%s]', $author);
 
-        return (object) [
-            'ask'     => $question,
-            'default' => $author
-        ];
+        return $this->question($question, $author);
     }
 
     /**
@@ -93,10 +86,7 @@ class Wizard extends Foundation
 
         $question = 'Confirm? '. PHP_EOL . $preview;
 
-        return (object) [
-            'ask'     => $question,
-            'default' => false
-        ];
+        return $this->question($question, false);
     }
 
     /**
@@ -143,25 +133,11 @@ class Wizard extends Foundation
         return $this;
     }
 
-    /**
-     * Define o vendor padrão da aplicação
-     *
-     * @return Wizard
-     */
-    private function setComposer(Theme $theme) : Wizard
+    private function question(string $quest, mixed $default) : object
     {
-        $this->composerInstance = new Composer($theme);
-
-        return $this;
-    }
-
-    /**
-     * Retorna o composer padrão da aplicação
-     *
-     * @return Composer
-     */
-    private function composer() : Composer
-    {
-        return $this->composerInstance;
+        return (object) [
+            'ask'     => $quest,
+            'default' => $default
+        ];
     }
 }

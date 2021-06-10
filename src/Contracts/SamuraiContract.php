@@ -4,6 +4,7 @@ namespace Maestriam\Samurai\Contracts;
 
 use Maestriam\Samurai\Entities\Base;
 use Maestriam\Samurai\Entities\Theme;
+use Maestriam\Samurai\Entities\Wizard;
 
 interface SamuraiContract
 {
@@ -22,4 +23,12 @@ interface SamuraiContract
      * @return Theme
      */
     public function theme(string $package) : Theme;
+
+    /**
+     * Retorna a instância para auxiliar o cliente a criar um tema
+     * via console. 
+     *
+     * @return Wizard
+     */
+    public function wizard() : Wizard;
 }

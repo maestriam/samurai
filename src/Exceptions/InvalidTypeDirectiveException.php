@@ -2,11 +2,12 @@
 
 namespace Maestriam\Samurai\Exceptions;
 
-use Illuminate\Support\Facades\Lang;
 use Maestriam\Samurai\Exceptions\BaseException;
 
 class InvalidTypeDirectiveException extends BaseException
 {
+    const CODE = '0203';
+
     /**
      * Define as configuração para enviar o exception
      *
@@ -30,6 +31,6 @@ class InvalidTypeDirectiveException extends BaseException
      */
     public function getErrorCode() : string
     {
-        return 0203;
+        return self::CODE;
     }
 }

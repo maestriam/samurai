@@ -6,6 +6,8 @@ use Maestriam\Samurai\Exceptions\BaseException;
 
 class EnvNotFoundException extends BaseException
 {
+    const CODE = '0301';
+
     /**
      * Define as configuração para enviar o exception
      *
@@ -29,7 +31,7 @@ class EnvNotFoundException extends BaseException
      */
     public function getErrorCode(): string
     {
-        return 0301;
+        return self::CODE;
     }
 }
 
