@@ -2,11 +2,12 @@
 
 namespace Maestriam\Samurai\Exceptions;
 
-use Illuminate\Support\Facades\Lang;
 use Maestriam\Samurai\Exceptions\BaseException;
 
 class InvalidDirectiveNameException extends BaseException
 {
+    const CODE = '0201';
+
     /**
      * Define as configuração para enviar o exception
      *
@@ -30,6 +31,6 @@ class InvalidDirectiveNameException extends BaseException
      */
     public function getErrorCode() : string
     {
-        return 0201;
+        return self::CODE;
     }
 }

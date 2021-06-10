@@ -6,6 +6,8 @@ use Illuminate\Foundation\Application;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use Maestriam\FileSystem\Providers\FileSystemProvider;
 use Maestriam\FileSystem\Support\FileSystem;
+use Maestriam\Samurai\Entities\Component;
+use Maestriam\Samurai\Entities\Includer;
 use Maestriam\Samurai\Entities\Theme;
 use Maestriam\Samurai\Providers\SamuraiServiceProvider;
 
@@ -95,7 +97,7 @@ class TestCase extends BaseTestCase
     }
 
     /**
-     * Afirma que é um tema válido
+     * Afirma se a váriavel se trata de uma instância Theme válida.  
      *
      * @param mixed $theme
      * @return void
@@ -104,6 +106,28 @@ class TestCase extends BaseTestCase
     {
         $this->assertInstanceOf(Theme::class, $theme);
         $this->assertTrue($theme->exists());
+    }
+
+    /**
+     * Afirma se a váriavel se trata de uma instância Component válida.  
+     *
+     * @param mixed $component
+     * @return void
+     */
+    protected function assertValidComponent($component)
+    {
+        $this->assertInstanceOf(Component::class, $component);
+    }
+
+    /**
+     * Afirma se a váriavel se trata de uma instância Includer válida.  
+     *
+     * @param mixed $includer
+     * @return void
+     */
+    protected function assertValidIncluder($includer)
+    {
+        $this->assertInstanceOf(Includer::class, $includer);
     }
 
     /**

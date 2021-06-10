@@ -6,6 +6,8 @@ use Maestriam\Samurai\Exceptions\BaseException;
 
 class InvalidThemeNameException extends BaseException
 {
+    const CODE = '0101';
+
     /**
      * Define as configuração para enviar o exception
      *
@@ -29,6 +31,6 @@ class InvalidThemeNameException extends BaseException
      */
     public function getErrorCode() : string
     {
-        return 0101;
+        return self::CODE;
     }
 }

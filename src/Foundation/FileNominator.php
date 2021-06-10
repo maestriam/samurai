@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Config;
 
 class FileNominator
 {
-
     /**
      * Retorna o nome da diretiva para ser usado
      * como nome de arquivo

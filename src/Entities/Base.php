@@ -86,6 +86,17 @@ class Base extends Foundation
     }
 
     /**
+     * Limpa o cache da aplicação Laravel
+     *
+     * @todo Pensar em um lugar melhor para deixar essa função. 
+     * @return void
+     */
+    public function clean()
+    {
+        return $this->file()->clearCache();
+    }
+
+    /**
      * Retorna a instância de um tema.  
      * Se o tema não existir no projeto, retorna nulo.  
      *

@@ -2,18 +2,11 @@
 
 namespace Maestriam\Samurai\Console;
 
-use Lang;
 use Exception;
-use Illuminate\Console\Command;
-use Maestriam\Samurai\Traits\Themeable;
-use Maestriam\Samurai\Traits\Shared\ConfigAccessors;
-use Maestriam\Samurai\Traits\Console\MessageLogging;
-use Maestriam\Samurai\Traits\Console\GetArguments;
+use Maestriam\Samurai\Support\Samurai;
 
-class MakeComponentCommand extends Command
+class MakeComponentCommand extends BaseCommand
 {
-    use Themeable, ConfigAccessors, MessageLogging, GetArguments;
-
     /**
      * Assinatura Artisan
      *
@@ -29,14 +22,18 @@ class MakeComponentCommand extends Command
     protected $description = 'Create a new component for specific theme';
 
     /**
-     * Construção da classe
+     * Mensagem de sucesso ao executar o comando
      *
-     * @return void
+     * @var string
      */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    protected $successMessage = 'Component [%s] created in %s';
+
+    /**
+     * Mensagem de erro ao executar o comando
+     *
+     * @var string
+     */
+    protected $errorMessage = 'Error to create component: %s';
 
     /**
      * Executa o comando de criação de componente atráves do Artisan
@@ -47,18 +44,17 @@ class MakeComponentCommand extends Command
     {
         try {
 
-            $args = $this->getArguments();
+            $name  = $this->getDirectiveArgument();
+            $theme = $this->getThemeArgument();
 
-            $component = $this->theme($args->theme)
-                              ->component($args->name)
-                              ->create();
+            $component = Samurai::theme($theme)->component($name)->create();
 
-            $this->base()->clearCache();
+            $this->clean();
 
-            return $this->created($component, 'component');
+            return $this->success($name, $component->path());
 
         } catch (Exception $e) {
-            return $this->failed($e->getCode());
+            return $this->failure($e);
         }
     }
 }
