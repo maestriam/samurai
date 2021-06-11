@@ -2,7 +2,6 @@
 
 namespace Maestriam\Samurai\Exceptions;
 
-use Illuminate\Support\Facades\Lang;
 use Maestriam\Samurai\Exceptions\BaseException;
 
 class ThemeNotFoundException extends BaseException

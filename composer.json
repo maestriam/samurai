@@ -31,7 +31,7 @@
         "class": "Maestriam\\Samurai\\Installer\\LaravelModuleInstallerPlugin",
         "laravel": {
           "providers": [
-            "Maestriam\\Samurai\\Providers\\MainServiceProvider"
+            "Maestriam\\Samurai\\Providers\\SamuraiServiceProvider"
           ]
         }
     }

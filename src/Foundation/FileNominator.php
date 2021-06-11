@@ -21,20 +21,6 @@ class FileNominator
     }
 
     /**
-     * Retorna o nome do namespace para ser usado
-     * para chamar o tema no projeto
-     *
-     * @param string $theme
-     * @return string
-     */
-    public function namespace(string $theme) : string
-    {
-        $prefix = Config::get('Samurai.prefix');
-
-        return $prefix . '-' . $theme;
-    }
-
-    /**
      * Retorna
      *
      * @param string $name

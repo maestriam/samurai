@@ -3,41 +3,28 @@
 namespace Maestriam\Samurai\Console;
 
 use Exception;
-use Illuminate\Console\Command;
-use Maestriam\Samurai\Traits\Themeable;
-use Maestriam\Samurai\Traits\Shared\ConfigAccessors;
-use Maestriam\Samurai\Traits\Console\MessageLogging;
 
-class RefreshThemeCommand extends Command
+class RefreshThemeCommand extends BaseCommand
 {
     /**
-     * Propriedades e funções básicas do sistema
-     */
-    use Themeable, ConfigAccessors, MessageLogging;
-
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
+     * {@inheritDoc}
      */
     protected $signature = 'samurai:refresh';
 
     /**
-     * The console command description.
-     *
-     * @var string
+     * {@inheritDoc}
      */
-    protected $description = 'Refresh current theme in Laravel Project.';
+    protected $description = 'Refresh cache and view in Laravel Project.';
 
     /**
-     * Define as propriedades principais do pacote
-     *
-     * @return void
+     * {@inheritDoc}
      */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    protected string $successMessage = 'Cache and views are refreshed.';
+
+    /**
+     * {@inheritDoc}
+     */
+    protected string $errorMessage = 'Error to refresh project: %s';
 
     /**
      * Executa o comando de console
@@ -45,15 +32,16 @@ class RefreshThemeCommand extends Command
      * @return mixed
      */
     public function handle()
-    {
+    {            
         try {
+
+            $this->clean();
+
+            return $this->success();
             
-            $this->base()->clearCache();
-    
-            return $this->success('theme.refresh');
-        
         } catch (Exception $e) {
-            return $this->failed($e->getCode());
+
+            return $this->failure($e);
         }
     }
 }

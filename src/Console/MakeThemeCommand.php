@@ -42,7 +42,7 @@ class MakeThemeCommand extends BaseCommand
             
             $this->clean();
             
-            return $this->success($theme->name());
+            return $this->success($theme->package());
             
         } catch (Exception $e) {
             

@@ -184,11 +184,13 @@ class Theme extends Foundation implements ThemeContract
     /**
      * {@inheritDoc}
      */
-    public function use() : void
+    public function use() : Theme
     {
         $this->guard();
 
         $this->register();
+
+        return $this;
     }
 
     /**
@@ -227,6 +229,9 @@ class Theme extends Foundation implements ThemeContract
         return $this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function publish() : bool
     {
         if (! $this->exists()) {
@@ -273,6 +278,7 @@ class Theme extends Foundation implements ThemeContract
         if ($this->exists()) {
             return $this->import();
         }        
+
 
         return $this;
     }

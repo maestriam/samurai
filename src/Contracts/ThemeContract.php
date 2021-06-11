@@ -113,7 +113,7 @@ interface ThemeContract
      *
      * @return void
      */
-    public function use() : void;
+    public function use() : Theme;
 
     /**
      * Retorna a instância de uma diretiva include para o tema.  

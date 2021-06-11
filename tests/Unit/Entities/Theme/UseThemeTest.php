@@ -14,10 +14,11 @@ class UseThemeTest extends ThemeTestCase
         $name  = 'bands/accept';
         $theme = new Theme($name);
 
-        $theme->make()->use();
+        $ret = $theme->make()->use();
 
         $current = $this->currentTheme();
 
+        $this->assertValidTheme($ret);
         $this->assertEquals($current, $name);
     }
 
