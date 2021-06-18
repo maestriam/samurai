@@ -5,6 +5,10 @@ namespace Maestriam\Samurai\Foundation;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Config;
 
+/**
+ * Classe auxiliar para nomeação de diretivas/namespaces 
+ * de acordo com as regras negócios do Blade
+ */
 class FileNominator
 {
     /**
@@ -21,13 +25,14 @@ class FileNominator
     }
 
     /**
-     * Retorna
+     * Retorna como deve ser o nome do arquivo de uma diretiva
+     * com os padrões impostos pelo Blade.  
      *
      * @param string $name
      * @param string $type
      * @return void
      */
-    public function filename(string $name, string $type)
+    public function filename(string $name, string $type) : string
     {
         return $this->directive($name, $type) . '.blade.php';
     }

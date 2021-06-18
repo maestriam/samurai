@@ -16,14 +16,19 @@ class DirectiveFinder
         $this->setTheme($theme);
     }
 
+    /**
+     * Recupera TODAS as diretivas de um tema.  
+     *
+     * @return array
+     */
     public function all() : array
     {          
         $directives = [];
 
         $files = $this->readFiles();
         
-        foreach($files as $file) {            
-            
+        foreach($files as $file) {        
+
             $file = $this->parseFile($file);
 
             $directives[] = $this->identify($file);
@@ -81,8 +86,8 @@ class DirectiveFinder
     }
 
     /**
-     * Retorna a lista com o caminho completo de todas as diretivas
-     * inseridas no tema.  
+     * Retorna a lista, com o caminho completo, de todas as diretivas
+     * inseridas no tema determinado.  
      *
      * @return array
      */
@@ -118,4 +123,9 @@ class DirectiveFinder
     {
         return $this->themeInstance;
     }   
+
+    private function parser() : FilenameParser
+    {
+        return new FilenameParser();
+    }
 }

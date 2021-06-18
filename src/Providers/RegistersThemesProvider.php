@@ -28,8 +28,14 @@ class RegistersThemesProvider extends ServiceProvider
      */
     protected function registerView($source, $namespace)
     {
-        $views = array_merge([$source], config('view.paths'));
+        $paths = array_merge([$source], config('view.paths'));
         
-        $this->loadViewsFrom($views, $namespace);
+        $this->loadViewsFrom($paths, $namespace);
+
+        // Blade::component('Themes\Music::includes.button-include', 'button');
+
+        // $this->loadViewsFrom(base_path('themes'), 'Themes\Music');
+        
+        // dd(src.buttons.button-include);
     }
 }

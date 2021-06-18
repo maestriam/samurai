@@ -17,6 +17,8 @@ class DirectivesFromThemeTest extends TestCase
 
         $directives = $theme->directives();
 
+        dd($directives);
+
         $this->assertIsArray($directives);
 
         foreach ($directives as $directive) {

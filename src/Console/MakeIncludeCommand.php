@@ -44,7 +44,7 @@ class MakeIncludeCommand extends BaseCommand
 
             Samurai::base()->clean();
 
-            return $this->success($name, $include->path());
+            return $this->success($name, $include->relative());
 
         } catch (Exception $e) {
             return $this->failure($e);

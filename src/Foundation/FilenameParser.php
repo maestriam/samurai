@@ -5,7 +5,7 @@ namespace Maestriam\Samurai\Foundation;
 class FilenameParser
 {
     /**
-     * Undocumented function
+     * Baseado no caminho do arquivo, retorna o nome e o tipo da diretiva
      *
      * @param string $themepath
      * @param string $filepath

@@ -279,7 +279,6 @@ class Theme extends Foundation implements ThemeContract
             return $this->import();
         }        
 
-
         return $this;
     }
 

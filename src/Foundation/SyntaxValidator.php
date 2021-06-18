@@ -76,8 +76,12 @@ class SyntaxValidator
      * @param string $type
      * @return boolean
      */
-    public function type(string $type) : bool
-    {
+    public function type(string $type = null) : bool
+    {   
+        if (! $type) {
+            return false;
+        }
+
         $types = config('samurai.species');
 
         return (in_array($type, $types)) ? true : false;

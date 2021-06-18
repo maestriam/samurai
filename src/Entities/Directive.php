@@ -5,10 +5,8 @@ namespace Maestriam\Samurai\Entities;
 use Illuminate\Support\Str;
 use Maestriam\Samurai\Entities\Theme;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\View\Compilers\BladeCompiler;
 use Maestriam\FileSystem\Support\FileSystem;
 use Maestriam\Samurai\Contracts\DirectiveContract;
-use Maestriam\Samurai\Exceptions\DirectiveExistsException;
 use Maestriam\Samurai\Exceptions\InvalidDirectiveNameException;
 use Maestriam\Samurai\Exceptions\InvalidTypeDirectiveException;
 
@@ -105,9 +103,7 @@ abstract class Directive extends Source implements DirectiveContract
      */
     public function filename() : string
     {        
-        $pattern = '%s.%s.blade';
-
-        return sprintf($pattern, $this->sentence(), $this->type);
+        return $this->nominator()->filename($this->sentence(), $this->type());
     }
 
     /**
@@ -240,7 +236,7 @@ abstract class Directive extends Source implements DirectiveContract
      */
     protected function setPath() : Directive
     {
-        $this->path = $this->filePath();;
+        $this->path = $this->filePath();
         return $this;
     }
 

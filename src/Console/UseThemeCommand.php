@@ -20,7 +20,7 @@ class UseThemeCommand extends BaseCommand
     /**
      * {@inheritDoc}
      */
-    protected string $successMessage = 'Cache and views are refreshed.';
+    protected string $successMessage = 'Theme [%s] is current and ready to use.';
 
     /**
      * {@inheritDoc}
@@ -42,7 +42,7 @@ class UseThemeCommand extends BaseCommand
             
             $this->clean();
 
-            return $this->success();
+            return $this->success($name);
 
         } catch (Exception $e) {
             return $this->failure($e);
