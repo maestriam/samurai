@@ -11,9 +11,11 @@ class DirectiveFinder
 {
     private string $pattern = '.blade';
 
+    private DirectiveParser $parserInstance;
+
     public function __construct(Theme $theme)
     {
-        $this->setTheme($theme);
+        $this->init($theme);
     }
 
     /**
@@ -27,62 +29,68 @@ class DirectiveFinder
 
         $files = $this->readFiles();
         
-        foreach($files as $file) {        
-
-            $file = $this->parseFile($file);
-
-            $directives[] = $this->identify($file);
+        foreach($files as $file) {
+            $directives[] = $this->parser()->parse($file)->toDirective();
         }
 
         return $directives;
     }
 
     /**
-     * Recebe o caminho da diretiva e retorna somente a sentença para
-     * do diretiva
+     * Retorna a instância de uma diretiva includer, de acordo com o tema e a sentença.  
      *
-     * @param string $file
-     * @return string
+     * @param string $sentence
+     * @return Includer
      */
-    private function parseFile(string $file) : string
+    public function include(string $sentence) : Includer
     {
-        $path = $this->source();
-
-        $file = str_replace($path .'/', '', $file);
-        $file = str_replace('.blade', '', $file);
-
-        return $file;
+        return new Includer($this->theme(), $sentence);
     }
 
     /**
-     * Identifica o tipo de diretiva e retorna uma instância do tipo
-     * Includer ou Component.  
+     * Retorna a instância de uma diretiva component, de acordo com o tema e a sentença.  
      *
-     * @param string $file
-     * @return Component|Includer
+     * @param string $sentence
+     * @return Component
      */
-    private function identify(string $file) : Component|Includer
+    public function component(string $sentence) : Component
     {
-        list($sentence, $type) = explode('.', $file);
-
-        if ($type == 'component') {
-            return $this->component($sentence);
-        }
-        
-        return $this->include($sentence);
+        return new Component($this->theme(), $sentence);
     }
 
     /**
-     * Define o tema para apanhar as diretivas inseridass
+     * Retorna a instância do tema que será manipulado.  
+     *
+     * @return Theme
+     */
+    private function theme() : Theme
+    {
+        return $this->themeInstance;
+    }
+
+    /**
+     * Inicia os atributos necessários para instanciar a classe.  
      *
      * @param Theme $theme
      * @return DirectiveFinder
      */
-    private function setTheme(Theme $theme) : DirectiveFinder
+    private function init(Theme $theme) : DirectiveFinder
     {
         $this->themeInstance = $theme;
+        $this->parserInstance = new DirectiveParser($theme);
      
         return $this;
+    }    
+
+    /**
+     * Retorna a instância para identificação de uma diretiva,
+     * através do caminho absoluto do arquivo da diretiva.  
+     *
+     * @return DirectiveParser
+     */
+    private function parser() : DirectiveParser
+    {
+        return $this->parserInstance;
     }
 
     /**
@@ -93,39 +101,8 @@ class DirectiveFinder
      */
     private function readFiles() : array
     {        
-        $path = $this->source();
+        $path = $this->theme()->paths()->source();
 
         return FileSystem::folder($path)->files($this->pattern);
-    }     
-
-    /**
-     * Retorna a instância de uma diretiva component para o tema.  
-     *
-     * @param string $sentence
-     * @return Includer
-     */
-    public function component(string $sentence) : Component
-    {
-        return new Component($this->theme(), $sentence);
-    }
-
-    public function include(string $sentence) : Includer
-    {
-        return new Includer($this->theme(), $sentence);
-    }
-
-    private function source() : string
-    {
-        return $this->theme()->paths()->source();
-    }
-
-    private function theme() : Theme
-    {
-        return $this->themeInstance;
-    }   
-
-    private function parser() : FilenameParser
-    {
-        return new FilenameParser();
     }
 }

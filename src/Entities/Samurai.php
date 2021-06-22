@@ -2,7 +2,7 @@
 
 namespace Maestriam\Samurai\Entities;
 
-use Maestriam\Samurai\Contracts\SamuraiContract;
+use Maestriam\Samurai\Contracts\Entities\SamuraiContract;
 
 class Samurai implements SamuraiContract
 {

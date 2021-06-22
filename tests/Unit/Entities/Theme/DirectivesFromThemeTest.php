@@ -1,6 +1,6 @@
 <?php
 
-namespace Maestriam\Samurai\Tests\Unit\Entities\Component;
+namespace Maestriam\Samurai\Tests\Unit\Entities\Theme;
 
 use Maestriam\Samurai\Entities\Component;
 use Maestriam\Samurai\Tests\TestCase;
@@ -16,8 +16,6 @@ class DirectivesFromThemeTest extends TestCase
         $theme->component('musics/missing')->create();
 
         $directives = $theme->directives();
-
-        dd($directives);
 
         $this->assertIsArray($directives);
 

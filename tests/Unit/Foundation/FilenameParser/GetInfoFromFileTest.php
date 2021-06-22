@@ -16,7 +16,7 @@ class GetInfoFromFileTest extends TestCase
         $component = $theme->component('musics/bards-song')->create();
 
         $file = $component->path();        
-        $info = $parser->parse($file);
+        $info = $parser->parse($file)->toObject();
 
         $this->assertInstanceOf(stdClass::class, $info);
         $this->assertEquals($component->sentence(), $info->sentence);

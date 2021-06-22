@@ -1,6 +1,6 @@
 <?php
 
-namespace Maestriam\Samurai\Contracts;
+namespace Maestriam\Samurai\Contracts\Entities;
 
 use Maestriam\Samurai\Entities\Theme;
 use Maestriam\Samurai\Entities\Composer;

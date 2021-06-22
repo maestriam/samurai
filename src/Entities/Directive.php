@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 use Maestriam\Samurai\Entities\Theme;
 use Illuminate\Support\Facades\Blade;
 use Maestriam\FileSystem\Support\FileSystem;
-use Maestriam\Samurai\Contracts\DirectiveContract;
+use Maestriam\Samurai\Contracts\Entities\DirectiveContract;
 use Maestriam\Samurai\Exceptions\InvalidDirectiveNameException;
 use Maestriam\Samurai\Exceptions\InvalidTypeDirectiveException;
 

@@ -3,7 +3,7 @@
 namespace Maestriam\Samurai\Entities;
 
 use Exception;
-use Maestriam\Samurai\Contracts\ComposerContract;
+use Maestriam\Samurai\Contracts\Entities\ComposerContract;
 use Maestriam\Samurai\Exceptions\InvalidComposerFileException;
 
 class Composer extends Source implements ComposerContract

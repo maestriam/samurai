@@ -5,8 +5,11 @@ namespace Maestriam\Samurai\Foundation;
 use Maestriam\Samurai\Entities\Directive;
 use Maestriam\Samurai\Entities\Theme;
 use Maestriam\Samurai\Exceptions\InvalidTypeDirectiveException;
+use Maestriam\Samurai\Contracts\Foundation\DirectiveParserContract;
+use Maestriam\Samurai\Entities\Component;
+use Maestriam\Samurai\Entities\Includer;
 
-class DirectiveParser
+class DirectiveParser implements DirectiveParserContract
 {   
     private SyntaxValidator $validator;
 
@@ -31,18 +34,59 @@ class DirectiveParser
      * @param string $file
      * @return void
      */
-    public function parse(string $file) : object
+    public function parse(string $file) : DirectiveParser
     {
         $this->setFile($file)
              ->setRelative()
              ->setNameAndType()
              ->setSentence();
             
-        return $this->toObject();
+        return $this;
     }
 
     /**
-     * Retorna o tema 
+     * {@inheritDoc}
+     */
+    public function toObject() : object
+    {
+        return (object) [
+            'relative' => $this->relative,
+            'sentence' => $this->sentence,
+            'name'     => $this->name,
+            'type'     => $this->type
+        ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function toDirective() : Component|Includer
+    {
+        return ($this->type == 'component') ? $this->toComponent() : $this->toIncluder();
+    }
+
+    /**
+     * Retorna a instância de uma diretiva includer, de acordo com o tema e a sentença.  
+     *
+     * @return Includer
+     */
+    private function toIncluder() : Includer
+    {
+        return new Includer($this->theme(), $this->sentence);
+    }
+
+    /**
+     * Retorna a instância de uma diretiva component, de acordo com o tema e a sentença.  
+     *
+     * @return Component
+     */
+    private function toComponent() : Component
+    {
+        return new Component($this->theme(), $this->sentence);
+    }
+
+    /**
+     * Retorna o tema específico
      *
      * @return Theme
      */
@@ -147,20 +191,5 @@ class DirectiveParser
         $this->sentence = str_replace('\\', '/', $sentence);
 
         return $this;
-    }
-
-    /**
-     * Retorna as informações da diretiva em forma de objeto.  
-     *
-     * @return object
-     */
-    private function toObject() : object
-    {
-        return (object) [
-            'relative' => $this->relative,
-            'sentence' => $this->sentence,
-            'name'     => $this->name,
-            'type'     => $this->type
-        ];
     }
 }

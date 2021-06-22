@@ -3,13 +3,11 @@
 namespace Maestriam\Samurai\Entities;
 
 use Illuminate\Support\Facades\File;
-use Maestriam\FileSystem\Support\FileSystem;
-use Maestriam\Samurai\Contracts\ThemeContract;
 use Maestriam\Samurai\Entities\Foundation;
+use Maestriam\Samurai\Foundation\DirectiveFinder;
 use Maestriam\Samurai\Exceptions\ThemeExistsException;
 use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
-use Maestriam\Samurai\Foundation\DirectiveCollection;
-use Maestriam\Samurai\Foundation\DirectiveFinder;
+use Maestriam\Samurai\Contracts\Entities\ThemeContract;
 
 class Theme extends Foundation implements ThemeContract
 {
