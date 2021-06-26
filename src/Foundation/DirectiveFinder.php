@@ -28,7 +28,7 @@ class DirectiveFinder
         $directives = [];
 
         $files = $this->readFiles();
-        
+
         foreach($files as $file) {
             $directives[] = $this->parser()->parse($file)->toDirective();
         }

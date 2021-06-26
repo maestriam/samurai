@@ -160,8 +160,8 @@ abstract class Directive extends Source implements DirectiveContract
     public function relative() : string
     {
         $path = $this->path();
-
-        $base = $this->theme()->paths()->root() . DS;
+        
+        $base = $this->theme()->paths()->root();
 
         $base = FileSystem::folder($base)->sanitize();
 

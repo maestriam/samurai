@@ -24,7 +24,7 @@ class ThemeExistsException extends BaseException
      */
     public function getErrorMessage() : string
     {
-        return 'The theme [%s] alredy exists on project.';
+        return 'The theme [%s] already exists in project.';
     }
 
     /**
