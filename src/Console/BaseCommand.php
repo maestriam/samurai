@@ -55,9 +55,9 @@ class BaseCommand extends Command
      */
     protected function success(...$params) : int
     {
-        $info = vsprintf($this->successMessage, $params);
-        
-        $this->info($info);
+        $success = vsprintf($this->successMessage, $params);
+
+        $this->info($success);
         
         return 0;
     }

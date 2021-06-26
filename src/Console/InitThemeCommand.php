@@ -21,12 +21,12 @@ class InitThemeCommand extends BaseCommand
     /**
      * {@inheritDoc}
      */
-    protected string $successMessage = 'Component [%s] created in %s';
+    protected string $successMessage = 'Theme [%s] created successful.';
 
     /**
      * {@inheritDoc}
      */
-    protected string $errorMessage = 'Error to create component: %s';
+    protected string $errorMessage = 'Error to create theme: %s';
 
     /**
      * Executa o comando de criação de componente atráves do Artisan
@@ -37,21 +37,21 @@ class InitThemeCommand extends BaseCommand
     {
         try {
 
-            $package = $this->askTheme();
-            $author  = $this->askAuthor();            
-            $descr   = $this->askDescription();   
+            $name   = $this->askTheme();
+            $author = $this->askAuthor();            
+            $descr  = $this->askDescription();   
             
-            if (! $this->beSure($package, $author, $descr)) {
+            if (! $this->beSure($name, $author, $descr)) {
                 return false;
             }
-
-            $theme = Samurai::theme($package);
+            
+            $theme = Samurai::theme($name);
                         
             $theme->author($author)->description($descr)->make();
             
             $this->clean();
 
-            return $this->success();
+            return $this->success($name);
 
         } catch (Exception $e) {
             return $this->failure($e);
