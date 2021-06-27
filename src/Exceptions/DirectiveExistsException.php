@@ -24,7 +24,7 @@ class DirectiveExistsException extends BaseException
      */
     public function getErrorMessage(): string
     {
-        return 'The [%s] directive alredy exists in [%s] theme.';
+        return 'The [%s] directive already exists in [%s] theme.';
     }
 
     /**

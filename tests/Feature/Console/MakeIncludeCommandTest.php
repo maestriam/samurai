@@ -2,6 +2,8 @@
 
 namespace Maestriam\Samurai\Tests\Feature\Console;
 
+use Illuminate\Support\Facades\Artisan;
+use Maestriam\Samurai\Exceptions\DirectiveExistsException;
 use Maestriam\Samurai\Exceptions\InvalidThemeNameException;
 use Maestriam\Samurai\Tests\TestCase;
 
@@ -10,7 +12,7 @@ class MakeIncludeCommandTest extends TestCase
     public function testMakeValidInclude()
     {
         $theme = 'bands/slayer';
-        $name = 'world-painted-blood';
+        $name  = 'world-painted-blood';
 
         $this->theme($theme)->findOrCreate()->use();
 
@@ -22,12 +24,32 @@ class MakeIncludeCommandTest extends TestCase
     public function testMakeIncludeWithReverseOrder()
     {
         $theme = 'bands/slayer';
-        $name = 'mandatory-suicide';
+        $name  = 'mandatory-suicide';
 
         $this->theme($theme)->findOrCreate()->use();
 
         $cmd = sprintf("samurai:make-include %s %s", $theme, $name);
 
         $this->artisan($cmd)->assertExitCode(InvalidThemeNameException::CODE);
+    }
+
+    public function testMakeExistingInclude()
+    {
+        $theme = 'bands/slayer';
+        $name  = 'bloodline';
+        $error = 'Error to create include: The [%s] directive already exists in [%s] theme.';
+
+        $this->theme($theme)->findOrCreate()->use();
+
+        $cmd = sprintf("samurai:make-include %s %s", $name, $theme);
+        $msg = sprintf($error, $name, $theme);
+
+        $this->artisan($cmd)
+             ->assertExitCode(0);
+
+        $this->artisan($cmd)
+             ->expectsOutput($msg)
+             ->assertExitCode(DirectiveExistsException::CODE);
+
     }
 }

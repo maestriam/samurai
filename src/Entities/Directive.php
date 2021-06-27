@@ -7,6 +7,7 @@ use Maestriam\Samurai\Entities\Theme;
 use Illuminate\Support\Facades\Blade;
 use Maestriam\FileSystem\Support\FileSystem;
 use Maestriam\Samurai\Contracts\Entities\DirectiveContract;
+use Maestriam\Samurai\Exceptions\DirectiveExistsException;
 use Maestriam\Samurai\Exceptions\InvalidDirectiveNameException;
 use Maestriam\Samurai\Exceptions\InvalidTypeDirectiveException;
 
@@ -129,6 +130,10 @@ abstract class Directive extends Source implements DirectiveContract
      */
     public function create() : Component|Includer
     {
+        if ($this->exists()) {
+            throw new DirectiveExistsException($this->name(), $this->theme()->package());
+        }
+
         $info = $this->createFile();
 
         $this->setPath($info->absolute_path);
@@ -166,6 +171,16 @@ abstract class Directive extends Source implements DirectiveContract
         $base = FileSystem::folder($base)->sanitize();
 
         return str_replace($base, '', $path);
+    }
+
+    /**
+     * Retorna 
+     *
+     * @return boolean
+     */
+    public function exists() : bool
+    {
+        return $this->fileExists();
     }
 
     /**

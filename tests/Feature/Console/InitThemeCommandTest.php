@@ -34,10 +34,11 @@ class InitThemeCommandTest extends TestCase
     public function testWizardWithExistingTheme()
     {
         $theme = 'bands/jethro-tull';
+        $error = 'The theme [%s] already exists in project.';
 
         Samurai::theme($theme)->make();
 
-        $this->assertFailedWizard($theme, ThemeExistsException::ERROR);
+        $this->assertFailedWizard($theme, $error);
     }
 
     /**

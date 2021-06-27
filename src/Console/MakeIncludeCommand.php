@@ -42,7 +42,7 @@ class MakeIncludeCommand extends BaseCommand
 
             $include = Samurai::theme($theme)->include($name)->create();
 
-            Samurai::base()->clean();
+            $this->clean();
 
             return $this->success($name, $include->relative());
 

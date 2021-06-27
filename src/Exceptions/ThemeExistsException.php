@@ -8,9 +8,7 @@ use Maestriam\Samurai\Exceptions\BaseException;
 class ThemeExistsException extends BaseException
 {
     const CODE = '0103';
-
-    const ERROR = 'The theme [%s] already exists in project.';
-
+    
     /**
      * Define as configuração para enviar o exception
      *
@@ -26,7 +24,7 @@ class ThemeExistsException extends BaseException
      */
     public function getErrorMessage() : string
     {
-        return self::ERROR;
+        return 'The theme [%s] already exists in project.';
     }
 
     /**
