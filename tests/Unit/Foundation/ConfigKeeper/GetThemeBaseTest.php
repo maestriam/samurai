@@ -20,10 +20,9 @@ class GetThemeBaseTest extends ConfigKeeperTestCase
      */
     public function testGetBasePath()
     {          
+        $config = $this->getConfigKeeper();
         $folder = base_path('bands/kiss') . DS;
         $folder = FileSystem::folder($folder)->sanitize();
-
-        $config = new ConfigKeeper();             
 
         $this->setThemeBase($folder);
 
@@ -43,10 +42,9 @@ class GetThemeBaseTest extends ConfigKeeperTestCase
     {        
         $this->setThemeBase(null);
 
+        $config = $this->getConfigKeeper();
         $default = base_path('themes') . DS;
-        $default = FileSystem::folder($default)->sanitize();
-        
-        $config = new ConfigKeeper();  
+        $default = FileSystem::folder($default)->sanitize();        
 
         $this->assertConfigKey($config->base(), $default);
     }

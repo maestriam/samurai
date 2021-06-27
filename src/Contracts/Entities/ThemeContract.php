@@ -145,4 +145,11 @@ interface ThemeContract
      * @return Theme
      */
     public function load() : Theme;
+
+    /**
+     * Retorna a URL para carregar os arquivos de assets do tema.  
+     *
+     * @return string
+     */
+    public function url(string $file = null) : string;
 }

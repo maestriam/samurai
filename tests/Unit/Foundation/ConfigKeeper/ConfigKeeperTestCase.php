@@ -25,6 +25,11 @@ class ConfigKeeperTestCase extends TestCase
         return config('samurai.env_key'); 
     }
 
+    protected function getConfigKeeper() : ConfigKeeper
+    {
+        return new ConfigKeeper();
+    }
+
     /**
      * Apaga o registro de env_key, definido na configuração
      *

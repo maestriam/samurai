@@ -22,7 +22,7 @@
     </report>
   </coverage>
   <testsuites>
-    <testsuite name="Laravel Modules Test Suite">
+    <testsuite name="Samurai Test Suite">
       <directory>tests</directory>
     </testsuite>
   </testsuites>

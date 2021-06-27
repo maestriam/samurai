@@ -13,18 +13,6 @@ class DirectoryStructure
         $this->setConfig();
     }    
 
-    private function config() : ConfigKeeper
-    {
-        return $this->configInstance;
-    }
-    
-    private function setConfig() : DirectoryStructure
-    {
-        $this->configInstance = new ConfigKeeper();
-        
-        return $this;
-    }
-
     /**
      * Retorna o nome do diretório do
      *
@@ -150,5 +138,27 @@ class DirectoryStructure
         $path = $base . $vendor . DS . $name;
 
         return $path;
+    }
+
+    /**
+     * Retorna a instância de configurações do arquivo.  
+     *
+     * @return ConfigKeeper
+     */
+    private function config() : ConfigKeeper
+    {
+        return $this->configInstance;
+    }
+    
+    /**
+     * Define a instância de configurações do arquivo.  
+     *
+     * @return DirectoryStructure
+     */
+    private function setConfig() : DirectoryStructure
+    {
+        $this->configInstance = new ConfigKeeper();
+        
+        return $this;
     }
 }

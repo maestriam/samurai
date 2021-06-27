@@ -21,7 +21,7 @@ class RegistersCustomDirectiveProvider extends ServiceProvider
      */
     protected function registerPublic()
     {             
-        Blade::directive('public', function ($file) {
+        Blade::directive('public', function ($file) : string {
                       
             $theme = Samurai::base()->current(); 
             
@@ -29,9 +29,7 @@ class RegistersCustomDirectiveProvider extends ServiceProvider
                 return null;
             }
             
-            $file   = str_replace("'", "", $file);
-            $domain = $theme->paths()->public();
-            return "$domain/$file";
+            return $theme->url($file);
         });
     }
 }

@@ -18,7 +18,7 @@ class GetEnvKeyTest extends ConfigKeeperTestCase
     public function testGetEnvKey()
     {
         $envkey = $this->getEnvKey();        
-        $config = new ConfigKeeper();
+        $config = $this->getConfigKeeper();
 
         $this->assertIsString($config->env());
         $this->assertEquals($envkey, $config->env());
@@ -36,7 +36,7 @@ class GetEnvKeyTest extends ConfigKeeperTestCase
         $this->eraseEnvKey();
 
         $envkey = 'CURRENT_THEME';        
-        $config = new ConfigKeeper();
+        $config = $this->getConfigKeeper();
 
         $this->assertIsString($config->env());
         $this->assertEquals($envkey, $config->env());

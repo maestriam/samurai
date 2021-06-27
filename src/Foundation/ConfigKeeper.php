@@ -88,4 +88,14 @@ class ConfigKeeper
     {
         return config('samurai.structure');
     }
+
+    /**
+     * Retorna o diretório que deverá 
+     *
+     * @return string
+     */
+    public function publishable() : string
+    {
+        return config('samurai.publishable');
+    }
 }

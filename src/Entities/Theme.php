@@ -243,6 +243,21 @@ class Theme extends Foundation implements ThemeContract
 
         return (is_dir($to)) ? true : false;
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function url(string $file = null) : string
+    {
+        $domain  = $this->env()->get('APP_URL');
+        $public  = $this->config()->publishable();
+        $package = $this->package();
+
+        $file =  '/' . $file ?? '';
+        $file = str_replace("'", "", $file);
+
+        return sprintf('%s/%s/%s%s', $domain, $public, $package, $file);
+    }
 
     /**
      * Registra o nome do pacote do tema no arquivo de ambiente 
