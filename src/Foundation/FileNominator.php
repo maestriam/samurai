@@ -3,7 +3,6 @@
 namespace Maestriam\Samurai\Foundation;
 
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Config;
 
 /**
  * Classe auxiliar para nomeação de diretivas/namespaces 
@@ -34,7 +33,7 @@ class FileNominator
      */
     public function filename(string $name, string $type) : string
     {
-        return $this->directive($name, $type) . '.blade.php';
+        return $this->directive($name, $type) . $this->extension();
     }
 
     /**
@@ -45,12 +44,11 @@ class FileNominator
      * @param string $path
      * @return void
      */
-    public function blade(string $theme, string $path)
+    public function blade(string $theme, string $path) : string
     {
-        $pattern = "%s::%s";
-        $ext = '.blade.php';
+        $ext = $this->extension();
 
-        $file = sprintf($pattern, $theme, $path);
+        $file = sprintf("%s::%s", $theme, $path);
         $file = str_replace(DS, '.', $file);
         $file = str_replace($ext, '', $file);
 
@@ -58,13 +56,36 @@ class FileNominator
     }
 
     /**
-     * Retorna o nome para ser chamado dentro do arquivo Blade
+     * Retorna a extensão do arquivo blade dentro do projeto.  
+     *
+     * @return string
+     */
+    public function extension() : string
+    {
+        return '.blade.php';
+    }
+
+    /**
+     * Retorna o nome para ser chamado dentro do arquivo Blade,
+     * como kebab-case
      *
      * @param string $name
      * @return string
      */
-    public function alias(string $name) : string
+    public function kebabAlias(string $name) : string
     {
         return Str::kebab($name);
+    }
+
+    /**
+     * Retorna o nome para ser chamado dentro do arquivo Blade,
+     * como kebab-case
+     *
+     * @param string $name
+     * @return string
+     */
+    public function camelAlias(string $name) : string
+    {
+        return Str::camel($name);
     }
 }

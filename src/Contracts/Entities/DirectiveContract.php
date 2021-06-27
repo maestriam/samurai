@@ -30,11 +30,12 @@ interface DirectiveContract
     public function path() : string;
 
     /**
-     * Retorna o alias para a chamada dentro do projeto
+     * Retorna o alias para a chamada dentro do projeto,
+     * como camel-case e como kebab-case.  
      * 
      * @return string
      */
-    public function alias() : string;
+    public function alias() : object;
 
     /**
      * Retorna o nome do arquivo

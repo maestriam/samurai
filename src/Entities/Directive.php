@@ -50,11 +50,20 @@ abstract class Directive extends Source implements DirectiveContract
     protected string $path;
 
    /**
-    * Apelido pelo qual é chamado dentro do projeto
-    *
+    * Apelido pelo qual é chamado dentro do projeto,
+    * como camel-case
+    * 
     * @var string
     */
-    protected string $alias;
+    protected string $camelAlias;
+
+    /**
+    * Apelido pelo qual é chamado dentro do projeto,
+    * como camel-case
+    * 
+    * @var string
+    */
+    protected string $kebabAlias;
 
     /**
      * Instância as regras de negócio de uma diretiva
@@ -94,9 +103,12 @@ abstract class Directive extends Source implements DirectiveContract
     /**
      * {@inheritDoc}
      */
-    public function alias() : string
+    public function alias() : object
     {
-        return $this->alias;
+        return (object) [
+            'camel' => $this->camelAlias,
+            'kebab' => $this->kebabAlias,
+        ];
     }
 
     /**
@@ -145,16 +157,21 @@ abstract class Directive extends Source implements DirectiveContract
      * {@inheritDoc}
      */
     public function load() : Component|Includer
-    {                      
-        $path = $this->relative();
-        
+    {                              
         $namespace = $this->theme()->namespace();
-
+        
+        $path = $this->relative();
         $file = $this->nominator()->blade($namespace, $path);
         
-        Blade::component($file, $this->alias());
+        $alias = $this->alias();
 
-        return $this;
+        $this->loadKebabAlias($file, $alias->kebab);
+
+        if ($this->type() == 'include') {
+            return $this->loadInclude($file, $alias->camel);
+        }
+        
+        return $this->loadComponent($file, $alias->camel);
     }
     
     /**
@@ -174,13 +191,58 @@ abstract class Directive extends Source implements DirectiveContract
     }
 
     /**
-     * Retorna 
+     * Retorna se a diretiva existe ou não dentro do projeto.  
      *
      * @return boolean
      */
     public function exists() : bool
     {
         return $this->fileExists();
+    }
+
+        /**
+     * Carrega a diretiva (include/component) dentro do projeto como kabe-case.  
+     * Padrão utilizado no Blade UI.  
+     *
+     * @param string $file
+     * @param string $alias
+     * @return Directive
+     */
+    private function loadKebabAlias(string $file, string $alias) : Directive
+    {
+        Blade::component($file, $alias);
+        
+        return $this;
+    }
+    
+    /**
+     * Carrega o include dentro do projeto como camel-case.  
+     * Padrão utilizado no Blade padrão.
+     *
+     * @param string $file
+     * @param string $alias
+     * @return Directive
+     */
+    protected function loadInclude(string $file, string $alias) : Directive
+    {        
+        Blade::aliasInclude($file, $alias);   
+
+        return $this;
+    }
+
+    /**
+     * Carrega o include dentro do projeto como camel-case.  
+     * Padrão utilizado no Blade padrão.
+     *
+     * @param string $file
+     * @param string $alias
+     * @return Directive
+     */
+    protected function loadComponent(string $file, string $alias) : Directive
+    {
+        Blade::aliasComponent($file, $alias);   
+        
+        return $this;
     }
 
     /**
@@ -277,7 +339,8 @@ abstract class Directive extends Source implements DirectiveContract
      */
     protected function setAlias() : Directive
     {
-        $this->alias = $this->nominator()->alias($this->name);
+        $this->camelAlias = $this->nominator()->camelAlias($this->name);
+        $this->kebabAlias = $this->nominator()->kebabAlias($this->name);
 
         return $this;
     }

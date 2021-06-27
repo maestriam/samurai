@@ -5,6 +5,7 @@ namespace Maestriam\Samurai\Tests\Unit\Entities\Includer;
 use Maestriam\Samurai\Entities\Theme;
 use Maestriam\Samurai\Tests\TestCase;
 use Maestriam\Samurai\Entities\Includer;
+use stdClass;
 
 class IncluderTestCase extends TestCase
 {
@@ -51,5 +52,12 @@ class IncluderTestCase extends TestCase
         $this->assertIsString($include->type());
         $this->assertEquals($include->type(), 'include');        
         $this->assertObjectHasFunction($include, 'type');
+    }
+
+    protected function assertAlias(Includer $include)
+    {
+        $this->assertInstanceOf(stdClass::class, $include->alias());
+        $this->assertObjectHasAttribute('kebab', $include->alias());
+        $this->assertObjectHasAttribute('camel', $include->alias());
     }
 }
