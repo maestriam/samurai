@@ -53,7 +53,13 @@ class IncluderTestCase extends TestCase
         $this->assertEquals($include->type(), 'include');        
         $this->assertObjectHasFunction($include, 'type');
     }
-
+    
+    /**
+     * Verifica se o alias para a diretiva está correta.  
+     *
+     * @param Includer $include
+     * @return void
+     */
     protected function assertAlias(Includer $include)
     {
         $this->assertInstanceOf(stdClass::class, $include->alias());

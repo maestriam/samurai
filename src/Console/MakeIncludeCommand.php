@@ -20,7 +20,7 @@ class MakeIncludeCommand extends BaseCommand
     /**
      * {@inheritDoc}
      */
-    protected string $successMessage = 'Include [%s] created in %s';
+    protected string $successMessage = 'Include [%s] created into [%s]: %s';
 
     /**
      * {@inheritDoc}
@@ -44,7 +44,7 @@ class MakeIncludeCommand extends BaseCommand
 
             $this->clean();
 
-            return $this->success($name, $include->relative());
+            return $this->success($name, $theme, $include->relative());
 
         } catch (Exception $e) {
             return $this->failure($e);

@@ -2,11 +2,10 @@
 
 namespace Maestriam\Samurai\Tests\Unit\Entities\Includer;
 
-use Maestriam\Samurai\Entities\Theme;
 use Maestriam\Samurai\Entities\Includer;
 use Maestriam\Samurai\Exceptions\DirectiveExistsException;
 
-class MakeIncluderTest extends IncluderTestCase
+class CreateIncluderTest extends IncluderTestCase
 {
     public function testMakeInclude()
     {

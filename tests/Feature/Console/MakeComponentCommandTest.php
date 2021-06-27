@@ -2,6 +2,7 @@
 
 namespace Maestriam\Samurai\Tests\Feature\Console;
 
+use Maestriam\FileSystem\Support\FileSystem;
 use Maestriam\Samurai\Exceptions\DirectiveExistsException;
 use Maestriam\Samurai\Exceptions\InvalidThemeNameException;
 use Maestriam\Samurai\Tests\TestCase;
@@ -12,12 +13,15 @@ class MakeComponentCommandTest extends TestCase
     {
         $theme = 'bands/sepultura';
         $name  = 'roots-blood-roots';
-
+        $path  = $this->simulatePath($name);
+        
         $this->theme($theme)->findOrCreate()->use();
+
+        $info = sprintf('Component [%s] created into [%s]: %s', $name, $theme, $path);
 
         $cmd = sprintf("samurai:make-component %s %s", $name, $theme);
 
-        $this->artisan($cmd)->assertExitCode(0);
+        $this->artisan($cmd)->expectsOutput($info)->assertExitCode(0);
     }
 
     public function testMakeComponentWithReverseOrder()
@@ -50,5 +54,16 @@ class MakeComponentCommandTest extends TestCase
              ->expectsOutput($msg)
              ->assertExitCode(DirectiveExistsException::CODE);
 
+    }
+
+    private function simulatePath(string $sentence) : string
+    {
+        $base = config('samurai.structure.component');
+
+        $ext = 'component.blade.php';
+
+        $path = sprintf('/%s%s-%s', $base, $sentence, $ext); 
+
+        return FileSystem::folder($path)->sanitize();
     }
 }

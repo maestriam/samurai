@@ -20,7 +20,7 @@ class MakeComponentCommand extends BaseCommand
     /**
      * {@inheritDoc}
      */
-    protected string $successMessage = 'Component [%s] created in %s';
+    protected string $successMessage = 'Component [%s] created into [%s]: %s';
 
     /**
      * {@inheritDoc}
@@ -44,7 +44,7 @@ class MakeComponentCommand extends BaseCommand
 
             Samurai::base()->clean();
 
-            return $this->success($name, $component->path());
+            return $this->success($name, $theme, $component->relative());
 
         } catch (Exception $e) {
             return $this->failure($e);
