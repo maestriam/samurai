@@ -1,11 +1,11 @@
 <?php
 
-namespace Maestriam\Samurai\Tests\Foundation\SyntaxValidator;
+namespace Maestriam\Samurai\Tests\Unit\Foundation\SyntaxValidator;
 
 /**
  * Testes de funcionalidades básicas apresentadas no README.md
  */
-class ValidAuthorTest extends SyntaxValidatorTest
+class ValidAuthorTest extends SyntaxValidatorTestCase
 {
     /**
      * Undocumented function

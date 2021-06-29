@@ -13,7 +13,7 @@ class SyntaxValidator
      */
     public function vendor(string $sentence) : bool
     {
-        $pattern = "/^[a-z0-9_.-]+\/[a-z0-9_.-]\w+/"; 
+        $pattern = "/^[a-z0-9_.-]{0,255}+\/[a-z0-9_.-]{0,255}\w+/"; 
 
         return (preg_match($pattern, $sentence)) ? true : false;
     }

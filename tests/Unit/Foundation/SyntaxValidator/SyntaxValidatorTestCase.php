@@ -1,6 +1,6 @@
 <?php
 
-namespace Maestriam\Samurai\Tests\Foundation\SyntaxValidator;
+namespace Maestriam\Samurai\Tests\Unit\Foundation\SyntaxValidator;
 
 use Maestriam\Samurai\Tests\TestCase;
 use Maestriam\Samurai\Foundation\SyntaxValidator;
@@ -8,7 +8,7 @@ use Maestriam\Samurai\Foundation\SyntaxValidator;
 /**
  * Testes de funcionalidades básicas apresentadas no README.md
  */
-class SyntaxValidatorTest extends TestCase
+class SyntaxValidatorTestCase extends TestCase
 {
     public function testInitTheme()
     {
@@ -49,7 +49,6 @@ class SyntaxValidatorTest extends TestCase
         $this->assertIsBool($result);
         $this->assertFalse($result);
     }
-
 
     /**
      * Contesta um teste para verificar se há retorno de sucesso

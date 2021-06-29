@@ -7,7 +7,7 @@ use Maestriam\Samurai\Entities\Theme;
 use Maestriam\Samurai\Exceptions\DirectiveExistsException;
 use Maestriam\Samurai\Tests\TestCase;
 
-class MakeComponentTest extends TestCase
+class CreateComponentTest extends TestCase
 {
     public function testInitComponent()
     {

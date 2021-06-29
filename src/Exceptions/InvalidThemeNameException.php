@@ -23,7 +23,7 @@ class InvalidThemeNameException extends BaseException
      */
     public function getErrorMessage() : string
     {
-        return 'The name [%s] is an invalid. Its not possible to create an theme with special characters and start number.';
+        return "The name [%s] is an invalid. It's not possible to create a theme with special characters and which starts with numbers. ";
     }
 
     /**

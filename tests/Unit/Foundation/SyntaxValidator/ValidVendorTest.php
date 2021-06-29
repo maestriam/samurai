@@ -1,11 +1,11 @@
 <?php
 
-namespace Maestriam\Samurai\Tests\Foundation\SyntaxValidator;
+namespace Maestriam\Samurai\Tests\Unit\Foundation\SyntaxValidator;
 
 /**
  * Testes de funcionalidades básicas apresentadas no README.md
  */
-class ValidVendorTest extends SyntaxValidatorTest
+class ValidVendorTest extends SyntaxValidatorTestCase
 {
     /**
      * Verifica se há sucesso ao passar um vendor/theme válido
@@ -72,13 +72,20 @@ class ValidVendorTest extends SyntaxValidatorTest
     }
 
     /**
-     * Undocumented function
+     * Verifica se é possível criar um tema começando com números.  
      *
      * @return void
      */
     public function testThemeStartWithNumbers()
     {
         $vendor = 'vendor/123theme';
+
+        $this->assertValidVendor($vendor);
+    }
+
+    public function testThemeWithNamesLessThreeCaracters()
+    {
+        $vendor = 'x/d';
 
         $this->assertValidVendor($vendor);
     }
