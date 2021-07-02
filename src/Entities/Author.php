@@ -72,23 +72,6 @@ class Author extends Foundation
     }
 
     /**
-     * Retorna/Define a distribuidora do autor do tema.  
-     * Se passar uma string como parâmetro, assume a função de definição.  
-     * Informações utilizados dentro arquivo composer.json  
-     *
-     * @param string $dist
-     * @return Author|string
-     */
-    // public function dist(string $dist = null) : Author|string
-    // {
-    //     if (! $dist) {
-    //         return $this->getDist();
-    //     } 
-        
-    //     return $this->setDist($dist);
-    // }
-
-    /**
      * Retorna a assinatura do autor.   
      * Ex: Joe Doe <foo@acme.com>
      *
@@ -104,10 +87,10 @@ class Author extends Foundation
      * Ex: Giu Sampaio <<email@email.com>>
      * 
      * @param string $author
-     * @return void
+     * @return Author
      * @throws InvalidAuthorException
      */
-    public function set(string $author)
+    public function set(string $author) : Author
     {
         if (! $this->valid()->author($author)) {
             throw new InvalidAuthorException($author);
@@ -172,28 +155,6 @@ class Author extends Foundation
     private function getEmail() : string
     {
         return $this->email ?? $this->config()->author()->email;
-    }
-
-    /**
-     * Define a distribuidora do autor do tema
-     *
-     * @param string $dist
-     * @return Author
-     */
-    private function setDist(string $dist) : Author
-    {
-        $this->dist = $dist;
-        return $this;
-    }
-
-    /**
-     * Retorna o distribuidora do autor do tema
-     *
-     * @return string
-     */
-    private function getDist() : string
-    {
-        return $this->dist ?? $this->config()->author()->dist;
     }
 
     /**

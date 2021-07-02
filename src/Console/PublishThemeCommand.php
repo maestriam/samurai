@@ -40,7 +40,7 @@ class PublishThemeCommand extends BaseCommand
 
             $theme = Samurai::theme($name);
             
-            $ret = $theme->publish();
+            $theme->publish();
 
             return $this->success($theme->package());
 
