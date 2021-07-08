@@ -10,8 +10,8 @@ class ThemeSearch
      * Retorna uma instância de uma diretiva de acordo
      * com os dados do nome, do tipo e do tema a qual pertence
      *
-     * @param string $name  Nome da diretiva
-     * @param string $type  Tipo que pertence
+     * @param  string $name Nome da diretiva
+     * @param  string $type Tipo que pertence
      * @return Directive
      */
     private function directivefy(string $name, string $type) : Directive
@@ -23,7 +23,7 @@ class ThemeSearch
      * Retorna se existe o diretório do tema
      * na base de temas
      *
-     * @param string $name   Nome do tema
+     * @param  string $name Nome do tema
      * @return boolean
      */
     public function exists() : bool

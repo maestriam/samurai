@@ -10,7 +10,9 @@ use Maestriam\Samurai\Entities\Component;
 use Maestriam\Samurai\Entities\Includer;
 
 class DirectiveParser implements DirectiveParserContract
-{   
+{
+
+   
     private SyntaxValidator $validator;
 
     private Theme $theme;
@@ -31,15 +33,15 @@ class DirectiveParser implements DirectiveParserContract
     /**
      * Recupera todas as informações de um diretiva atráves do seu caminho completo.  
      *
-     * @param string $file
+     * @param  string $file
      * @return void
      */
     public function parse(string $file) : DirectiveParser
     {
         $this->setFile($file)
-             ->setRelative()
-             ->setNameAndType()
-             ->setSentence();
+            ->setRelative()
+            ->setNameAndType()
+            ->setSentence();
             
         return $this;
     }
@@ -98,7 +100,7 @@ class DirectiveParser implements DirectiveParserContract
     /**
      * Define o tema que será utilizado para manipulação
      *
-     * @param Theme $theme
+     * @param  Theme $theme
      * @return DirectiveParser
      */
     private function setTheme(Theme $theme) : DirectiveParser
@@ -131,7 +133,7 @@ class DirectiveParser implements DirectiveParserContract
     /**
      * Define o arquivo que será interpretado.  
      *
-     * @param string $file
+     * @param  string $file
      * @return DirectiveParser
      */
     private function setFile(string $file) : DirectiveParser

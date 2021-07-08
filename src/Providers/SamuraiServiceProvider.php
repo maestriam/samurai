@@ -30,9 +30,11 @@ class SamuraiServiceProvider extends ServiceProvider
 
     private function registerFacade()
     {
-        $this->app->bind('samurai',function() {
-            return new Samurai();
-        });
+        $this->app->bind(
+            'samurai', function () {
+                return new Samurai();
+            }
+        );
     }
 
     /**

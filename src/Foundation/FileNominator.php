@@ -14,8 +14,8 @@ class FileNominator
      * Retorna o nome da diretiva para ser usado
      * como nome de arquivo
      *
-     * @param string $name
-     * @param string $type
+     * @param  string $name
+     * @param  string $type
      * @return string
      */
     public function directive(string $name, string $type) : string
@@ -27,8 +27,8 @@ class FileNominator
      * Retorna como deve ser o nome do arquivo de uma diretiva
      * com os padrões impostos pelo Blade.  
      *
-     * @param string $name
-     * @param string $type
+     * @param  string $name
+     * @param  string $type
      * @return void
      */
     public function filename(string $name, string $type) : string
@@ -40,8 +40,8 @@ class FileNominator
      * Retorna o nome para o ser chamado dentro do
      * projeto Blade
      *
-     * @param string $theme
-     * @param string $path
+     * @param  string $theme
+     * @param  string $path
      * @return void
      */
     public function blade(string $theme, string $path) : string
@@ -69,7 +69,7 @@ class FileNominator
      * Retorna o nome para ser chamado dentro do arquivo Blade,
      * como kebab-case
      *
-     * @param string $name
+     * @param  string $name
      * @return string
      */
     public function kebabAlias(string $name) : string
@@ -81,7 +81,7 @@ class FileNominator
      * Retorna o nome para ser chamado dentro do arquivo Blade,
      * como kebab-case
      *
-     * @param string $name
+     * @param  string $name
      * @return string
      */
     public function camelAlias(string $name) : string

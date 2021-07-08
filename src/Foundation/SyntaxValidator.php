@@ -8,7 +8,7 @@ class SyntaxValidator
      * Verifica se o padrão "vendor/theme"
      * foi preenchido corretamente
      *
-     * @param string $sentence
+     * @param  string $sentence
      * @return boolean
      */
     public function vendor(string $sentence) : bool
@@ -22,7 +22,7 @@ class SyntaxValidator
      * Verifica se o padrão "Nome do author <email@domain>"
      * foi preenchido corretamente
      *
-     * @param string $sentence
+     * @param  string $sentence
      * @return boolean
      */
     public function author(string $sentence) : bool
@@ -36,7 +36,7 @@ class SyntaxValidator
      * Verifica se o padrão para o nome do tema está correto.  
      * Retorna true se estiver correto.  
      *
-     * @param string $name
+     * @param  string $name
      * @return boolean
      */
     public function theme(string $name) : bool
@@ -50,7 +50,7 @@ class SyntaxValidator
      * Verifica se o padrão para o nome de uma diretiva está correto.  
      * Retorna true se estiver correto.  
      *
-     * @param string $name
+     * @param  string $name
      * @return boolean
      */
     public function directive(string $name) : bool
@@ -73,7 +73,7 @@ class SyntaxValidator
      * Verifica se o tipo da diretiva é um tipo aceitável pelo sistema.  
      * Retorna true se estiver correto.  
      *
-     * @param string $type
+     * @param  string $type
      * @return boolean
      */
     public function type(string $type = null) : bool

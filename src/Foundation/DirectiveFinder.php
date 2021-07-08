@@ -39,7 +39,7 @@ class DirectiveFinder
     /**
      * Retorna a instância de uma diretiva includer, de acordo com o tema e a sentença.  
      *
-     * @param string $sentence
+     * @param  string $sentence
      * @return Includer
      */
     public function include(string $sentence) : Includer
@@ -50,7 +50,7 @@ class DirectiveFinder
     /**
      * Retorna a instância de uma diretiva component, de acordo com o tema e a sentença.  
      *
-     * @param string $sentence
+     * @param  string $sentence
      * @return Component
      */
     public function component(string $sentence) : Component
@@ -71,7 +71,7 @@ class DirectiveFinder
     /**
      * Inicia os atributos necessários para instanciar a classe.  
      *
-     * @param Theme $theme
+     * @param  Theme $theme
      * @return DirectiveFinder
      */
     private function init(Theme $theme) : DirectiveFinder

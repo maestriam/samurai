@@ -16,7 +16,8 @@ class LoadThemesServiceProvider extends ServiceProvider
     {
         $theme = Samurai::base()->current();
 
-        if ($theme == null) return false;
+        if ($theme == null) { return false;
+        }
 
         return $theme->load();
     }

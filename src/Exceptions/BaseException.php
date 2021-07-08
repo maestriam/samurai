@@ -9,7 +9,7 @@ abstract class BaseException extends Exception
     /**
      * Inicia os atributos de acordo com o código de erro
      *
-     * @param string $code
+     * @param  string $code
      * @return void
      */
     public function initialize(string ...$params)
@@ -20,7 +20,7 @@ abstract class BaseException extends Exception
     /**
      * Define qual será o número do código de retorno
      *
-     * @param integer $code
+     * @param  integer $code
      * @return BaseException
      */
     protected function setCode() : BaseException
@@ -33,8 +33,8 @@ abstract class BaseException extends Exception
     /**
      * Define a mensagem de texto que será enviado para o cliente
      *
-     * @param string $theme
-     * @param string $name
+     * @param  string $theme
+     * @param  string $name
      * @return BaseException
      */
     protected function setMessage(array $params = []) : BaseException

@@ -22,8 +22,8 @@ class RegistersThemesProvider extends ServiceProvider
      * Registra um caminho como parte da base de views
      * do Laravel
      *
-     * @param string $source
-     * @param string $namespace
+     * @param  string $source
+     * @param  string $namespace
      * @return void
      */
     protected function registerView($source, $namespace)

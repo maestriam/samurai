@@ -7,7 +7,9 @@ use Maestriam\Samurai\Contracts\Entities\ComposerContract;
 use Maestriam\Samurai\Exceptions\InvalidComposerFileException;
 
 class Composer extends Source implements ComposerContract
-{    
+{
+
+    
     /**
      * Caminho absoluto do arquivo
      * 
@@ -159,7 +161,7 @@ class Composer extends Source implements ComposerContract
     /**
      * Define a descrição do tema
      *
-     * @param string $desc
+     * @param  string $desc
      * @return Composer
      */
     private function setDescription(string $desc) : Composer
@@ -172,7 +174,7 @@ class Composer extends Source implements ComposerContract
     /**
      * Define as informações extraídas do 
      *
-     * @param object $info
+     * @param  object $info
      * @return Composer
      */
     private function setInfo(object $info) : Composer
@@ -197,7 +199,7 @@ class Composer extends Source implements ComposerContract
     /**
      * Verifica se o arquivo composer do tema é válido
      *
-     * @param object $json
+     * @param  object $json
      * @return boolean
      */
     private function isValid(object $json) : bool
@@ -220,7 +222,7 @@ class Composer extends Source implements ComposerContract
     /**
      * Pega as informações do arquivo Json
      *
-     * @param object $json
+     * @param  object $json
      * @return Composer
      */
     private function extract(object $json) : Composer
@@ -233,7 +235,7 @@ class Composer extends Source implements ComposerContract
     /**
      * Define o caminho completo do arquivo composer.json dentro do tema
      *
-     * @param string $path
+     * @param  string $path
      * @return Composer
      */
     private function setPath(string $path) : Composer

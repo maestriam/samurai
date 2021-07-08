@@ -8,7 +8,9 @@ use Maestriam\Samurai\Exceptions\InvalidDirectiveNameException;
 use Maestriam\Samurai\Support\Samurai;
 
 class BaseCommand extends Command
-{    
+{
+
+    
     /**
      * O nome e a assinatura do método
      *
@@ -50,7 +52,7 @@ class BaseCommand extends Command
     /**
      * Retorna a mensagem de erro 
      *
-     * @param mixed ...$params
+     * @param  mixed ...$params
      * @return integer
      */
     protected function success(...$params) : int
@@ -65,7 +67,7 @@ class BaseCommand extends Command
     /**
      * Retorna a mensagem de erro ao usuário junto com seu código. 
      *
-     * @param Exception $e
+     * @param  Exception $e
      * @return integer
      */
     protected function failure(Exception $e) : int

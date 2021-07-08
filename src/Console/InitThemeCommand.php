@@ -97,7 +97,7 @@ class InitThemeCommand extends BaseCommand
     /**
      * Retorna a resposta de uma pergunta feita para o usuário
      *
-     * @param object $question
+     * @param  object $question
      * @return string
      */
     private function askFor(object $question) : string
@@ -110,9 +110,9 @@ class InitThemeCommand extends BaseCommand
     /**
      * Retorna se está de acordo para a criação do tema 
      *
-     * @param string $theme
-     * @param string $author
-     * @param string $desc
+     * @param  string $theme
+     * @param  string $author
+     * @param  string $desc
      * @return boolean
      */
     private function beSure(string $theme, string $author, string $desc) : bool

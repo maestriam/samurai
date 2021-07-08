@@ -19,7 +19,7 @@ interface ComposerContract
      * Retorna/Define a descrição do tema 
      * Se passar uma string como parâmetro, assume a função de definição
      *
-     * @param string $desc
+     * @param  string $desc
      * @return string|Composer
      */
     public function description(string $desc = null) : string|Composer;

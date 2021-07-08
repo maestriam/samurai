@@ -49,26 +49,26 @@ abstract class Directive extends Source implements DirectiveContract
      */
     protected string $path;
 
-   /**
-    * Apelido pelo qual é chamado dentro do projeto,
-    * como camel-case
-    * 
-    * @var string
-    */
+    /**
+     * Apelido pelo qual é chamado dentro do projeto,
+     * como camel-case
+     * 
+     * @var string
+     */
     protected string $camelAlias;
 
     /**
-    * Apelido pelo qual é chamado dentro do projeto,
-    * como camel-case
-    * 
-    * @var string
-    */
+     * Apelido pelo qual é chamado dentro do projeto,
+     * como camel-case
+     * 
+     * @var string
+     */
     protected string $kebabAlias;
 
     /**
      * Instância as regras de negócio de uma diretiva
      *
-     * @param Theme $theme
+     * @param Theme  $theme
      * @param string $sentence
      */
     public function __construct(Theme $theme, string $sentence)
@@ -201,13 +201,13 @@ abstract class Directive extends Source implements DirectiveContract
     }
 
         /**
-     * Carrega a diretiva (include/component) dentro do projeto como kabe-case.  
-     * Padrão utilizado no Blade UI.  
-     *
-     * @param string $file
-     * @param string $alias
-     * @return Directive
-     */
+         * Carrega a diretiva (include/component) dentro do projeto como kabe-case.  
+         * Padrão utilizado no Blade UI.  
+         *
+         * @param  string $file
+         * @param  string $alias
+         * @return Directive
+         */
     private function loadKebabAlias(string $file, string $alias) : Directive
     {
         Blade::component($file, $alias);
@@ -219,8 +219,8 @@ abstract class Directive extends Source implements DirectiveContract
      * Carrega o include dentro do projeto como camel-case.  
      * Padrão utilizado no Blade padrão.
      *
-     * @param string $file
-     * @param string $alias
+     * @param  string $file
+     * @param  string $alias
      * @return Directive
      */
     protected function loadInclude(string $file, string $alias) : Directive
@@ -234,8 +234,8 @@ abstract class Directive extends Source implements DirectiveContract
      * Carrega o include dentro do projeto como camel-case.  
      * Padrão utilizado no Blade padrão.
      *
-     * @param string $file
-     * @param string $alias
+     * @param  string $file
+     * @param  string $alias
      * @return Directive
      */
     protected function loadComponent(string $file, string $alias) : Directive
@@ -249,9 +249,9 @@ abstract class Directive extends Source implements DirectiveContract
      * Carrega todas as informações da diretiva através do tema,
      * nome da diretiva e com seu tipo
      *
-     * @param Theme $theme
-     * @param string $sentence
-     * @param string $type
+     * @param  Theme  $theme
+     * @param  string $sentence
+     * @param  string $type
      * @return void
      */
     protected function init(Theme $theme, string $sentence, string $type) : void
@@ -268,7 +268,7 @@ abstract class Directive extends Source implements DirectiveContract
      * Define a sentença que foi inserida pelo usuário via console,
      * que irá fornecer o nome/sub-diretório
      *
-     * @param Theme $theme
+     * @param  Theme $theme
      * @return Directive
      * @throws InvalidDirectiveNameException
      */
@@ -291,7 +291,7 @@ abstract class Directive extends Source implements DirectiveContract
     /**
      * Define o tipo da diretiva
      *
-     * @param string $type
+     * @param  string $type
      * @return Directive
      * @throws InvalidDirectiveNameException
      */
@@ -308,7 +308,7 @@ abstract class Directive extends Source implements DirectiveContract
     /**
      * Define o caminho absoluto do arquivo composer.json dentro do tema
      *
-     * @param string $path
+     * @param  string $path
      * @return Composer
      */
     protected function setPath() : Directive
@@ -320,7 +320,7 @@ abstract class Directive extends Source implements DirectiveContract
     /**
      * Define o nome da diretiva
      *
-     * @param string $name
+     * @param  string $name
      * @return Directive
      */
     protected function setName(string $name) : Directive

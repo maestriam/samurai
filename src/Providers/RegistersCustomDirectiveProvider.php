@@ -21,15 +21,17 @@ class RegistersCustomDirectiveProvider extends ServiceProvider
      */
     protected function registerPublic()
     {             
-        Blade::directive('public', function ($file) : string {
+        Blade::directive(
+            'public', function ($file) : string {
                       
-            $theme = Samurai::base()->current(); 
+                $theme = Samurai::base()->current(); 
             
-            if ($theme == null) {
-                return null;
+                if ($theme == null) {
+                    return null;
+                }
+            
+                return $theme->url($file);
             }
-            
-            return $theme->url($file);
-        });
+        );
     }
 }

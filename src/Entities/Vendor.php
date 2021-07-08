@@ -74,7 +74,7 @@ class Vendor extends Foundation
     /**
      * Define o nome do pacote do projeto
      *
-     * @param string $package
+     * @param  string $package
      * @return Vendor
      */
     private function setPackage(string $package) : Vendor
@@ -128,7 +128,7 @@ class Vendor extends Foundation
     /**
      * Interpreta e define as informações sobre o vendor
      *
-     * @param string $package
+     * @param  string $package
      * @return void
      */
     private function set(string $package) : Vendor
@@ -139,7 +139,7 @@ class Vendor extends Foundation
     /**
      * Define o nome do projeto
      *
-     * @param string $name
+     * @param  string $name
      * @return Vendor
      */
     private function setName(string $name) : Vendor
@@ -155,7 +155,7 @@ class Vendor extends Foundation
     /**
      * Define o nome da distribuição do projeto
      *
-     * @param string $dist
+     * @param  string $dist
      * @return Vendor
      */
     private function setDist(string $dist) : Vendor

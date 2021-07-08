@@ -35,7 +35,7 @@ abstract class Source extends Foundation
     /**
      * Define o tema que será 
      *
-     * @param Theme $theme
+     * @param  Theme $theme
      * @return self
      */
     protected function setTheme(Theme $theme) : self
@@ -72,7 +72,7 @@ abstract class Source extends Foundation
     /**
      * Configura um novo drive para criação de tema   
      *
-     * @param Drive $drive
+     * @param  Drive $drive
      * @return Drive
      */
     private function initDrive(Drive $drive) : Drive

@@ -16,7 +16,7 @@ interface ThemeContract
      * Essas informações serão utilizadas para definir o nome e o distribuidor do tema.  
      * Se passar uma string como parâmetro, irá assumir que você quer definir o vendor.  
      *
-     * @param string $vendor
+     * @param  string $vendor
      * @return Theme
      */
     public function vendor() : Vendor;
@@ -25,7 +25,7 @@ interface ThemeContract
      * Define a descrição do tema
      * Usado no arquivo composer.json
      *
-     * @param string $author
+     * @param  string $author
      * @return Author|Theme
      */
     public function author(string $author = null) : Author|Theme;
@@ -86,7 +86,7 @@ interface ThemeContract
      * Define a descrição do tema.  
      * Usado no arquivo composer.json
      *
-     * @param string $description
+     * @param  string $description
      * @return Theme|string
      */
     public function description(string $description = null) : Theme|string;
@@ -118,7 +118,7 @@ interface ThemeContract
     /**
      * Retorna a instância de uma diretiva include para o tema.  
      *
-     * @param string $sentence
+     * @param  string $sentence
      * @return Includer
      */
     public function include(string $sentence) : Includer;
@@ -126,7 +126,7 @@ interface ThemeContract
     /**
      * Retorna a instância de uma diretiva component para o tema.  
      *
-     * @param string $sentence
+     * @param  string $sentence
      * @return Component
      */
     public function component(string $sentence) : Component;

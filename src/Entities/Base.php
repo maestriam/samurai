@@ -88,7 +88,7 @@ class Base extends Foundation
     /**
      * Limpa o cache da aplicação Laravel
      *
-     * @todo Pensar em um lugar melhor para deixar essa função. 
+     * @todo   Pensar em um lugar melhor para deixar essa função. 
      * @return void
      */
     public function clean()
@@ -100,7 +100,7 @@ class Base extends Foundation
      * Retorna a instância de um tema.  
      * Se o tema não existir no projeto, retorna nulo.  
      *
-     * @param string $package
+     * @param  string $package
      * @return Theme|null
      */
     private function find(string $package) : ?Theme

@@ -128,7 +128,7 @@ class Foundation
      * Classe auxiliar para identificar o nome e o tipo da diretiva, 
      * através de seu caminho absoluto
      *
-     * @param string $file
+     * @param  string $file
      * @return object|null
      */
     protected function parser() : FilenameParser

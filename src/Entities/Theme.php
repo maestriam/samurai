@@ -278,15 +278,15 @@ class Theme extends Foundation implements ThemeContract
      * Inicia as regras de negócio do tema  
      * Se o tema já existir dentro do projeto, carrega suas informações  
      *
-     * @param string $package
+     * @param  string $package
      * @return Theme
      */
     private function init(string $package) : Theme
     {
         $this->setVendor($package)
-             ->setDirectiveFinder()
-             ->setComposer()
-             ->setStructure();
+            ->setDirectiveFinder()
+            ->setComposer()
+            ->setStructure();
 
         if ($this->exists()) {
             return $this->import();
@@ -326,7 +326,7 @@ class Theme extends Foundation implements ThemeContract
     /**
      * Define as informações do autor do tema
      *
-     * @param string $author
+     * @param  string $author
      * @return Theme
      */
     private function setAuthor(string $author) : Theme

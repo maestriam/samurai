@@ -15,7 +15,7 @@ class ThemeNotFoundException extends BaseException
      */
     public function __construct(string $name)
     {
-        $this->initialize( $name);
+        $this->initialize($name);
     }
 
     /**

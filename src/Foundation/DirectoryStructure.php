@@ -27,7 +27,7 @@ class DirectoryStructure
      * Retorna o caminho do tema dentro do diretório-base
      * de temas ou dentro do diretório do composer
      *
-     * @param string $name
+     * @param  string $name
      * @return string
      */
     public function theme(string $vendor, string $name) : ?string
@@ -57,7 +57,7 @@ class DirectoryStructure
     /**
      * Undocumented function
      *
-     * @param string $name
+     * @param  string $name
      * @return void
      */
     public function assets(string $vendor, string $name) : string
@@ -71,7 +71,7 @@ class DirectoryStructure
      * Retorna o caminho público onde os assets
      * do tema são armazenados
      *
-     * @param string $name
+     * @param  string $name
      * @return string
      */
     public function public(string $vendor, string $name) : string
@@ -83,7 +83,7 @@ class DirectoryStructure
      * Retorna o nome do diretório do projeto
      * Para receber o caminho completo, basta passar true em $path
      *
-     * @param boolean $path
+     * @param  boolean $path
      * @return string
      */
     public function project(bool $path = false) : string
@@ -98,7 +98,7 @@ class DirectoryStructure
     /**
      * Undocumented function
      *
-     * @param string $name
+     * @param  string $name
      * @return void
      */
     public function files(string $vendor, string $name) : string
@@ -111,8 +111,8 @@ class DirectoryStructure
     /**
      * Undocumented function
      *
-     * @param string $vendor
-     * @param string $name
+     * @param  string $vendor
+     * @param  string $name
      * @return string|null
      */
     private function findVendor(string $vendor, string $name) : ?string
@@ -127,8 +127,8 @@ class DirectoryStructure
     /**
      * Retorna o caminho do diretório de um tema dado o nome
      *
-     * @param string $base
-     * @param string $name
+     * @param  string $base
+     * @param  string $name
      * @return string|null
      */
     private function findTheme(string $base, string $vendor, string $name) : string

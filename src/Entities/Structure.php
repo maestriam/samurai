@@ -4,7 +4,7 @@ namespace Maestriam\Samurai\Entities;
 
 use Maestriam\FileSystem\Support\FileSystem;
 
-class Structure extends Foundation 
+class Structure extends Foundation
 {
     /**
      * Nome do distribuido do tema
@@ -38,11 +38,11 @@ class Structure extends Foundation
     }
 
      /**
-     * Retorna o caminho do diretório onde são armazenados
-     * os arquivos de assets (js/css/imgs)
-     *
-     * @return string
-     */
+      * Retorna o caminho do diretório onde são armazenados
+      * os arquivos de assets (js/css/imgs)
+      *
+      * @return string
+      */
     public function assets() : string 
     {        
         return $this->dir()->assets($this->dist, $this->theme);
@@ -84,7 +84,7 @@ class Structure extends Foundation
      * Carrega as informações do vendor para gerar os caminhos 
      * do tema específicado
      *
-     * @param Vendor $vendor
+     * @param  Vendor $vendor
      * @return Structure
      */
     private function loadVendor(Vendor $vendor) : Structure

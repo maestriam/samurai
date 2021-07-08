@@ -37,12 +37,12 @@ class Author extends Foundation
      * Se passar uma string como parâmetro, assume a função de definição.  
      * Informações utilizados dentro arquivo composer.json.  
      *
-     * @param string $name
+     * @param  string $name
      * @return Author|string
      */
     public function name(string $name = null) : Author|string
     {
-        if (! $name)  {
+        if (! $name) {
             return $this->getName();
         }  
         
@@ -54,7 +54,7 @@ class Author extends Foundation
      * Se passar uma string como parâmetro, assume a função de definição.  
      * Informações utilizados dentro arquivo composer.json  
      *
-     * @param string $email
+     * @param  string $email
      * @return Author|string
      */
     public function email(string $email = null) : Author|string
@@ -81,7 +81,7 @@ class Author extends Foundation
      * Define o nome e o autor do tema, de acordo com o padrão:  
      * Ex: Giu Sampaio <<email@email.com>>
      * 
-     * @param string $author
+     * @param  string $author
      * @return Author
      * @throws InvalidAuthorException
      */
@@ -99,7 +99,7 @@ class Author extends Foundation
     /**
      * Carrega o nome, distribuidora e o e-mail do autor de um objeto específico
      *
-     * @param object $author
+     * @param  object $author
      * @return Author
      */
     private function load(object $author) : Author
@@ -111,7 +111,7 @@ class Author extends Foundation
      * Define o nome do autor do tema
      * Usado no arquivo composer.json
      *
-     * @param string $name
+     * @param  string $name
      * @return Author
      */
     private function setName(string $name) : Author
@@ -133,7 +133,7 @@ class Author extends Foundation
     /**
      * Define o email do autor do tema
      *
-     * @param string $email
+     * @param  string $email
      * @return Author
      */
     private function setEmail(string $email) : Author

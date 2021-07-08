@@ -71,9 +71,9 @@ class Wizard extends Foundation
      * Retorna a pergunta de confirmação da criação do tema, 
      * com uma prévia de como irá ficar o composer.json.  
      *
-     * @param string $vendor
-     * @param string $author
-     * @param string $desc
+     * @param  string $vendor
+     * @param  string $author
+     * @param  string $desc
      * @return object
      */
     public function confirm(string $vendor, string $author, string $desc) : object

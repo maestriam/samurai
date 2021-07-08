@@ -16,11 +16,11 @@ class EnvHandler
     }
     
     /**
-      * Cria um novo arquivo de configurações do ambiente do projeto
-      *
-      * @param string $custom
-      * @return integer
-      */
+     * Cria um novo arquivo de configurações do ambiente do projeto
+     *
+     * @param  string $custom
+     * @return integer
+     */
     public function initEnv() : int
     {        
         return touch($this->file());
@@ -41,8 +41,8 @@ class EnvHandler
     /**
      * Undocumented function
      *
-     * @param string $key
-     * @param string $value
+     * @param  string $key
+     * @param  string $value
      * @return void
      */
     public function set(string $key, string $value)
@@ -59,14 +59,15 @@ class EnvHandler
     /**
      * Retorna o valor de uma chave dentro .env
      *
-     * @param string $key
+     * @param  string $key
      * @return string|null
      */
     public function get(string $key) : ?string
     {
         $no = $this->existsKey($key);
 
-        if ($no === null) return null;
+        if ($no === null) { return null;
+        }
 
         $lines = $this->lines();
 
@@ -80,7 +81,7 @@ class EnvHandler
      * Se existir, retorna seu índice dentro do array
      * Caso contrário, nulo
      *
-     * @param string $key
+     * @param  string $key
      * @return integer|null
      */
     public function existsKey(string $key) : ?int
@@ -89,7 +90,8 @@ class EnvHandler
         $lines   = $this->lines();
         $pattern = strtoupper('/'. $key . '=/');
 
-        if (empty($lines)) return null;
+        if (empty($lines)) { return null;
+        }
 
         foreach($lines as $no => $line) {
             if (preg_match($pattern, $line)) {
@@ -141,8 +143,8 @@ class EnvHandler
     /**
      * Adiciona uma nova chave no arquivo .env
      *
-     * @param string $key
-     * @param string $value
+     * @param  string $key
+     * @param  string $value
      * @return void
      */
     private function append(string $key, string $value)
@@ -158,8 +160,8 @@ class EnvHandler
      * Substitui o valor de uma chave exsitente
      * no arquivo .env
      *
-     * @param string $key
-     * @param string $value
+     * @param  string $key
+     * @param  string $value
      * @return void
      */
     private function change(int $line, string $key, string $value)
@@ -175,7 +177,7 @@ class EnvHandler
     /**
      * Undocumented function
      *
-     * @param array $lines
+     * @param  array $lines
      * @return void
      */
     private function store(array $lines)
