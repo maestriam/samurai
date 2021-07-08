@@ -24,6 +24,10 @@ coding_style:
                 general: lower
             constants:
                 true_false_null: lower
+build:
+    environment:
+        php:
+            version: '8.0'                
 checks:
     php:
         verify_property_names: true
