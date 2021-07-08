@@ -4,14 +4,14 @@ namespace Maestriam\Samurai\Entities;
 
 use Maestriam\Samurai\Exceptions\InvalidAuthorException;
 
-class Author extends Foundation 
+class Author extends Foundation
 {
     /**
      * Nome do autor do tema
      * 
      * @var string
      */
-    private string $name; 
+    private string $_name; 
     
     /**
      * E-mail do autor do tema
@@ -19,11 +19,6 @@ class Author extends Foundation
      * @var string
      */
     private string $email;
-
-    /**
-     * Distribuidora do autor
-     */
-    private string $dist;
 
     /**
      * Instância com as regras de negócios sobre o autor do tema.  
