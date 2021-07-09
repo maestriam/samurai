@@ -17,8 +17,7 @@ class FilenameParser
         $type = $this->parseType($file);
         $name = $this->parseFullName($file);
 
-        if (! $name || ! $type) { return null;
-        }
+        if (! $name || ! $type) return null;
 
         $request = [
             'name' => $name,

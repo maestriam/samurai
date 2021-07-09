@@ -25,6 +25,8 @@ coding_style:
             constants:
                 true_false_null: lower
 build:
-    environment:
+  nodes:
+    my-tests:
+      environment:
         php:
-            version: '8.0'
+          version: 8.0  # or any other released version

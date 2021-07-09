@@ -146,9 +146,9 @@ abstract class Directive extends Source implements DirectiveContract
             throw new DirectiveExistsException($this->name(), $this->theme()->package());
         }
 
-        $info = $this->createFile();
+        $this->createFile();
 
-        $this->setPath($info->absolute_path);
+        $this->setPath();
 
         return $this;
     }
