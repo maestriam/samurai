@@ -4,7 +4,7 @@ All Notable changes to `maestriam/samurai` will be documented in this file.
 
 ## Next
 
-## 3.0.0 - 2021-08
+## 3.0.0 - 2021-07
 
 ### Added
 
