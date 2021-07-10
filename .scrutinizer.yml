@@ -27,11 +27,13 @@ coding_style:
 build:
   nodes:
     tests:
-      environment:
-        php:
-          version: 8.0  # or any other released version
-      override:
-        - php-scrutinizer-run
+        environment:
+            php:
+                version: 8.0  # or any other released version
+    analysis:
+        tests:
+            override:
+                - php-scrutinizer-run
 checks:
     php:
         verify_property_names: true
