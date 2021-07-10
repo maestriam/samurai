@@ -8,6 +8,7 @@ use Maestriam\Samurai\Foundation\DirectiveFinder;
 use Maestriam\Samurai\Exceptions\ThemeExistsException;
 use Maestriam\Samurai\Exceptions\ThemeNotFoundException;
 use Maestriam\Samurai\Contracts\Entities\ThemeContract;
+use Maestriam\Samurai\Foundation\ThemePublisher;
 
 class Theme extends Foundation implements ThemeContract
 {
@@ -46,6 +47,8 @@ class Theme extends Foundation implements ThemeContract
      * @var DirectiveFinder
      */
     protected DirectiveFinder $finderInstance;
+
+    protected ThemePublisher $publiserInstance;
 
     /**
      * Regras de negócio do tema
@@ -98,7 +101,7 @@ class Theme extends Foundation implements ThemeContract
      */
     public function paths() : Structure
     {
-        return $this->structureInstance;
+        return $this->structure();
     }
 
     /**
@@ -232,16 +235,7 @@ class Theme extends Foundation implements ThemeContract
      */
     public function publish() : bool
     {
-        if (! $this->exists()) {
-            throw new ThemeNotFoundException($this->package());
-        }
-
-        $from = $this->structure()->assets();
-        $to   = $this->structure()->public();
-
-        File::copyDirectory($from, $to);
-
-        return (is_dir($to)) ? true : false;
+        return $this->publiserInstance->publish();  
     }
     
     /**
@@ -284,14 +278,21 @@ class Theme extends Foundation implements ThemeContract
     private function init(string $package) : Theme
     {
         $this->setVendor($package)
-            ->setDirectiveFinder()
-            ->setComposer()
-            ->setStructure();
+             ->setDirectiveFinder()
+             ->setComposer()
+             ->setStructure()
+             ->setPublisher();
 
         if ($this->exists()) {
             return $this->import();
         }        
 
+        return $this;
+    }
+
+    private function setPublisher()
+    {
+        $this->publiserInstance = new ThemePublisher($this);
         return $this;
     }
 
@@ -428,5 +429,4 @@ class Theme extends Foundation implements ThemeContract
 
         throw new ThemeNotFoundException($this->package());
     }
-
 }

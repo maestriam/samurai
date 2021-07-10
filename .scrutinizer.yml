@@ -1,5 +1,6 @@
 build_failure_conditions:
     - 'elements.rating(< A).exists' 
+    - 'elements.rating(<= D).new.exists' 
 coding_style:
     php:
         braces:
@@ -24,6 +25,9 @@ coding_style:
                 general: lower
             constants:
                 true_false_null: lower
+filter:
+    excluded_paths:
+        - "vendor/"                
 build:
   nodes:
     tests:
