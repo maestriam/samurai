@@ -30,3 +30,5 @@ build:
       environment:
         php:
           version: 8.0  # or any other released version
+checks:
+    php: true
