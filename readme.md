@@ -11,7 +11,7 @@
 <span align="center">
 
 ![Travis Build](https://img.shields.io/travis/maestriam/samurai/master?style=flat-square)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/quality/b/maestriam/samurai/master?style=flat-square)](https://scrutinizer-ci.com/g/maestriam/samurai/?branch=master)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/quality/g/maestriam/samurai/master?style=flat-square)](https://scrutinizer-ci.com/g/maestriam/samurai/?branch=master)
 ![GitHub Last Commit](https://img.shields.io/github/last-commit/maestriam/filesystem?style=flat-square)
 
 </span>
