@@ -2,32 +2,63 @@
 
 namespace Maestriam\Samurai\Tests\Feature\Console;
 
-use Tests\TestCase;
-use Maestriam\Samurai\Traits\Themeable;
-use Illuminate\Foundation\Testing\WithFaker;
-use Maestriam\Samurai\Traits\Testing\FakeValues;
+use Illuminate\Support\Facades\Artisan;
+use Maestriam\FileSystem\Support\FileSystem;
+use Maestriam\Samurai\Exceptions\DirectiveExistsException;
+use Maestriam\Samurai\Exceptions\InvalidThemeNameException;
+use Maestriam\Samurai\Tests\TestCase;
 
 class MakeIncludeCommandTest extends TestCase
-{
-    use Themeable, WithFaker, FakeValues;
-    
-    /**
-     * Undocumented function
-     *
-     * @return void
-     */
-    public function testHappyPath()
+{    
+    public function testMakeValidInclude()
     {
-        $theme   = $this->base()->current();
-        $include = $this->fakeInclude();
+        $theme = 'bands/slayer';
+        $name  = 'songs/world-painted-blood';
+        $path  = $this->simulatePath($name);
 
-        $this->success($theme->vendor, $include);
+        $this->theme($theme)->findOrCreate()->use();
+
+        $info = sprintf('Include [%s] created into [%s]: %s', $name, $theme, $path); 
+
+        $cmd = sprintf("samurai:make-include %s %s", $name, $theme);
+
+        $this->artisan($cmd)->expectsOutput($info)->assertExitCode(0);
     }
-    
-    private function success($theme, $include)
+
+    public function testMakeIncludeWithReverseOrder()
     {
-        $cmd = sprintf("samurai:make-include %s %s", $theme, $include);
+        $theme = 'bands/slayer';
+        $name  = 'mandatory-suicide';
+
+        $this->theme($theme)->findOrCreate()->use();
+
+        $cmd = sprintf("samurai:make-include %s %s", $theme, $name);
+
+        $this->artisan($cmd)->assertExitCode(InvalidThemeNameException::CODE);
+    }
+
+    public function testMakeExistingInclude()
+    {
+        $theme = 'bands/slayer';
+        $name  = 'bloodline';
+        $code  = DirectiveExistsException::CODE;
+        $error = 'Error to create include: The [%s] directive already exists in [%s] theme.';
+
+        $this->theme($theme)->findOrCreate()->use();
+
+        $cmd = sprintf("samurai:make-include %s %s", $name, $theme);
+        $msg = sprintf($error, $name, $theme);
 
         $this->artisan($cmd)->assertExitCode(0);
+        $this->artisan($cmd)->expectsOutput($msg)->assertExitCode($code);
+    }
+
+    private function simulatePath(string $sentence) : string
+    {
+        $base = config('samurai.structure.include');
+
+        $path = sprintf('/%s%s-include.blade.php', $base, $sentence); 
+
+        return FileSystem::folder($path)->sanitize();
     }
 }

@@ -3,26 +3,29 @@
 namespace Maestriam\Samurai\Console;
 
 use Exception;
-use Illuminate\Console\Command;
-use Maestriam\Samurai\Traits\Themeable;
-use Maestriam\Samurai\Traits\Shared\ConfigAccessors;
-use Maestriam\Samurai\Traits\Console\MessageLogging;
+use Maestriam\Samurai\Support\Samurai;
 
-class UseThemeCommand extends Command
+class UseThemeCommand extends BaseCommand
 {
-    use Themeable, ConfigAccessors, MessageLogging;
-
     /**
-     * The name and signature of the console command.
-     *
-     * @var string
+     * {@inheritDoc}
      */
     protected $signature = 'samurai:use {theme}';
+    
+    /**
+     * {@inheritDoc}
+     */
+    protected $description = 'Refresh cache and view in Laravel Project.';
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    /**
+     * {@inheritDoc}
+     */
+    protected string $successMessage = 'Theme [%s] is current and ready to use.';
+
+    /**
+     * {@inheritDoc}
+     */
+    protected string $errorMessage = 'Error to refresh project: %s';
 
     /**
      * Executa o comando para publicação de assets do tema
@@ -35,15 +38,14 @@ class UseThemeCommand extends Command
 
             $name = (string) $this->argument('theme');
 
-            $this->theme($name)->use();
+            Samurai::theme($name)->use()->publish();
             
-            $this->base()->clearCache();
+            $this->clean();
 
-            return $this->success('theme.used');
+            return $this->success($name);
 
         } catch (Exception $e) {
-
-            return $this->failed($e->getCode());
+            return $this->failure($e);
         }
     }
 }

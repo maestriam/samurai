@@ -2,27 +2,42 @@
 
 namespace Maestriam\Samurai\Tests\Feature\Console;
 
-use Tests\TestCase;
-use Maestriam\Samurai\Traits\Themeable;
-use Illuminate\Foundation\Testing\WithFaker;
-use Maestriam\Samurai\Traits\Testing\FakeValues;
+use Maestriam\Samurai\Exceptions\InvalidThemeNameException;
+use Maestriam\Samurai\Exceptions\ThemeExistsException;
+use Maestriam\Samurai\Tests\TestCase;
 
 class MakeThemeCommandTest extends TestCase
-{
-    use Themeable, WithFaker, FakeValues;
-    
-    public function testHappyPath()
+{    
+    public function testMakeValidTheme()
     {
-        $theme = $this->fakeTheme();
+        $theme = 'bands/helloween';
 
-        $this->success($theme);
-    }
-    
-    private function success($theme)
-    {
         $cmd = sprintf("samurai:make-theme %s", $theme);
-        
+
         $this->artisan($cmd)->assertExitCode(0);
     }
+
+    public function testInvalidTheme()
+    {
+        $theme = 'boy-bands';
+
+        $cmd = sprintf("samurai:make-theme %s", $theme);
+
+        $this->artisan($cmd)->assertExitCode(InvalidThemeNameException::CODE);
+    }
     
+    public function testeCreatingExistingTheme()
+    {
+        $name = 'bands/helloween';
+
+        $err = 'Error to create theme: The theme [%s] already exists in project.';
+        $cmd = sprintf('samurai:make-theme %s', $name);
+        $out = sprintf($err, $name);
+        
+        $this->artisan($cmd)->assertExitCode(0);
+
+        $this->artisan($cmd)
+             ->expectsOutput($out)
+             ->assertExitCode(ThemeExistsException::CODE);
+    }
 }

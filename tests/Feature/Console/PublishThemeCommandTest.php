@@ -2,27 +2,19 @@
 
 namespace Maestriam\Samurai\Tests\Feature\Console;
 
-use Tests\TestCase;
-use Maestriam\Samurai\Traits\Themeable;
-use Illuminate\Foundation\Testing\WithFaker;
-use Maestriam\Samurai\Traits\Testing\FakeValues;
+use Maestriam\Samurai\Exceptions\InvalidThemeNameException;
+use Maestriam\Samurai\Tests\TestCase;
 
 class PublishThemeCommandTest extends TestCase
-{
-    use Themeable, WithFaker, FakeValues;
-    
-    public function testHappyPath()
+{    
+    public function testPublishValidTheme()
     {
-        $theme = $this->base()->current();
+        $theme = 'bands/sodom';
 
-        $this->success($theme->vendor);
-    }
-    
-    private function success($theme)
-    {
+        $this->theme($theme)->findOrCreate();
+
         $cmd = sprintf("samurai:publish %s", $theme);
-        
+
         $this->artisan($cmd)->assertExitCode(0);
     }
-    
 }

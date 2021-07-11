@@ -5,10 +5,10 @@ namespace Maestriam\Samurai\Foundation;
 class FilenameParser
 {
     /**
-     * Undocumented function
+     * Baseado no caminho do arquivo, retorna o nome e o tipo da diretiva
      *
-     * @param string $themepath
-     * @param string $filepath
+     * @param  string $themepath
+     * @param  string $filepath
      * @return object
      */
     public function file(string $themepath, string $filepath) : ?object
@@ -28,9 +28,10 @@ class FilenameParser
     }
 
     /**
-     * Undocumented function
+     * Retorna o nome do arquivo e seu diretório,
+     * dado seu caminho dentro do sistema
      *
-     * @param string $path
+     * @param  string $path
      * @return object|null
      */
     public function filename(string $file) : ?object
@@ -38,22 +39,19 @@ class FilenameParser
         $name   = $this->parseOnlyName($file);
         $folder = $this->parseFolder($file);
         
-        if (! $name) return null;
-
-        $request = [
-            'name'   => $name,
-            'folder' => $folder
-        ];
-
-        return (object) $request;
+        if (! $name) {
+            return null;
+        }
+        
+        return (object) ['name' => $name, 'folder' => $folder];
     }
 
     /**
      * Interpreta a resposta do usuário para pegar
      * o e-mail e nome do autor
      *
-     * @param string $author
-     * @return void
+     * @param  string $author
+     * @return object
      */
     public function author(string $author) : object
     {
@@ -70,7 +68,7 @@ class FilenameParser
     /**
      * Undocumented function
      *
-     * @param string $vendor
+     * @param  string $vendor
      * @return object
      */
     public function vendor(string $vendor) : object
@@ -87,8 +85,8 @@ class FilenameParser
      * Retorna apenas o nome do arquivo da diretiva
      * Sem o caminho do tema a qual pertence
      *
-     * @param string $theme
-     * @param string $path
+     * @param  string $theme
+     * @param  string $path
      * @return string
      */
     private function parserFilename(string $theme, string $path) : string
@@ -99,7 +97,7 @@ class FilenameParser
     /**
      * Undocumented function
      *
-     * @param string $path
+     * @param  string $path
      * @return array
      */
     private function parseType(string $path) : string
@@ -118,8 +116,8 @@ class FilenameParser
     /**
      * Undocumented function
      *
-     * @param string $theme
-     * @param string $path
+     * @param  string $theme
+     * @param  string $path
      * @return string|null
      */
     private function parseFullName(string $path) : ?string
@@ -128,7 +126,11 @@ class FilenameParser
 
         $name = array_pop($pieces);
 
-        $name = (count($pieces) > 1) ? implode('/', $pieces) : $pieces[0];
+        if (empty($pieces)) {
+            return $name;
+        }
+
+        $name = (count($pieces) > 1) ? implode(DS, $pieces) : $pieces[0];
 
         return (! strlen($name)) ? null : $name;
     }
@@ -136,7 +138,7 @@ class FilenameParser
     /**
      * Undocumented function
      *
-     * @param string $name
+     * @param  string $name
      * @return void
      */
     private function parseFolder(string $name)
@@ -151,7 +153,7 @@ class FilenameParser
     /**
      * Undocumented function
      *
-     * @param string $name
+     * @param  string $name
      * @return void
      */
     private function parseOnlyName(string $name)

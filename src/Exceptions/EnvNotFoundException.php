@@ -6,6 +6,8 @@ use Maestriam\Samurai\Exceptions\BaseException;
 
 class EnvNotFoundException extends BaseException
 {
+    const CODE = '0301';
+
     /**
      * Define as configuração para enviar o exception
      *
@@ -13,7 +15,23 @@ class EnvNotFoundException extends BaseException
      */
     public function __construct()
     {
-        $this->initialize(ENV_NOT_FOUND_CODE);
+        $this->initialize();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getErrorMessage(): string
+    {
+        return 'File .env not found.';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getErrorCode(): string
+    {
+        return self::CODE;
     }
 }
 

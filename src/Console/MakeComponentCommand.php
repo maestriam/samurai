@@ -2,41 +2,30 @@
 
 namespace Maestriam\Samurai\Console;
 
-use Lang;
 use Exception;
-use Illuminate\Console\Command;
-use Maestriam\Samurai\Traits\Themeable;
-use Maestriam\Samurai\Traits\Shared\ConfigAccessors;
-use Maestriam\Samurai\Traits\Console\MessageLogging;
-use Maestriam\Samurai\Traits\Console\GetArguments;
+use Maestriam\Samurai\Support\Samurai;
 
-class MakeComponentCommand extends Command
+class MakeComponentCommand extends BaseCommand
 {
-    use Themeable, ConfigAccessors, MessageLogging, GetArguments;
-
     /**
-     * Assinatura Artisan
-     *
-     * @var string
+     * {@inheritDoc}
      */
     protected $signature = 'samurai:make-component {name} {theme?}';
 
     /**
-     * Descrição do comando Artisan
-     *
-     * @var string
+     * {@inheritDoc}
      */
     protected $description = 'Create a new component for specific theme';
 
     /**
-     * Construção da classe
-     *
-     * @return void
+     * {@inheritDoc}
      */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    protected string $successMessage = 'Component [%s] created into [%s]: %s';
+
+    /**
+     * {@inheritDoc}
+     */
+    protected string $errorMessage = 'Error to create component: %s';
 
     /**
      * Executa o comando de criação de componente atráves do Artisan
@@ -47,18 +36,18 @@ class MakeComponentCommand extends Command
     {
         try {
 
-            $args = $this->getArguments();
+            $name = $this->getDirectiveArgument();
 
-            $component = $this->theme($args->theme)
-                              ->component($args->name)
-                              ->create();
+            $theme = $this->getThemeArgument();
 
-            $this->base()->clearCache();
+            $component = Samurai::theme($theme)->component($name)->create();
 
-            return $this->created($component, 'component');
+            Samurai::base()->clean();
+
+            return $this->success($name, $theme, $component->relative());
 
         } catch (Exception $e) {
-            return $this->failed($e->getCode());
+            return $this->failure($e);
         }
     }
 }

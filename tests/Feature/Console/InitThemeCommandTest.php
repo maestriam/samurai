@@ -2,131 +2,110 @@
 
 namespace Maestriam\Samurai\Tests\Feature\Console;
 
-use Tests\TestCase;
-use Maestriam\Samurai\Traits\Themeable;
-use Illuminate\Foundation\Testing\WithFaker;
-use Maestriam\Samurai\Traits\Testing\FakeValues;
+use Maestriam\Samurai\Exceptions\ThemeExistsException;
+use Maestriam\Samurai\Support\Samurai;
+use Maestriam\Samurai\Tests\TestCase;
 
 class InitThemeCommandTest extends TestCase
-{
-    use Themeable, WithFaker, FakeValues;
-    
+{       
     /**
-     * Verifica se consegue percorrer em todas as perguntas
-     * do questionário com sucesso
-     *
-     * @return void
-     */
-    public function testInitTheme()
-    {
-        $theme  = $this->fakeTheme();
-        $author = $this->fakeAuthor();    
-        $desc   = $this->fakeDescription();    
-
-        $this->success($theme, $author, $desc);
-    }
-
-    /**
-     * Verifica se consegue continuar com o questionário
-     * passando um nome de tema inválido, como parâmetro
-     *
-     * @return void
-     */
-    public function testInvalidThemeName()
-    {
-        $themes = [
-            'vendor',
-            '/invalid',
-            'vëndor/madchen',
-            'vendor/mädchen',
-            'vendor name/theme-name',
-            'vendor-name/theme name',
-        ];
-
-        foreach ($themes as $case) {
-            $this->failedTheme($case);
-        }
-    }
-
-    /**
-     * Verifica se consegue continuar com o questionário
-     * passando um nome de tema inválido, como parâmetro
-     *
-     * @return void
-     */
-    public function testInvalidAuthor()
-    {
-        $theme  = $this->fakeTheme();
-
-        $authors = [
-            'Wrong author',  
-            'wrong author<mail@mail.com>',
-            'wrong author mail@mail.com',
-            'wrong author <m!ail@mail.com>',
-            'wrong authör <mail@mail.com>',
-            'mail@mail.com',
-        ];
-        
-        foreach ($authors as $case) {
-            $this->failedAuthor($theme, $case);
-        }
-    }
-
-    /**
-     * Verifica se consegue percorrer em todo o questionário
+     * Verifica se consegue percorrer por todas as pessoas
      *
      * @param string $theme
      * @param string $author
      * @param string $desc
      * @return void
      */
-    private function success($theme, $author, $desc)
+    public function testWizardPassesAllQuests()
     {
-        $wizTheme  = $this->wizard()->theme();
-        $wizAuthor = $this->wizard()->author();
-        $wizDesc   = $this->wizard()->description();
+          $theme  = 'bands/jethro-tull';
+          $author = 'Ian Anderson <ian@jethro tull.com>';
+          $descr  = 'Aqualung, my friend';
 
-        $confirm = $this->wizard()->confirm($theme, $author, $desc);
+          $this->assertSuccessfulWizard($theme, $author, $descr);
+    }
+
+    /**
+     * Verifica se consegue exibir a mensagem de erro 
+     * ao tentar criar um tema já existente com o wizard
+     *
+     * @return void
+     */
+    public function testWizardWithExistingTheme()
+    {
+        $theme = 'bands/jethro-tull';
+        $error = 'The theme [%s] already exists in project.';
+
+        Samurai::theme($theme)->make();
+
+        $this->assertFailedWizard($theme, $error);
+    }
+
+    /**
+     * Verifica se o wizard passou por todos os passos corretamente
+     * e conseguiu criar o tema esperado. 
+     *
+     * @param string $theme
+     * @param string $author
+     * @param string $desc
+     * @return void
+     */
+    private function assertSuccessfulWizard(string $theme, string $author, string $desc)
+    {
+        $quests = $this->getQuestions();
+        
+        $confirm = $this->getConfirmQuestions($theme, $author, $desc);
+
+        $output = sprintf('Theme [%s] created successful.', $theme);
 
         $this->artisan('samurai:init')
-             ->expectsQuestion($wizTheme->ask, $theme)
-             ->expectsQuestion($wizAuthor->ask, $author)
-             ->expectsQuestion($wizDesc->ask, $desc)
-             ->expectsConfirmation($confirm->ask, true)
+             ->expectsQuestion($quests->theme->ask, $theme)
+             ->expectsQuestion($quests->author->ask, $author)
+             ->expectsQuestion($quests->desc->ask, $desc)
+             ->expectsConfirmation($confirm->ask, 'yes')
+             ->expectsOutput($output)
              ->assertExitCode(0);
     }
 
     /**
-     * Verifica se há erro na pergunta do nome do tema
+     * Retorna as questões que serão utilizadas no Wizard.  
      *
-     * @param string $theme
      * @return void
      */
-    private function failedTheme($theme)
+    private function getQuestions() : object
     {
-        $quest = $this->wizard()->theme();
+        $theme  = Samurai::wizard()->theme();
+        $author = Samurai::wizard()->author();
+        $descr  = Samurai::wizard()->description();
 
-        $this->artisan('samurai:init')
-             ->expectsQuestion($quest->ask, $theme)
-             ->assertExitCode(INVALID_THEME_NAME_CODE);
+        return (object) [
+            'theme'   => $theme,
+            'author'  => $author,
+            'desc'    => $descr,
+        ];
     }
-        
 
-    /**
-     * Verifica se há erro na pergunta do autor
-     *
-     * @param string $theme
-     * @param string $author
-     * @return void
-     */
-    public function failedAuthor($theme, $author)
+    private function getConfirmQuestions($theme, $author, $desc)
     {
-        $wizTheme  = $this->wizard()->theme();
-        $wizAuthor = $this->wizard()->author();
+        return Samurai::wizard()->confirm($theme, $author, $desc);
+    }
+
+    private function assertFailedWizard($theme, $error)
+    {
+        $error = sprintf($error, $theme);
+
+        $quests = $this->getQuestions();
+        $author = $quests->author->default;
+        $desc   = $quests->desc->default;
+
+        $confirm = $this->getConfirmQuestions($theme, $author, $desc);
+        $message = sprintf('Error to create theme: %s', $error);
 
         $this->artisan('samurai:init')
-             ->expectsQuestion($wizTheme->ask, $theme)
-             ->expectsQuestion($wizAuthor->ask, $author)
-             ->assertExitCode(INVALID_AUTHOR_CODE);
+             ->expectsQuestion($quests->theme->ask, $theme)
+             ->expectsQuestion($quests->author->ask, $author)
+             ->expectsQuestion($quests->desc->ask, $desc)
+             ->expectsConfirmation($confirm->ask, 'yes')
+             ->expectsOutput($message);
     }
 }

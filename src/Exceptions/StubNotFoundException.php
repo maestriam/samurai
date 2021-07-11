@@ -7,6 +7,8 @@ use Maestriam\Samurai\Exceptions\BaseException;
 
 class StubNotFoundException extends BaseException
 {
+    const CODE = '0401';
+
     /**
      * Define as configuração para enviar o exception
      *
@@ -14,6 +16,22 @@ class StubNotFoundException extends BaseException
      */
     public function __construct(string $type)
     {
-        $this->initialize(STUB_NOT_FOUND_CODE, $type);
+        $this->initialize($type);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getErrorMessage() : string
+    {
+        return 'The stub file [%s] required is not found.';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getErrorCode() : string
+    {        
+        return self::CODE;
     }
 }

@@ -2,18 +2,20 @@
 
 namespace Maestriam\Samurai\Foundation;
 
-use Str;
-use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Str;
 
+/**
+ * Classe auxiliar para nomeação de diretivas/namespaces 
+ * de acordo com as regras negócios do Blade
+ */
 class FileNominator
 {
-
     /**
      * Retorna o nome da diretiva para ser usado
      * como nome de arquivo
      *
-     * @param string $name
-     * @param string $type
+     * @param  string $name
+     * @param  string $type
      * @return string
      */
     public function directive(string $name, string $type) : string
@@ -22,45 +24,31 @@ class FileNominator
     }
 
     /**
-     * Retorna o nome do namespace para ser usado
-     * para chamar o tema no projeto
+     * Retorna como deve ser o nome do arquivo de uma diretiva
+     * com os padrões impostos pelo Blade.  
      *
-     * @param string $theme
-     * @return string
-     */
-    public function namespace(string $theme) : string
-    {
-        $prefix = Config::get('Samurai.prefix');
-
-        return $prefix . '-' . $theme;
-    }
-
-    /**
-     * Retorna
-     *
-     * @param string $name
-     * @param string $type
+     * @param  string $name
+     * @param  string $type
      * @return void
      */
-    public function filename(string $name, string $type)
+    public function filename(string $name, string $type) : string
     {
-        return $this->directive($name, $type) . '.blade.php';
+        return $this->directive($name, $type) . $this->extension();
     }
 
     /**
      * Retorna o nome para o ser chamado dentro do
      * projeto Blade
      *
-     * @param string $theme
-     * @param string $path
+     * @param  string $theme
+     * @param  string $path
      * @return void
      */
-    public function blade(string $theme, string $path)
+    public function blade(string $theme, string $path) : string
     {
-        $pattern = "%s::%s";
-        $ext = '.blade.php';
+        $ext = $this->extension();
 
-        $file = sprintf($pattern, $theme, $path);
+        $file = sprintf("%s::%s", $theme, $path);
         $file = str_replace(DS, '.', $file);
         $file = str_replace($ext, '', $file);
 
@@ -68,12 +56,35 @@ class FileNominator
     }
 
     /**
-     * Retorna o nome para ser chamado dentro do arquivo Blade
+     * Retorna a extensão do arquivo blade dentro do projeto.  
      *
-     * @param string $name
      * @return string
      */
-    public function alias(string $name) : string
+    public function extension() : string
+    {
+        return '.blade.php';
+    }
+
+    /**
+     * Retorna o nome para ser chamado dentro do arquivo Blade,
+     * como kebab-case
+     *
+     * @param  string $name
+     * @return string
+     */
+    public function kebabAlias(string $name) : string
+    {
+        return Str::kebab($name);
+    }
+
+    /**
+     * Retorna o nome para ser chamado dentro do arquivo Blade,
+     * como kebab-case
+     *
+     * @param  string $name
+     * @return string
+     */
+    public function camelAlias(string $name) : string
     {
         return Str::camel($name);
     }

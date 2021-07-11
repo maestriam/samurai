@@ -1,18 +1,28 @@
 <p align="center">
-    <img width="256" src="imgs/samurai.png">
+    <img width="256" src="imgs/samurai.png" alt="maestriam/samurai logo">
 </p>
 
-<p align="center"><b>Create awsome themes for your Laravel projects.</b></p>
+<h1 align="center">🔴 maestriam/samurai</h1>
 
+<p align="center">
+  Create awsome themes for your Laravel projects.
+</p>
+<br>
+<span align="center">
 
-# 🔴 Maestriam/Samurai
+![Travis Build](https://img.shields.io/travis/maestriam/samurai/master?style=flat-square)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/quality/b/maestriam/samurai/master?style=flat-square)](https://scrutinizer-ci.com/g/maestriam/samurai/?branch=master)
+![GitHub Last Commit](https://img.shields.io/github/last-commit/maestriam/filesystem?style=flat-square)
+
+</span>
+
 
 **Maestriam/Samurai** is a simple package for creating and managing themes for Laravel applications, using [component](https://laravel.com/docs/5.8/blade#components-and-slots) and [include](https://laravel.com/docs/5.8/blade#including-sub-views) functions of Laravel Blade.  
 You can publishing your themes and install-it in another projects using composer.  
 
 ## Requirements
 
-- Laravel 6.*^ 
+- Laravel 8.*^ 
 
 ## Installation
 
@@ -81,4 +91,4 @@ E.g:
 <script src="@public('js/index.js')" />
 ```  
 <br></br>  
-Created by [Giuliano Sampaio](https://github.com/giusampaio) with ❤️ and 🍺!
+Created by [Giuliano Sampaio](https://github.com/giusampaio) with ❤️, ☕ and 🍺!

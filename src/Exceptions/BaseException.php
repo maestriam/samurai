@@ -2,51 +2,62 @@
 
 namespace Maestriam\Samurai\Exceptions;
 
-use Config;
 use Exception;
-use Maestriam\Samurai\Traits\Shared\ConfigAccessors;
 
-class BaseException extends Exception
+abstract class BaseException extends Exception
 {
-    use ConfigAccessors;
-
     /**
      * Inicia os atributos de acordo com o código de erro
      *
-     * @param string $code
+     * @param  string $code
      * @return void
      */
-    public function initialize(string $code, string ...$placeholders)
+    public function initialize(string ...$params)
     {
-        $this->setCode($code);
-        $this->setMessage($code, $placeholders);
+        $this->setCode()->setMessage($params);
     }
 
     /**
      * Define qual será o número do código de retorno
      *
-     * @param integer $code
-     * @return void
+     * @param  integer $code
+     * @return BaseException
      */
-    protected function setCode(string $code)
+    protected function setCode() : BaseException
     {
-        $this->code = $code;
+        $this->code = $this->getErrorCode();
+
+        return $this;
     }
 
     /**
      * Define a mensagem de texto que será enviado para o cliente
      *
-     * @param string $theme
-     * @param string $name
-     * @return void
+     * @param  string $theme
+     * @param  string $name
+     * @return BaseException
      */
-    protected function setMessage(string $code, array $placeholders = [])
+    protected function setMessage(array $params = []) : BaseException
     {
-        $err     = $this->getErrorConfig($code);
-        $message = $err['msg'];
+        $message = $this->getErrorMessage();
 
-        $message = vsprintf($message, $placeholders);
+        $this->message = vsprintf($message, $params);
 
-        $this->message = $message;    
+        return $this;
     }
+
+    /**
+     * Retorna a código de erro que será enviada ao cliente.  
+     *
+     * @return string
+     */
+    abstract public function getErrorCode() : string;
+
+    
+    /**
+     * Retorna a mensagem de erro que será enviada ao cliente.  
+     *
+     * @return string
+     */
+    abstract public function getErrorMessage() : string;
 }

@@ -3,44 +3,32 @@
 namespace Maestriam\Samurai\Console;
 
 use Exception;
-use Illuminate\Console\Command;
-use Maestriam\Samurai\Traits\Themeable;
-use Maestriam\Samurai\Traits\Shared\ConfigAccessors;
-use Maestriam\Samurai\Traits\Console\MessageLogging;
+use Maestriam\Samurai\Support\Samurai;
 
-class MakeThemeCommand extends Command
+class MakeThemeCommand extends BaseCommand
 {
     /**
-     * Propriedades e funções básicas do sistema
-     */
-    use Themeable, ConfigAccessors, MessageLogging;
-
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
+     * {@inheritDoc}
      */
     protected $signature = 'samurai:make-theme {name}';
 
     /**
-     * The console command description.
-     *
-     * @var string
+     * {@inheritDoc}
      */
-    protected $description = 'Create a new katana-based theme.';
+    protected $description = 'Create a new theme.';
 
     /**
-     * Define as propriedades principais do pacote
-     *
-     * @return void
+     * {@inheritDoc}
      */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    protected string $successMessage = 'Theme [%s] created successful.';
 
     /**
-     * Executa o comando de console
+     * {@inheritDoc}
+     */
+    protected string $errorMessage = 'Error to create theme: %s';
+
+    /**
+     * Executa o comando de console para criação
      *
      * @return mixed
      */
@@ -49,16 +37,16 @@ class MakeThemeCommand extends Command
         try {
 
             $name = $this->argument('name');
-
-            $theme = $this->theme($name)->build();
-    
-            $this->base()->clearCache();
-
-            return $this->created($theme, 'theme');
-
+            
+            $theme = Samurai::theme($name)->make();  
+            
+            $this->clean();
+            
+            return $this->success($theme->package());
+            
         } catch (Exception $e) {
-
-            return $this->failed($e->getCode());
+            
+            return $this->failure($e);
         }
     }
 }

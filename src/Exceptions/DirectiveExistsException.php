@@ -7,6 +7,8 @@ use Maestriam\Samurai\Exceptions\BaseException;
 
 class DirectiveExistsException extends BaseException
 {
+    const CODE = '0202';
+
     /**
      * Define as configuração para enviar o exception
      *
@@ -14,6 +16,22 @@ class DirectiveExistsException extends BaseException
      */
     public function __construct(string $theme, string $name)
     {
-        $this->initialize(DIRECTIVE_EXISTS_CODE, $name, $theme);
+        $this->initialize($theme, $name);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getErrorMessage(): string
+    {
+        return 'The [%s] directive already exists in [%s] theme.';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getErrorCode(): string
+    {
+        return self::CODE;
     }
 }

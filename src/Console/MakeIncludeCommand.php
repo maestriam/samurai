@@ -2,63 +2,52 @@
 
 namespace Maestriam\Samurai\Console;
 
-use Lang;
 use Exception;
-use Illuminate\Console\Command;
-use Maestriam\Samurai\Traits\Themeable;
-use Maestriam\Samurai\Traits\Console\GetArguments;
-use Maestriam\Samurai\Traits\Shared\ConfigAccessors;
-use Maestriam\Samurai\Traits\Console\MessageLogging;
+use Maestriam\Samurai\Support\Samurai;
 
-class MakeIncludeCommand extends Command
+class MakeIncludeCommand extends BaseCommand
 {
-    use Themeable, ConfigAccessors, MessageLogging, GetArguments;
-
     /**
-     * Assinatura Artisan
-     *
-     * @var string
+     * {@inheritDoc}
      */
     protected $signature = 'samurai:make-include {name} {theme?}';
 
     /**
-     * Descrição do comando Artisan
-     *
-     * @var string
+     * {@inheritDoc}
      */
     protected $description = 'Create a new include for a specific theme';
 
     /**
-     * Construção da classe
-     *
-     * @return void
+     * {@inheritDoc}
      */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    protected string $successMessage = 'Include [%s] created into [%s]: %s';
 
     /**
-     * Executa o comando de criação de includee atráves do Artisan
+     * {@inheritDoc}
+     */
+    protected string $errorMessage = 'Error to create include: %s';
+
+    /**
+     * Executa o comando de criação de include atráves do Artisan
      *
      * @return void
      */
     public function handle()
     {
         try {
+            
+            $name = $this->getDirectiveArgument();
 
-            $args = $this->getArguments();
+            $theme = $this->getThemeArgument();
 
-            $include = $this->theme($args->theme)
-                            ->include($args->name)
-                            ->create();
+            $include = Samurai::theme($theme)->include($name)->create();
 
-            $this->base()->clearCache();
+            $this->clean();
 
-            return $this->created($include, 'include');
+            return $this->success($name, $theme, $include->relative());
 
         } catch (Exception $e) {
-            return $this->failed($e->getCode());
+            return $this->failure($e);
         }
     }
 }
