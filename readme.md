@@ -10,7 +10,7 @@
 <br>
 <span align="center">
 
-![Travis Build](https://img.shields.io/travis/maestriam/samurai/master?style=flat-square)
+![Travis (.com)](https://img.shields.io/travis/com/maestriam/samurai?style=flat-square)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/quality/g/maestriam/samurai/master?style=flat-square)](https://scrutinizer-ci.com/g/maestriam/samurai/?branch=master)
 ![GitHub Last Commit](https://img.shields.io/github/last-commit/maestriam/filesystem?style=flat-square)
 
