@@ -5,14 +5,14 @@
 <h1 align="center">🔴 maestriam/samurai</h1>
 
 <p align="center">
-  Create awsome themes for your Laravel projects.
+  Create awesome themes for your Laravel projects.
 </p>
 <br>
 <span align="center">
 
 ![Travis (.com)](https://img.shields.io/travis/com/maestriam/samurai?style=flat-square)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/quality/g/maestriam/samurai/master?style=flat-square)](https://scrutinizer-ci.com/g/maestriam/samurai/?branch=master)
-![GitHub Last Commit](https://img.shields.io/github/last-commit/maestriam/filesystem?style=flat-square)
+![GitHub Last Commit](https://img.shields.io/github/last-commit/maestriam/samurai?style=flat-square)
 
 </span>
 
