@@ -78,10 +78,24 @@ To use component in your view.blade.php, use:
 @endmyComponent()
 ```
 
+Now, also, you can use Blade UI notation too:
+``` bash
+<x-my-component>
+
+    My content inside
+
+</x-my-component>
+```
+
 **Using includes into blade files**  
 To use include in your view.blade.php, use:
 ``` bash
 @myInclude()
+```
+
+Now, also, you can use Blade UI notation too:
+``` bash
+<x-my-include />
 ```
 
 **Load assets into theme files**  
