@@ -10,7 +10,6 @@ use Maestriam\Samurai\Tests\TestCase;
  */
 class VendorTestCase extends TestCase
 {
-
     public function testVendorProperties()
     {
         $dist  = 'maestriam';

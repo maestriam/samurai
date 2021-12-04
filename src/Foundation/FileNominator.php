@@ -47,10 +47,11 @@ class FileNominator
     public function blade(string $theme, string $path) : string
     {
         $ext = $this->extension();
-
+        
         $file = sprintf("%s::%s", $theme, $path);
         $file = str_replace(DS, '.', $file);
         $file = str_replace($ext, '', $file);
+        
 
         return $file;
     }

@@ -5,9 +5,7 @@ namespace Maestriam\Samurai\Entities;
 use Maestriam\Samurai\Entities\Directive;
 
 class Component extends Directive
-{
- 
-    
+{    
     /**
      * Tipo da diretiva
      */

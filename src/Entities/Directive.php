@@ -10,6 +10,7 @@ use Maestriam\Samurai\Contracts\Entities\DirectiveContract;
 use Maestriam\Samurai\Exceptions\DirectiveExistsException;
 use Maestriam\Samurai\Exceptions\InvalidDirectiveNameException;
 use Maestriam\Samurai\Exceptions\InvalidTypeDirectiveException;
+use ReflectionClass;
 
 abstract class Directive extends Source implements DirectiveContract
 {
@@ -147,7 +148,6 @@ abstract class Directive extends Source implements DirectiveContract
         }
 
         $this->createFile();
-
         $this->setPath();
 
         return $this;
@@ -157,13 +157,18 @@ abstract class Directive extends Source implements DirectiveContract
      * {@inheritDoc}
      */
     public function load() : Component|Includer
-    {                              
+    {                
+        $alias = $this->alias();
+        $view  = $this->getViewComponent();
+
+        if ($view) {
+            return $this->loadViewComponent($alias->kebab, $view);
+        }
+
         $namespace = $this->theme()->namespace();
         
         $path = $this->relative();
         $file = $this->nominator()->blade($namespace, $path);
-        
-        $alias = $this->alias();
 
         $this->loadKebabAlias($file, $alias->kebab);
 
@@ -172,6 +177,45 @@ abstract class Directive extends Source implements DirectiveContract
         }
         
         return $this->loadComponent($file, $alias->camel);
+    }
+
+    private function loadViewComponent($alias, $view) : Directive
+    {
+        Blade::component($alias,  $view);
+
+        return $this;
+    }
+
+    private function getViewComponent() : ?string
+    {        
+        $view = null;
+        $name = Str::studly($this->name);
+     
+        $classes = get_declared_classes();
+
+        foreach($classes as $class) {     
+            
+            if (! $this->isViewComponent($class, $name)) {
+                continue;
+            }
+
+            $view = $class;
+        }
+
+        return $view;
+    }
+
+    private function isViewComponent(string $class, string $name) : bool
+    {
+        if (! is_subclass_of($class, ViewComponent::class)) {
+            return false;
+        }
+
+        if ($name != class_basename($class)) {
+            return false;
+        }
+
+        return true;
     }
     
     /**
@@ -182,10 +226,9 @@ abstract class Directive extends Source implements DirectiveContract
     public function relative() : string
     {
         $path = $this->path();
-        
-        $base = $this->theme()->paths()->root();
 
-        $base = FileSystem::folder($base)->sanitize();
+        $base = $this->theme()->paths()->root() . DS;
+        $base = FileSystem::folder($base)->sanitize();    
 
         return str_replace($base, '', $path);
     }
@@ -200,16 +243,16 @@ abstract class Directive extends Source implements DirectiveContract
         return $this->fileExists();
     }
 
-        /**
-         * Carrega a diretiva (include/component) dentro do projeto como kabe-case.  
-         * Padrão utilizado no Blade UI.  
-         *
-         * @param  string $file
-         * @param  string $alias
-         * @return Directive
-         */
+    /**
+     * Carrega a diretiva (include/component) dentro do projeto como kebab-case.  
+     * Padrão utilizado no Blade UI.  
+     *
+     * @param  string $file
+     * @param  string $alias
+     * @return Directive
+     */
     private function loadKebabAlias(string $file, string $alias) : Directive
-    {
+    {       
         Blade::component($file, $alias);
         
         return $this;

@@ -5,13 +5,15 @@ namespace Maestriam\Samurai\Entities;
 use Maestriam\Samurai\Foundation\ConfigKeeper;
 use Maestriam\Samurai\Foundation\EnvHandler;
 use Maestriam\Samurai\Foundation\FileSystem;
-use Maestriam\Samurai\Foundation\FileNominator;
+use Maestriam\Samurai\Concerns\WithFileNominator;
 use Maestriam\Samurai\Foundation\FilenameParser;
 use Maestriam\Samurai\Foundation\SyntaxValidator;
 use Maestriam\Samurai\Foundation\DirectoryStructure;
 
 class Foundation
 {
+    use WithFileNominator;
+
     /**
      * Classe auxiliar para gerenciamento de estrutura de diretórios
      * dentor do projeto
@@ -35,14 +37,6 @@ class Foundation
      * @var SyntaxValidator
      */
     private $valid;
-
-    /**
-     * Classe auxiliar para nomeação de diretivas/namespaces
-     * de acordo com as regras negócios do Blade
-     *
-     * @var FileNominator
-     */
-    private $nominator;
 
     /**
      * Instância do helper para atualizar arquivos .env
@@ -152,19 +146,5 @@ class Foundation
         }
 
         return $this->env;
-    }
-
-    /**
-     * Classe auxiliar para interação sobre
-     *
-     * @return FileNominator
-     */
-    protected function nominator() : FileNominator
-    {
-        if ($this->nominator == null) {
-            $this->nominator = new FileNominator();
-        }
-
-        return $this->nominator;
     }
 }

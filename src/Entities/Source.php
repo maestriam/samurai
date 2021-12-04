@@ -81,7 +81,6 @@ abstract class Source extends Foundation
         $stub = $this->config()->template();
         $path = $this->config()->structure();
 
-
         $drive->structure()->root($root);
         $drive->structure()->template($stub);
         $drive->structure()->paths($path);

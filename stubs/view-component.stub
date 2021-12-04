@@ -1,0 +1,18 @@
+<?php
+
+namespace {{namespace}};
+
+use Maestriam\Samurai\Entities\ViewComponent;
+
+class {{className}} extends ViewComponent
+{
+    /**
+     * Create a new view component instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::init();
+    }
+}

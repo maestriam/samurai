@@ -30,6 +30,9 @@ class DirectiveFinder
         $files = $this->readFiles();
 
         foreach($files as $file) {
+            
+            $file = FileSystem::folder($file)->sanitize();
+            
             $directives[] = $this->parser()->parse($file)->toDirective();
         }
 
