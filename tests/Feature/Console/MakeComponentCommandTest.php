@@ -62,7 +62,7 @@ class MakeComponentCommandTest extends TestCase
 
         $ext = 'component.blade.php';
 
-        $path = sprintf('/%s%s-%s', $base, $sentence, $ext); 
+        $path = sprintf('%s%s-%s', $base, $sentence, $ext); 
 
         return FileSystem::folder($path)->sanitize();
     }

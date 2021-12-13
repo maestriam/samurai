@@ -57,7 +57,7 @@ class MakeIncludeCommandTest extends TestCase
     {
         $base = config('samurai.structure.include');
 
-        $path = sprintf('/%s%s-include.blade.php', $base, $sentence); 
+        $path = sprintf('%s%s-include.blade.php', $base, $sentence); 
 
         return FileSystem::folder($path)->sanitize();
     }
