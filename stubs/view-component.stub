@@ -13,6 +13,6 @@ class {{className}} extends ViewComponent
      */
     public function __construct()
     {
-        parent::init();
+        $this->init();
     }
 }

@@ -36,9 +36,9 @@ class ViewComponent extends Component
      *
      * @return void
      */
-    protected function init()
+    protected function init() : ViewComponent
     {
-        $this->setTheme()->initView();
+        return $this->setTheme()->initView();
     }
 
     /**
