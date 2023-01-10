@@ -3,7 +3,7 @@
 return [
     'prefix'        => 'samurai-theme',
     'env_key'       => 'THEME_CURRENT',
-    'env_file'      => '.env.',
+    'env_file'      => '.env',
     'publishable'   => 'themes',
     'description'   => 'A new awsome theme is comming!',
     'template_path' => __DIR__ . '/../../stubs/',

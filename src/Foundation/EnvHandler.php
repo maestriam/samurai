@@ -178,9 +178,9 @@ class EnvHandler
      * Undocumented function
      *
      * @param  array $lines
-     * @return void
+     * @return bool|int
      */
-    private function store(array $lines)
+    private function store(array $lines) : bool|int
     {
         $content = implode("\n", $lines);
 
