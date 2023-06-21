@@ -107,7 +107,7 @@ class Foundation
     /**
      * Classe auxiliar para retorno das informações de configurações do pacote
      *
-     * @return void
+     * @return ConfigKeeper
      */
     protected function config() : ConfigKeeper
     {

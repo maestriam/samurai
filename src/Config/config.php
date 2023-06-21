@@ -5,7 +5,7 @@ return [
     'env_key'       => 'THEME_CURRENT',
     'env_file'      => '.env',
     'publishable'   => 'themes',
-    'description'   => 'A new awsome theme is comming!',
+    'description'   => 'A new awesome theme is comming!',
     'template_path' => __DIR__ . '/../../stubs/',
 
     'species' => [

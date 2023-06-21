@@ -34,7 +34,7 @@ class DirectiveParser implements DirectiveParserContract
      * Recupera todas as informações de um diretiva atráves do seu caminho completo.  
      *
      * @param  string $file
-     * @return void
+     * @return DirectiveParser
      */
     public function parse(string $file) : DirectiveParser
     {

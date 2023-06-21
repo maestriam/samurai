@@ -17,7 +17,7 @@ interface ThemeContract
      * Se passar uma string como parâmetro, irá assumir que você quer definir o vendor.  
      *
      * @param  string $vendor
-     * @return Theme
+     * @return Vendor
      */
     public function vendor() : Vendor;
 

@@ -29,7 +29,7 @@ class FileNominator
      *
      * @param  string $name
      * @param  string $type
-     * @return void
+     * @return string
      */
     public function filename(string $name, string $type) : string
     {
@@ -42,7 +42,7 @@ class FileNominator
      *
      * @param  string $theme
      * @param  string $path
-     * @return void
+     * @return string
      */
     public function blade(string $theme, string $path) : string
     {
@@ -50,8 +50,7 @@ class FileNominator
         
         $file = sprintf("%s::%s", $theme, $path);
         $file = str_replace(DS, '.', $file);
-        $file = str_replace($ext, '', $file);
-        
+        $file = str_replace($ext, '', $file);        
 
         return $file;
     }

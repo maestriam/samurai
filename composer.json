@@ -5,7 +5,7 @@
     "license": "GPL-3.0",
     "require": {
         "maestriam/filesystem": "dev-master",
-        "laravel/framework": "^9.0"
+        "laravel/framework": "^10.0"
     },
     "require-dev": {
         "phpunit/phpunit": ">=9.5",

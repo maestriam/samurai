@@ -13,6 +13,8 @@ class DirectiveFinder
 
     private DirectiveParser $parserInstance;
 
+    private Theme $themeInstance;
+
     public function __construct(Theme $theme)
     {
         $this->init($theme);

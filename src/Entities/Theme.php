@@ -259,7 +259,7 @@ class Theme extends Foundation implements ThemeContract
      *
      * @return void
      */
-    private function register()
+    private function register() : void
     {
         $name = $this->package();
 
