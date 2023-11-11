@@ -66,7 +66,8 @@ class EnvHandler
     {
         $no = $this->existsKey($key);
 
-        if ($no === null) { return null;
+        if ($no === null) { 
+            return null;
         }
 
         $lines = $this->lines();
