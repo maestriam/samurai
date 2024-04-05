@@ -4,7 +4,7 @@
     "type": "library",
     "license": "GPL-3.0",
     "require": {
-        "maestriam/filesystem": ">=1.0.0",
+        "maestriam/filesystem": "dev-master",
         "laravel/framework": ">=10.0"
     },
     "require-dev": {
