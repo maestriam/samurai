@@ -8,9 +8,7 @@ use Maestriam\Samurai\Exceptions\InvalidDirectiveNameException;
 use Maestriam\Samurai\Support\Samurai;
 
 class BaseCommand extends Command
-{
-
-    
+{   
     /**
      * O nome e a assinatura do método
      *
@@ -105,11 +103,9 @@ class BaseCommand extends Command
     {
         $name = (string) $this->argument('name');
 
-        if ($name) {
-            return $name;
-        }
+        if ($name) return $name;
         
-        throw new InvalidDirectiveNameException($name);
+        return throw new InvalidDirectiveNameException($name);
     }
 
     /**
