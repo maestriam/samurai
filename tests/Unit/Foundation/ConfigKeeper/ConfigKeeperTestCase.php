@@ -10,17 +10,12 @@ use Maestriam\Samurai\Foundation\ConfigKeeper;
  */
 class ConfigKeeperTestCase extends TestCase
 {
-    public function tearDown() : void
-    {
-        //
-    }
-
     /**
      * Retorna o valor de env_key, vindo da configuração
      *
-     * @return void
+     * @return string|null
      */
-    protected function getEnvKey()
+    protected function getEnvKey() : ?string
     {
         return config('samurai.env_key'); 
     }
@@ -62,19 +57,5 @@ class ConfigKeeperTestCase extends TestCase
     {
         $this->assertIsString($value);
         $this->assertEquals($value, $expected);
-    }
-
-    /**
-     * Verifica se consegue pegar a descrição padrão do tema
-     *
-     * @return void
-     */
-    public function testGetDescription()
-    {
-        $desc = config('samurai.description');        
-        $config = new ConfigKeeper();
-
-        $this->assertIsString($config->description());
-        $this->assertEquals($desc, $config->description());
     }
 }

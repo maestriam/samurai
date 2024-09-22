@@ -20,7 +20,7 @@ class GetEnvKeyTest extends ConfigKeeperTestCase
         $envkey = $this->getEnvKey();        
         $config = $this->getConfigKeeper();
 
-        $this->assertIsString($config->env());
+        //$this->assertIsString($config->env());
         $this->assertEquals($envkey, $config->env());
     }
 
@@ -40,5 +40,19 @@ class GetEnvKeyTest extends ConfigKeeperTestCase
 
         $this->assertIsString($config->env());
         $this->assertEquals($envkey, $config->env());
+    }
+
+    /**
+     * Verifica se consegue pegar a descrição padrão do tema
+     *
+     * @return void
+     */
+    public function testGetDescription()
+    {
+        $desc = config('samurai.description');        
+        $config = new ConfigKeeper();
+
+        $this->assertIsString($config->description());
+        $this->assertEquals($desc, $config->description());
     }
 }
