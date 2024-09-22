@@ -13,8 +13,8 @@ class WizardTestCase extends TestCase
     protected function assertWizardQuestion($question)
     {
         $this->assertInstanceOf(stdClass::class, $question);
-        $this->assertObjectHasAttribute('ask', $question);
-        $this->assertObjectHasAttribute('default', $question);
+        $this->assertObjectHasProperty('ask', $question);
+        $this->assertObjectHasProperty('default', $question);
         $this->assertIsString($question->ask);
         $this->assertIsString($question->default);
     }
@@ -22,8 +22,8 @@ class WizardTestCase extends TestCase
     protected function assertConfirmQuestion($question)
     {
         $this->assertInstanceOf(stdClass::class, $question);
-        $this->assertObjectHasAttribute('ask', $question);
-        $this->assertObjectHasAttribute('default', $question);
+        $this->assertObjectHasProperty('ask', $question);
+        $this->assertObjectHasProperty('default', $question);
         $this->assertIsString($question->ask);
         $this->assertIsBool($question->default);
         $this->assertFalse($question->default);
