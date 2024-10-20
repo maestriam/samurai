@@ -21,7 +21,7 @@ class ConfigKeeper
     /**
      * Retorna o caminho-base dos temas dentro do projeto
      *
-     * @return void
+     * @return string
      */
     public function base() : string
     {

@@ -162,6 +162,8 @@ class TestCase extends BaseTestCase
     {
         $sandbox = config('samurai.themes.folder');
 
+        if ($sandbox == null) return;
+
         FileSystem::folder($sandbox)->delete();
     }
 

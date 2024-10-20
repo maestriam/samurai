@@ -29,4 +29,40 @@ class FileNominatorTestCase extends TestCase
         $this->assertIsString($directive);
         $this->assertEquals($expected, $directive);
     }
+
+    /**
+     * Deve retornar o nome do arquivo no formato <vendo>/<theme>::<path>
+     * mesmo utilizando separador de diretório do tipo Windows (\)
+     *
+     * @return void
+     */
+    public function testBladeNameWithWindowsSeparator()
+    {        
+        $DS = '\\';
+        
+        $nominator = new FileNominator();
+
+        $expected = 'Bands/Cauldron::src.musics.tears-have-come';
+        $received = $nominator->blade("Bands/Cauldron", "src\\musics\\tears-have-come", $DS);        
+
+        $this->assertEquals($expected, $received);
+    }
+
+    /**
+     * Deve retornar o nome do arquivo no formato <vendo>/<theme>::<path>
+     * mesmo utilizando separador de diretório do tipo Windows (\)
+     *
+     * @return void
+     */
+    public function testBladeNameWithUnixSeparator()
+    {        
+        $DS = '/';
+        
+        $nominator = new FileNominator();
+
+        $expected = 'Bands/Cauldron::src.musics.tears-have-come';
+        $received = $nominator->blade("Bands/Cauldron", "src/musics/tears-have-come", $DS);        
+
+        $this->assertEquals($expected, $received);
+    }
 }

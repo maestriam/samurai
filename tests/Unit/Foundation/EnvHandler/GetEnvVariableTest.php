@@ -2,24 +2,17 @@
 
 namespace Maestriam\Samurai\Tests\Unit\Foundation\EnvHandler;
 
-use Maestriam\Samurai\Foundation\EnvHandler;
 use stdClass;
+use TypeError;
+use ArgumentCountError;
+use Maestriam\Samurai\Foundation\EnvHandler;
+use Maestriam\Samurai\Tests\TestCase;
 
 /**
  * Testes de funcionalidades básicas apresentadas no README.md
  */
-class GetEnvVariableTest extends EnvHandlerTestCase
+class GetEnvVariableTest extends TestCase
 {
-    /**
-     * Instancia a classe de validação para ser testada
-     *
-     * @return void
-     */
-    public function setUp() : void
-    {
-        parent::setUp();
-    } 
-
     /**
      * Verifica se é possível recuperar um valor de uma variavel de ambiente inexistente
      * no arquivo     
@@ -46,10 +39,16 @@ class GetEnvVariableTest extends EnvHandlerTestCase
     {   
         $handler = new EnvHandler();
 
-        $this->expectException(\ArgumentCountError::class);
+        $this->expectException(ArgumentCountError::class);
+
+        /**
+         * @disregard P1006 Supressão de erro de tipagem. 
+         */
         $handler->get();
-        
-        $this->expectException(\ArgumentCountError::class);
+
+        /**
+         * @disregard P1006 Supressão de erro de tipagem. 
+         */
         $handler->get(null);       
     }
 
@@ -62,10 +61,29 @@ class GetEnvVariableTest extends EnvHandlerTestCase
      */
     public function testGetWithInvalidTypeKey()
     {
-        $this->expectException(\ErrorException::class);
+        $handler = new EnvHandler();
+
+        $this->expectException(TypeError::class);
+
+        /**
+         * @disregard P1006 Supressão de erro de tipagem. 
+         */
         $handler->get([]);
 
-        $this->expectException(\ErrorException::class);
+        /**
+         * @disregard P1006 Supressão de erro de tipagem. 
+         */
         $handler->get(new stdClass());
+    }
+
+    public function tearDown(): void
+    {
+        $handler = new EnvHandler();
+        $handler->set('THEME_CURRENT', '');
+    
+        restore_error_handler();
+        restore_exception_handler();
+        
+        parent::tearDown();
     }
 }

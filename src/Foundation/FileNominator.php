@@ -44,13 +44,14 @@ class FileNominator
      * @param  string $path
      * @return string
      */
-    public function blade(string $theme, string $path) : string
+    public function blade(string $theme, string $path, string $DS = DS) : string
     {
-        $ext = $this->extension();
+        $ext = $this->extension();        
         
+        $path = str_replace($DS, '.', $path);
+        $path = str_replace($ext, '', $path);            
+
         $file = sprintf("%s::%s", $theme, $path);
-        $file = str_replace(DS, '.', $file);
-        $file = str_replace($ext, '', $file);        
 
         return $file;
     }

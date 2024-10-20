@@ -21,6 +21,7 @@ class GetThemeBaseTest extends ConfigKeeperTestCase
     public function testGetBasePath()
     {          
         $config = $this->getConfigKeeper();
+
         $folder = base_path('bands/kiss') . DS;
         $folder = FileSystem::folder($folder)->sanitize();
 

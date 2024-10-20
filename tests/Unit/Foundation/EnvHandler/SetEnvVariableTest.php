@@ -5,38 +5,8 @@ namespace Maestriam\Samurai\Tests\Unit\Foundation\EnvHandler;
 use Maestriam\Samurai\Tests\TestCase;
 use Maestriam\Samurai\Foundation\EnvHandler;
 
-/**
- * Testes de funcionalidades básicas apresentadas no README.md
- */
-class EnvHandlerTestCase extends TestCase
+class SetEnvVariableTest extends TestCase
 {
-    /**
-     * Instancia a classe de validação para ser testada
-     *
-     * @return void
-     */
-    public function setUp() : void
-    {
-        parent::setUp();
-    }    
-
-    /**
-     * Verifica se consegue definir um valor no arquivo de configurações
-     * de ambiente do projeto Laravel
-     *
-     * @return void
-     */
-    public function testGetAndSetEnvVariable()
-    {        
-        $key = 'THEME_CURRENT';
-        $val = 'bands/kix';
-        
-        $handler = new EnvHandler();        
-        $handler->set($key, $val);
-
-        $this->assertIsString($handler->get($key));
-    }
-
     /**
      * Verifica se consegue criar um novo arquivo de configurações
      * se caso não exista no projeto.
@@ -56,6 +26,7 @@ class EnvHandlerTestCase extends TestCase
         $handler = new EnvHandler();
 
         $this->assertFileExists($filepath);
+        $this->assertEquals($filepath, $handler->file());
     }
 
     /**
@@ -72,12 +43,33 @@ class EnvHandlerTestCase extends TestCase
         $handler = new EnvHandler();
 
         $this->assertFileExists($handler->file());
-    }    
+    }
+
+    /**
+     * Verifica se consegue definir um valor no arquivo de configurações
+     * de ambiente do projeto Laravel
+     *
+     * @return void
+     */
+    public function testGetAndSetEnvVariable()
+    {        
+        $key = 'THEME_CURRENT';
+        $val = 'bands/kix';
+        
+        $handler = new EnvHandler();        
+        $handler->set($key, $val);
+
+        $this->assertIsString($handler->get($key));
+    }
 
     public function tearDown(): void
     {
         $handler = new EnvHandler();
-
         $handler->set('THEME_CURRENT', '');
+    
+        restore_error_handler();
+        restore_exception_handler();
+
+        parent::tearDown();
     }
 }
